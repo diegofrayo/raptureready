@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { presenter } from 'adrenaline';
+import { presenter } from '../../Adrenaline';
 
 class OS extends Component {
   static propTypes = {

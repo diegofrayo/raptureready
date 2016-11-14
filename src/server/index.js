@@ -1,9 +1,11 @@
 /* @flow */
-
+import 'fetch-everywhere';
+import React from 'react';
+import ReactDOM from 'react-dom/server';
 import { join } from 'path';
 import express from 'express';
 import graphqlHTTP from 'express-graphql';
-
+import AppContainer from '../client/AppContainer';
 import schema from './schema';
 import connection from './dbConnection';
 
@@ -20,19 +22,24 @@ app.use('/graphql', graphqlHTTP({
 }));
 
 app.get('*', (req, res) => {
-  res.send(`
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <meta charset="utf-8">
-        <title></title>
-      </head>
-      <body>
-        <div id="root"></div>
-        <script type="text/javascript" src="/public/bundle.js"></script>
-      </body>
-    </html>
-  `);
+  ReactDOM.renderToStaticMarkup(<AppContainer dataCallBack={(data) => {
+      const markup = ReactDOM.renderToStaticMarkup(<AppContainer initialData={data.data} />);
+      res.send(`
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div id="root">${markup}</div>
+    <script type="text/javascript" src="/public/bundle.js"></script>
+  </body>
+</html>
+    `);
+  }} />);
+
+
 });
 
 export default app;

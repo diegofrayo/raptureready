@@ -1,7 +1,7 @@
 /* @flow */
 
 import React, { Component, PropTypes } from 'react';
-import { container } from 'adrenaline';
+import { container } from '../../Adrenaline';
 
 import Loader from './Loader';
 import Browser from './Browser';

@@ -13,6 +13,11 @@ module.exports = {
   resolve: {
     extensions: ['', '.js', '.jsx'],
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      __SERVER__: false,
+    })
+  ],
   module: {
     loaders: [
       {
@@ -21,7 +26,8 @@ module.exports = {
         loader: 'babel',
         query: {
           babelrc: false,
-          presets: ['es2015', 'react', 'stage-0']
+          presets: ['es2015', 'react', 'stage-0'],
+          plugins: ["transform-async-to-generator"]
         }
       }
     ]

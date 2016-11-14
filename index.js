@@ -1,6 +1,7 @@
 /* eslint-disable */
 
-global.__CLIENT__ = false;
+// global.__CLIENT__ = false;
+global.__SERVER__ = true;
 require('babel-register');
 
 var webpack = require('webpack');
