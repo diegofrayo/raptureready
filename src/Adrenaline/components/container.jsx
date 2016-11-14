@@ -46,13 +46,14 @@ export default function container(specs) {
         super(props, context);
 
         this.state = {
+          initialDataProvided: context.initialData ? true : false,
           data: context.initialData ? context.initialData : null,
           isFetching: context.initialData ? false : true,
         };
       }
 
       componentWillMount() {
-        if (__SERVER__) {
+        if (!this.state.initialDataProvided) {
           this.query();
         }
       }

@@ -24,6 +24,7 @@ app.use('/graphql', graphqlHTTP({
 app.get('*', (req, res) => {
   ReactDOM.renderToStaticMarkup(<AppContainer dataCallBack={(data) => {
       const markup = ReactDOM.renderToStaticMarkup(<AppContainer initialData={data.data} />);
+      const __initial_DATA__ = JSON.stringify(data.data);
       res.send(`
 <!DOCTYPE html>
 <html>
@@ -33,6 +34,7 @@ app.get('*', (req, res) => {
   </head>
   <body>
     <div id="root">${markup}</div>
+    <script type="text/javascript">__initial_DATA__ = JSON.parse('${__initial_DATA__}')</script>
     <script type="text/javascript" src="/public/bundle.js"></script>
   </body>
 </html>
