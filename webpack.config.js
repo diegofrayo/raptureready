@@ -1,6 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
-// var babelrc = require('./.babelrc');
+
 module.exports = {
   devtool: 'source-map',
   entry: {

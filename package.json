@@ -6,7 +6,8 @@
   "scripts": {
     "test": "mocha --compilers js:babel-register $(find ./src -name '*.spec.js')",
     "build-db": "./node_modules/.bin/babel-node ./dev_scripts/buildDb.js",
-    "start": "node index.js"
+    "start-debug": "node $NODE_DEBUG_OPTION index.js",
+    "start": "node $NODE_DEBUG_OPTION index.js"
   },
   "author": "Fedor Nezhivoi <gyzerok@gmail.com>",
   "license": "MIT",

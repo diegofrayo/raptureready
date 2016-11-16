@@ -1,4 +1,5 @@
 /* @flow */
+global.__SERVER__ = true;
 import 'fetch-everywhere';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
@@ -8,7 +9,6 @@ import graphqlHTTP from 'express-graphql';
 import AppContainer from '../client/AppContainer';
 import schema from './schema';
 import connection from './dbConnection';
-
 
 const app = express();
 
@@ -22,10 +22,10 @@ app.use('/graphql', graphqlHTTP({
 }));
 
 app.get('*', (req, res) => {
-  ReactDOM.renderToStaticMarkup(<AppContainer dataCallBack={(data) => {
-      const markup = ReactDOM.renderToStaticMarkup(<AppContainer initialData={data.data} />);
-      const __initial_DATA__ = JSON.stringify(data.data);
-      res.send(`
+  var showToServer = (data) => {
+    const markup = ReactDOM.renderToString(<AppContainer initialData={data.data} />);
+    const __initial_DATA__ = JSON.stringify(data.data);
+    res.send(`
 <!DOCTYPE html>
 <html>
   <head>
@@ -34,13 +34,15 @@ app.get('*', (req, res) => {
   </head>
   <body>
     <div id="root">${markup}</div>
-    <script type="text/javascript">__initial_DATA__ = JSON.parse('${__initial_DATA__}')</script>
+    <script id='app-props' type='application/json'><![CDATA[${__initial_DATA__}]]></script>
     <script type="text/javascript" src="/public/bundle.js"></script>
   </body>
 </html>
     `);
-  }} />);
-
+  };
+  // TODO: remove the double render (somehow traverse react components without render or cache route quries on build?)
+  // renderToString seems faster than renderToStaticMarkup
+  ReactDOM.renderToString(<AppContainer dataCallBack={showToServer} />);
 
 });
 
