@@ -38,8 +38,14 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
     "chokidar": "^1.6.1",
+    "css-loader": "^0.25.0",
     "expect": "^1.13.4",
     "mocha": "^2.3.4",
+    "node-sass": "^3.13.0",
+    "resolve-url-loader": "^1.6.0",
+    "sass-loader": "^4.0.2",
+    "style-loader": "^0.13.1",
+    "url-loader": "^0.5.7",
     "webpack": "^1.12.14",
     "webpack-dev-server": "^1.11.0"
   }

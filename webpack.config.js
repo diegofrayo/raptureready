@@ -16,6 +16,18 @@ module.exports = {
   module: {
     loaders: [
       {
+        test: /\.s?css$/,
+        loaders: ['style', 'css', 'resolve-url', 'sass?sourceMap']
+      },
+      {
+        test: /\.(gif|png|jpe?g|svg)$/,
+        loaders: ['url?limit=100000']
+      },
+      {
+        test: /\.(ttf|woff|eot)$/,
+        loaders: ['file']
+      },
+      {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'babel',

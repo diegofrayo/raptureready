@@ -2,17 +2,29 @@
 
 import React, { Component, PropTypes } from 'react';
 import { container } from 'adrenaline';
-
+import Slider from 'react-slick'
 import Loader from './Loader';
 import Browser from './Browser';
+import 'slick-carousel/slick/slick.scss';
+import 'slick-carousel/slick/slick-theme.scss';
 
 class BrowsersList extends Component {
   static propTypes = {
     browsers: PropTypes.array,
     isFetching: PropTypes.bool.isRequired
   }
-
   render() {
+    const settings = {
+      className: 'center',
+      infinite: true,
+      centerPadding: '60px',
+      slidesToShow: 5,
+      swipeToSlide: true,
+      afterChange: function (index) {
+        console.log(`Slider Changed to: ${index + 1}, background: #222; color: #bada55`);
+      }
+    };
+
     const { browsers, isFetching } = this.props;
 
     if (isFetching) {
@@ -21,7 +33,9 @@ class BrowsersList extends Component {
 
     return (
       <div>
-        {browsers.map((browser, index) => <Browser key={index} browser={browser}/>)}
+        <Slider {...settings}>
+          {browsers.map((browser, index) => <Browser key={index} browser={browser}/>)}
+        </Slider>
       </div>
     );
   }
