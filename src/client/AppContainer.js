@@ -9,7 +9,6 @@ const history = __SERVER__ ? createMemoryHistory() : createBrowserHistory();
 export default class AppContainer extends Component {
     render() {
         let {dataCallBack, initialData} = this.props;
-        console.log({dataCallBack, initialData});
         let adrenalineProps = {};
         if (!__SERVER__) {
             if (document.getElementById('app-props')) {

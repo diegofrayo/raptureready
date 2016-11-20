@@ -22,13 +22,13 @@ MongoClient.connect('mongodb://localhost/local', { promiseLibrary: Promise })
 let dbConnection = {
   Query: {
     homepageCategories: (root, { sortBy, sortOrder, limit }, { connection }) => {
-      console.log('homepageCategories');
+      console.log('homepageCategories', root);
       return mongoConnection.collection('categories').find({}).toArray();
     }
   },
   Channel: {
     categories: (root, { sortBy, sortOrder, limit }, { connection }) => {
-      console.log('categories');
+      console.log('categories', root);
       return mongoConnection.collection('categories').find({}).toArray();
     }
   },
