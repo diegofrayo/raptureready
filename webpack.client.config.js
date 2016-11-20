@@ -21,6 +21,23 @@ module.exports = {
   module: {
     loaders: [
       {
+        test: /\.s?css$/,
+        loaders: ['style', 'css', 'sass?sourceMap']
+      },
+      {
+        test: /\.styl$/,
+        loaders: ['style', 'css', 'stylus']
+      },
+      {
+        test: /\.(gif|png|jpe?g|svg)$/,
+        loaders: ['url?limit=100000']
+      },
+      {
+        test: /\.(ttf|woff|eot)$/,
+        loaders: ['file']
+      },
+      {
+
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'babel',

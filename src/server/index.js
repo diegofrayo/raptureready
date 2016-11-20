@@ -40,7 +40,7 @@ app.get('*', (req, res) => {
 </html>
     `);
   };
-  // TODO: remove the double render (somehow traverse react components without render or cache route quries on build?)
+  // TODO: remove the double render (somehow traverse react components without render or cache route queries on build?)
   // renderToString seems faster than renderToStaticMarkup
   ReactDOM.renderToString(<AppContainer dataCallBack={showToServer} />);
 

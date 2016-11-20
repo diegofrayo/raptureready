@@ -9,12 +9,15 @@ const history = __SERVER__ ? createMemoryHistory() : createBrowserHistory();
 export default class AppContainer extends Component {
     render() {
         let {dataCallBack, initialData} = this.props;
+        console.log({dataCallBack, initialData});
         let adrenalineProps = {};
         if (!__SERVER__) {
-            let props = document.getElementById('app-props').textContent;
-            props = props.slice(9, -3); // removing '<![CDATA[' and ']]>'
-            let __initial_DATA__ = JSON.parse(props);
-            adrenalineProps = {initialData: __initial_DATA__};
+            if (document.getElementById('app-props')) {
+                let props = document.getElementById('app-props').textContent;
+                props = props.slice(9, -3); // removing '<![CDATA[' and ']]>'
+                let __initial_DATA__ = JSON.parse(props);
+                adrenalineProps = {initialData: __initial_DATA__};
+            }
         } else {
             const noNetworkLayer = require('../Adrenaline/network/noNetworkLayer').default;
             adrenalineProps = {

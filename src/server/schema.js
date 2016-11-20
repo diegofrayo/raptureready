@@ -1,38 +1,28 @@
 import Schema from 'graph.ql';
 import dbConnection from './dbConnection.js';
 var schema = Schema(`
-  enum Test { ONE, TWO }
-
-  type Browser {
-    name: String
-    supportedOS: [OS]
-    versions: [BrowserVersion]
-    traffic: Traffic
+  type Channel {
+    uniqueId: String
+    channelNumber: Int
+    title: String
+    slug: String
+    description: String
+    thumb: String
+    title: String
+    categories: [Category]
+    rating: Int
+    picture: String
+    type: String
+    embedCode: String
   }
 
-  type OS {
+  type Category {
     name: String
-    browsers: [Browser]
-    versions: [OSVersion]
-    traffic: Traffic
+    channels: [Channel]
   }
-  
-  type OSVersion {
-    versionNumber: String
-    traffic: Traffic
-  }
-  
-  type BrowserVersion {
-    versionNumber: String
-    traffic: Traffic
-  }
-  
-  type Traffic {
-    visits: Int
-  }
-  
+
   type Query {
-    browsers(sortBy: String, sortOrder: Boolean, limit: Int): [Browser]
+    homepageCategories(sortBy: String, sortOrder: Boolean, limit: Int): [Category]
   }
 `, dbConnection);
 
