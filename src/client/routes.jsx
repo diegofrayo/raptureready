@@ -1,10 +1,10 @@
 import React from 'react';
 import { Route } from 'react-router';
-import App from './components/App';
-import BrowsersList from './components/BrowsersList';
+import App from './App';
+import Browse from './Pages/Browse';
 
 export default (
   <Route component={App}>
-    <Route path="/" component={BrowsersList} />
+    <Route path="/" component={Browse} />
   </Route>
 );

@@ -1,76 +1,45 @@
 /* @flow */
-var sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('./db/traffic.db');
-function addPrentQueryInfo(row) {
-  return row;
-  row._parentTypeInfo = this._parentTypeInfo ? this._parentTypeInfo : {};
-  row._parentTypeInfo[Object.keys(this._parentTypeInfo).length + ''] = {root: this.root, type: this.type};
+import Promise from 'bluebird';
+import { MongoClient } from 'mongodb';
+
+function addPrentQueryInfo(rows) {
+  if (rows) {
+    row._parentTypeInfo = this._parentTypeInfo ? this._parentTypeInfo : {};
+    row._parentTypeInfo[Object.keys(this._parentTypeInfo).length + ''] = {root: this.root, type: this.type};
+  }
+
   return row;
 }
+var mongoConnection = false;
+MongoClient.connect('mongodb://localhost/local', { promiseLibrary: Promise })
+    .catch(err => console.error(err.stack))
+    .then(db => {
+      console.log('connected db');
+      mongoConnection = db; // See http://expressjs.com/en/4x/api.html#app.locals
+      // TODO: start server listen after mongo connection
+    });
+
 let dbConnection = {
   Query: {
-    browsers: (root, { sortBy, sortOrder, limit }, { connection }) => {
-      return new Promise(resolve => db.all('SELECT distinct browser_name as name FROM traffic', (err, rows) => {
-        resolve(rows.map(addPrentQueryInfo.bind({root, type: 'Query'})));
-      }))
+    homepageCategories: (root, { sortBy, sortOrder, limit }, { connection }) => {
+      console.log('homepageCategories');
+      return mongoConnection.collection('categories').find({}).toArray();
     }
   },
-  Browser: {
-    //name:
-    supportedOS: (root, options, { connection }) => {
-      return new Promise(resolve => db.all('SELECT distinct os_name as name FROM traffic where browser_name = ?', [root.name], (err, rows) => {
-        resolve(rows.map(addPrentQueryInfo.bind({root, type: 'Browser'})));
-      }))
-    },
-    versions: (root, options, { connection }) => {
-      return new Promise(resolve => db.all('SELECT distinct browser_version as versionNumber FROM traffic where browser_name = ?', [root.name], (err, rows) => {
-        resolve(rows.map(addPrentQueryInfo.bind({root, type: 'Browser'})));
-      }))
-    },
-    traffic: (root, options, { connection }) => {
-      return new Promise(resolve => db.all('SELECT sum(traffic) as visits FROM traffic where browser_name = ?', [root.name], (err, rows) => {
-        resolve(rows[0]);
-      }))
+  Channel: {
+    categories: (root, { sortBy, sortOrder, limit }, { connection }) => {
+      console.log('categories');
+      return mongoConnection.collection('categories').find({}).toArray();
     }
   },
 
-  OS: {
-    //name:
-    browsers: (root, options, { connection }) => {
-      return new Promise(resolve => db.all('SELECT distinct browser_name as name FROM traffic where os_name = ?', [root.name], (err, rows) => {
-        resolve(rows.map(addPrentQueryInfo.bind({root, type: 'OS'})));
-      }))
-    },
-    versions: (root, options, { connection }) => {
-      return new Promise(resolve => db.all('SELECT distinct os_version as versionNumber FROM traffic where os_name = ?', [root.name], (err, rows) => {
-        resolve(rows.map(addPrentQueryInfo.bind({root, type: 'OS'})));
-      }))
-    },
-    traffic: (root, options, { connection }) => {
-      return new Promise(resolve => db.all('SELECT sum(traffic) as visits FROM traffic where os_name = ?', [root.name], (err, rows) => {
-        resolve(rows[0]);
-      }))
+  Category: {
+    channels: (root, { sortBy, sortOrder, limit }, { connection }) => {
+      console.log('channels', root);
+      return mongoConnection.collection('Channel').find({}).limit(20).toArray();
     }
-  },
 
-  OSVersion: {
-    //versionNumber:
-    traffic: (root, options, { connection }) => {
-      return new Promise(resolve => db.all('SELECT sum(traffic) as visits FROM traffic where os_version = ?', [root.name], (err, rows) => {
-        resolve(rows[0]);
-      }))
-    }
   },
-
-  BrowserVersion: {
-    // versionNumber: String
-    traffic: (root, options, { connection }) => {
-      console.log(root);
-      return new Promise(resolve => db.all('SELECT sum traffic FROM traffic where browser_name = ?', [root.name], (err, rows) => {
-        resolve(rows.map(addPrentQueryInfo.bind({root, type: 'BrowserVersion'})));
-      }))
-    }
-  }
 };
 
 export default dbConnection;
