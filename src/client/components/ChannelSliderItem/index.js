@@ -16,7 +16,7 @@ class ChannelSliderItem extends Component {
         return (
             <div className="tile">
                 <div className="tile__media">
-                    <img className="tile__img" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/70390/show-5.jpg" alt=""  />
+                    <img className="tile__img" src={channel.thumb} alt=""  />
                 </div>
                 <div className="tile__details">
                     <div className="tile__title">
