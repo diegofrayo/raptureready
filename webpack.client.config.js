@@ -33,7 +33,7 @@ module.exports = {
         loaders: ['url?limit=100000']
       },
       {
-        test: /\.(ttf|woff|eot)$/,
+        test: /\.(ttf|woff2?|eot)$/,
         loaders: ['file']
       },
       {

@@ -1,5 +1,5 @@
 /* @flow */
-import Promise from 'bluebird';
+// import Promise from 'bluebird';
 import { MongoClient } from 'mongodb';
 
 function addPrentQueryInfo(rows) {
@@ -11,7 +11,7 @@ function addPrentQueryInfo(rows) {
   return row;
 }
 var mongoConnection = false;
-MongoClient.connect('mongodb://localhost/local', { promiseLibrary: Promise })
+MongoClient.connect('mongodb://localhost/local')
     .catch(err => console.error(err.stack))
     .then(db => {
       console.log('connected db');

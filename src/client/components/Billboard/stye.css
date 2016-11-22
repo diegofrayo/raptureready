@@ -1,0 +1,74 @@
+.billboard {
+    /* todo fix to local url
+  background-image: url('./resources/rapture.jpg');
+  */
+  background-image: url('http://www.eternityready.com/images/rapture.jpg');
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+  color: white;
+  box-shadow: inset 0px -81px 103px 50px rgba(0,0,0,0.81);
+}
+.billboard .intro-text {
+  padding-top: 100px;
+  padding-bottom: 50px;
+}
+.billboard .intro-text .intro-lead-in {
+  font-family: "Droid Serif", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-style: italic;
+  font-size: 22px;
+  line-height: 22px;
+  margin-bottom: 25px;
+}
+.billboard .intro-text .intro-heading {
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 50px;
+  line-height: 50px;
+  margin-bottom: 25px;
+}
+@media (min-width: 768px) {
+  .billboard .intro-text {
+    padding-top: 300px;
+    padding-bottom: 200px;
+  }
+  .billboard .intro-text .intro-lead-in {
+    font-family: "Droid Serif", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-style: italic;
+    font-size: 40px;
+    line-height: 40px;
+    margin-bottom: 25px;
+  }
+  .billboard .intro-text .intro-heading {
+    font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 75px;
+    line-height: 75px;
+    margin-bottom: 50px;
+  }
+}
+.hero-vignette {
+    background-image: -moz-linear-gradient(top,rgba(20,20,20,0) 0,rgba(20,20,20,.15) 15%,rgba(20,20,20,.38) 29%,rgba(20,20,20,.68) 44%,#141414 58%,#141414 100%);
+    background-image: -o-linear-gradient(top,rgba(20,20,20,0) 0,rgba(20,20,20,.15) 15%,rgba(20,20,20,.38) 29%,rgba(20,20,20,.68) 44%,#141414 58%,#141414 100%);
+    background-image: linear-gradient(to bottom,rgba(20,20,20,0) 0,rgba(20,20,20,.15) 15%,rgba(20,20,20,.38) 29%,rgba(20,20,20,.68) 44%,#141414 58%,#141414 100%);
+    -webkit-background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    -o-background-size: 100% 100%;
+    background-size: 100% 100%;
+    background-position: 0 top;
+    background-repeat: repeat-x;
+    background-color: transparent;
+    width: 100%;
+    height: 22.8vw;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: auto;
+    bottom: 3vw;
+}

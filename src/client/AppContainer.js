@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Router } from 'react-router';
 import { Adrenaline } from '../Adrenaline';
 import routes from './routes';
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 import createMemoryHistory from 'history/lib/createMemoryHistory';
 const history = __SERVER__ ? createMemoryHistory() : createBrowserHistory();
@@ -28,7 +30,9 @@ export default class AppContainer extends Component {
         }
         return (
             <Adrenaline {...adrenalineProps}>
-                <Router history={history} routes={routes} />
+                <Provider store={createStore(f => f)}>
+                    <Router history={history} routes={routes} />
+                </Provider>
             </Adrenaline>
         );
     }

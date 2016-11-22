@@ -1,6 +1,7 @@
 /* @flow */
 global.__SERVER__ = true;
-import 'fetch-everywhere';
+require('es6-promise').polyfill();
+require('fetch-everywhere');
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import { join } from 'path';
