@@ -6,15 +6,15 @@ require('babel-register');
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var config = require('./webpack.client.config');
-var path = require('path');
+// var path = require('path');
 
 var appPort = 1337;
 var WebpackDevServerPort = process.env.PORT || 3000;
 var proxy = 'http://localhost:' + appPort;
 
 var devServer = new WebpackDevServer(webpack(config), {
-  contentBase: path.join(__dirname, '.tmp'),
-  publicPath: '/www/',
+  contentBase: '/',
+  publicPath: '/',
   hot: true,
   historyApiFallback: true,
   proxy: {
