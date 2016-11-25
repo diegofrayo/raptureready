@@ -1,7 +1,7 @@
 global.__SERVER__ = true;
 // require('babel-register');
 // require('ignore-styles').default(['.sass', '.scss', '.styl']);
-var appPort = process.env.WEB_PORT || 80;
+var appPort = process.env.PORT || 80;
 var app = require('./src/server').default;
 
 app.listen(appPort, function () {});

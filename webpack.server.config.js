@@ -1,15 +1,16 @@
-var path = require('path');
+// var path = require('path');
+var nodeExternals = require('webpack-node-externals');
 var webpack = require('webpack');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   devtool: 'source-map',
   entry: {
-    bundle: path.join(__dirname, 'start-server')
+    bundle: './start-server'
   },
   target: 'node',
   output: {
-    path: path.join(__dirname, 'build'),
+    path: 'build',
     filename: 'server-bundle.js'
   },
   resolve: {
@@ -27,10 +28,15 @@ module.exports = {
     }),
     new webpack.IgnorePlugin(/vertx/),
     new CopyWebpackPlugin(
-      [{ from: 'src/server/www', to: 'www' }], 
+      [
+        { from: 'src/server/www', to: 'www' },
+        { from: 'Procfile'},
+        { from: 'package.json'}
+      ], 
       {ignore: ['.gitkeep'], copyUnmodified: true}
     )
   ],
+  externals: [nodeExternals({whitelist: [/\.s?css$/]})], // in order to ignore all modules in node_modules folder
   module: {
     loaders: [
       { test: /\.node$/, loader: 'node' },

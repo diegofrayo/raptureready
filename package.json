@@ -30,7 +30,6 @@
     "express-graphql": "^0.5.0",
     "fetch-everywhere": "^1.0.5",
     "graph.ql": "^2.0.0",
-    "graphql": "^0.7.1",
     "history": "3.2.1",
     "isomorphic-fetch": "^2.2.1",
     "mongodb": "^2.2.11",
@@ -82,6 +81,7 @@
     "url-loader": "^0.5.7",
     "watch": "^1.0.1",
     "webpack": "^1.12.14",
-    "webpack-dev-server": "^1.11.0"
+    "webpack-dev-server": "^1.11.0",
+    "webpack-node-externals": "^1.5.4"
   }
 }

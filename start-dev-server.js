@@ -9,7 +9,7 @@ var config = require('./webpack.client.config');
 var path = require('path');
 
 var appPort = 1337;
-var WebpackDevServerPort = process.env.WEB_PORT || 3000;
+var WebpackDevServerPort = process.env.PORT || 3000;
 var proxy = 'http://localhost:' + appPort;
 
 var devServer = new WebpackDevServer(webpack(config), {
