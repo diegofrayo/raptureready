@@ -4,7 +4,6 @@ require('es6-promise').polyfill();
 require('fetch-everywhere');
 import React from 'react';
 import ReactDOM from 'react-dom/server';
-import { join } from 'path';
 import express from 'express';
 import graphqlHTTP from 'express-graphql';
 import AppContainer from '../client/AppContainer';
@@ -12,10 +11,7 @@ import schema from './schema';
 import connection from './dbConnection';
 
 const app = express();
-
-const publicPath = join(__dirname, '..', '..', '.tmp');
-app.use('/public', express.static(publicPath));
-
+app.use(express.static('www'));
 app.use('/graphql', graphqlHTTP({
   schema,
   context: { connection },
@@ -36,7 +32,7 @@ app.get('*', (req, res) => {
   <body>
     <div id="root">${markup}</div>
     <script id='app-props' type='application/json'><![CDATA[${__initial_DATA__}]]></script>
-    <script type="text/javascript" src="/public/bundle.js"></script>
+    <script type="text/javascript" src="/app.js"></script>
   </body>
 </html>
     `);

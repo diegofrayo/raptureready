@@ -7,8 +7,9 @@ module.exports = {
     bundle: path.join(__dirname, 'src', 'client')
   },
   output: {
-    path: path.join(__dirname, '.tmp'),
-    filename: 'bundle.js'
+    path: path.join(__dirname, 'build/www'),
+    publicPath: '/',
+    filename: 'app.js'
   },
   resolve: {
     extensions: ['', '.js', '.jsx'],

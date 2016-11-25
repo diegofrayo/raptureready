@@ -1,5 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   devtool: 'source-map',
@@ -8,7 +9,7 @@ module.exports = {
   },
   target: 'node',
   output: {
-    path: path.join(__dirname, '.tmp'),
+    path: path.join(__dirname, 'build'),
     filename: 'server-bundle.js'
   },
   resolve: {
@@ -24,7 +25,11 @@ module.exports = {
       __SERVER__: true,
       "process.browser": JSON.stringify(true)
     }),
-    new webpack.IgnorePlugin(/vertx/)
+    new webpack.IgnorePlugin(/vertx/),
+    new CopyWebpackPlugin(
+      [{ from: 'src/server/www', to: 'www' }], 
+      {ignore: ['.gitkeep'], copyUnmodified: true}
+    )
   ],
   module: {
     loaders: [
