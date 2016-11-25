@@ -1,6 +1,8 @@
 /* @flow */
 // import Promise from 'bluebird';
 import { MongoClient } from 'mongodb';
+// 'mongodb://heroku_22dp56m3:igcadg5cng0t1hj9ofh8btqc7o@ds163397.mlab.com:63397/heroku_22dp56m3'
+const MONGODB_URI = process.env.MONGODB_URI ? process.env.MONGODB_URI : 'mongodb://localhost/local';
 
 function addPrentQueryInfo(rows) {
   if (rows) {
@@ -11,7 +13,7 @@ function addPrentQueryInfo(rows) {
   return row;
 }
 var mongoConnection = false;
-MongoClient.connect('mongodb://localhost/local')
+MongoClient.connect(MONGODB_URI)
     .catch(err => console.error(err.stack))
     .then(db => {
       console.log('connected db');
