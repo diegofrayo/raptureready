@@ -9,6 +9,7 @@ import graphqlHTTP from 'express-graphql';
 import AppContainer from '../client/AppContainer';
 import schema from './schema';
 import connection from './dbConnection';
+var STATIC_ASSETS_CDN = __STATIC_ASSETS_CDN__ || '';
 
 const app = express();
 app.use(express.static('www'));
@@ -32,7 +33,7 @@ app.get('*', (req, res) => {
   <body>
     <div id="root">${markup}</div>
     <script id='app-props' type='application/json'><![CDATA[${__initial_DATA__}]]></script>
-    <script type="text/javascript" src="/app.js"></script>
+    <script type="text/javascript" src="${STATIC_ASSETS_CDN}/app.js"></script>
   </body>
 </html>
     `);

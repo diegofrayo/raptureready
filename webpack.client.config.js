@@ -1,5 +1,5 @@
 var webpack = require('webpack');
-
+var __STATIC_ASSETS_CDN__ = process.env.STATIC_ASSETS_CDN || 'http://localhost:8080';
 module.exports = {
   devtool: 'source-map',
   entry: {
@@ -15,6 +15,7 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
+      // 'process.env.NODE_ENV': JSON.stringify('production'),
       __SERVER__: false,
     })
   ],
