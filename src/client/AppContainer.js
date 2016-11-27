@@ -14,10 +14,14 @@ export default class AppContainer extends Component {
         let adrenalineProps = {};
         if (!__SERVER__) {
             if (document.getElementById('app-props')) {
-                let props = document.getElementById('app-props').textContent;
-                props = props.slice(9, -3); // removing '<![CDATA[' and ']]>'
-                let __initial_DATA__ = JSON.parse(props);
-                adrenalineProps = {initialData: __initial_DATA__};
+                try {
+                    let props = document.getElementById('app-props').textContent;
+                    props = props.slice(9, -3); // removing '<![CDATA[' and ']]>'
+                    let __initial_DATA__ = JSON.parse(props);
+                    adrenalineProps = {initialData: __initial_DATA__};
+                } catch (e) {
+                    // cannot parse data from server
+                }
             }
         } else {
             const noNetworkLayer = require('../Adrenaline/network/noNetworkLayer').default;

@@ -1,4 +1,7 @@
 global.__SERVER__ = true;
+if (process.env.NODE_ENV == 'development') {
+    require('./dev-env-vars.js');
+}
 // require('babel-register');
 // require('ignore-styles').default(['.sass', '.scss', '.styl']);
 var appPort = process.env.PORT || 80;

@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
-import './style.css';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/css/bootstrap-theme.css';
+import style from './style.css';
+import bootstrapStyle from 'bootstrap/dist/css/bootstrap.css';
+import bootstrapThemeStyle from 'bootstrap/dist/css/bootstrap-theme.css';
 
 export default class App extends Component {
   render() {

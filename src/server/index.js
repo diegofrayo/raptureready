@@ -9,7 +9,7 @@ import graphqlHTTP from 'express-graphql';
 import AppContainer from '../client/AppContainer';
 import schema from './schema';
 import connection from './dbConnection';
-var STATIC_ASSETS_CDN = __STATIC_ASSETS_CDN__ || '';
+var STATIC_ASSETS_CDN = process.env.STATIC_ASSETS_CDN || '';
 
 const app = express();
 app.use(express.static('www'));
@@ -29,6 +29,7 @@ app.get('*', (req, res) => {
   <head>
     <meta charset="utf-8">
     <title></title>
+    <link rel="stylesheet" type="text/css" href="${STATIC_ASSETS_CDN}/styles.css">
   </head>
   <body>
     <div id="root">${markup}</div>

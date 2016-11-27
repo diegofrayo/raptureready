@@ -4,15 +4,13 @@ import React, { Component, PropTypes } from 'react';
 import { presenter } from '../../../Adrenaline';
 // import { Frame, Track } from 'react-view-pager'
 // working
-import Slider from 'react-motion-slider'
+// import Slider from 'react-motion-slider'
 
 // not working with server render
-// import Slider from '../Slider'
+import Slider from '../Slider'
 
 import ChannelSliderItem from '../ChannelSliderItem';
-if (!__SERVER__) {
-    require('./style.scss');
-}
+import style from './style.scss';
 // import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 class CarouselSlide extends React.Component {
@@ -39,7 +37,7 @@ class Category extends Component {
         category.channels = category.channels ? category.channels : [];
         return (
             <div className="Category">
-                {category.name}
+                {/*category.name*/}
                 {category.channels.length ? (
                     <div>
                         {/*<Frame
@@ -55,14 +53,13 @@ class Category extends Component {
                         <button onClick={() => this.refs.pager.prev()}>P</button>
                         <button onClick={() => this.refs.pager.next()}>N</button>*/}
 
-                        <button onClick={() => this.refs.slider.prev()}>P</button>
+                        {/*<button onClick={() => this.refs.slider.prev()}>P</button>
                         <Slider {...settings} ref="slider">
                             {category.channels.map((channel, index) => <ChannelSliderItem key={index} channel={channel}/>)}
                         </Slider>
-                        <button onClick={() => this.refs.slider.next()}>N</button>
+                        <button onClick={() => this.refs.slider.next()}>N</button>*/}
 
-                        {/* ../Slider Not working with server render
-                        <Slider key={category.name} items={category.channels} sliderTitle={category.name}/>*/}
+                        <Slider key={category.name} items={category.channels} sliderTitle={category.name}/>
                     </div>
                 ) : false }
             </div>

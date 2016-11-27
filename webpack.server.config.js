@@ -1,8 +1,11 @@
 // var path = require('path');
 var nodeExternals = require('webpack-node-externals');
 var webpack = require('webpack');
+var path = require('path');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
-var __STATIC_ASSETS_CDN__ = process.env.STATIC_ASSETS_CDN || 'http://localhost:8080';
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
+let extractCSS = new ExtractTextPlugin('www/styles.css');
+var __STATIC_ASSETS_CDN__ = process.env.STATIC_ASSETS_CDN || ''; //
 
 module.exports = {
   devtool: 'source-map',
@@ -15,6 +18,9 @@ module.exports = {
     filename: 'server-bundle.js'
   },
   resolve: {
+    alias: {
+      graphql: path.resolve('./node_modules/graphql'),
+    },
     extensions: ['', '.js', '.jsx', '.json', '.es6', '.babel', '.node' ],
   },
   node: {
@@ -25,7 +31,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       // 'process.env.NODE_ENV': JSON.stringify('production'),
-      __STATIC_ASSETS_CDN__: JSON.stringify(__STATIC_ASSETS_CDN__),
+      // __STATIC_ASSETS_CDN__: JSON.stringify(__STATIC_ASSETS_CDN__),
       __SERVER__: true,
       "process.browser": JSON.stringify(true)
     }),
@@ -37,7 +43,8 @@ module.exports = {
         { from: 'package.json'}
       ], 
       {ignore: ['.gitkeep'], copyUnmodified: true}
-    )
+    ),
+    extractCSS
   ],
   externals: [nodeExternals({whitelist: [/\.s?css$/]})], // in order to ignore all modules in node_modules folder
   module: {
@@ -46,20 +53,18 @@ module.exports = {
       { test: /\.json$/, loader: 'json' },
       {
         test: /\.s?css$/,
-        loaders: ['null-loader']
+        loader:extractCSS.extract(['css', 'sass?sourceMap'])
       },
       {
         test: /\.styl$/,
-        loaders: ['null-loader']
+        loader: extractCSS.extract(['css', 'stylus'])
       },
       {
         test: /\.(gif|png|jpe?g|svg)$/,
-        loaders: ['null-loader']
+        loaders: ['file-loader']
       },
-      {
-        test: /\.(ttf|woff|eot)$/,
-        loaders: ['null-loader']
-      },
+      { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "null-loader" },
+      { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "null-loader" },
       {
 
         test: /\.(jsx?|es6|babel)$/,

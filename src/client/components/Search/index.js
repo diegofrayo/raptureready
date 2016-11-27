@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import  { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 // import { setQuery, activateSearch, deactivateSearch } from '../../actions/'
-import './style.css';
+import style from './style.css';
 class Search extends Component{
   static defaultProps = {
     query: '',

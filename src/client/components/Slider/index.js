@@ -4,7 +4,35 @@ import ItemDetails from './ItemDetails'
 import Rx from 'rx'
 
 const nextPrevSpeed = 0.8
+function cloneItem(obj) {
+  return obj;
+  if (obj === null || typeof(obj) !== 'object' || 'isActiveClone' in obj)
+    return obj;
 
+  var temp
+  if (obj instanceof Date)
+    temp = new obj.constructor(); //or new Date(obj);
+  else
+    temp = obj.constructor();
+
+  for (var key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      obj['isActiveClone'] = null;
+      temp[key] = cloneItem(obj[key]);
+      delete obj['isActiveClone'];
+    }
+  }
+
+  return temp;
+}
+
+function isTouchDevice() {
+  return !__SERVER__ && (
+      ('ontouchstart' in window)
+      || (navigator.MaxTouchPoints > 0)
+      || (navigator.msMaxTouchPoints > 0)
+    );
+}
 var Slider = React.createClass({
 
   getInitialState() {
@@ -18,40 +46,14 @@ var Slider = React.createClass({
       preparePrev: false,
       mouseDown: false,
       detailsSlide: null,
-      sliderHovered: false
+      sliderHovered: false,
+      isTouch: isTouchDevice(),
+      items: cloneItem(this.props.items).concat(cloneItem(this.props.items))
     }
-  },
-
-  clone(obj) {
-    if (obj === null || typeof(obj) !== 'object' || 'isActiveClone' in obj)
-      return obj;
-
-    var temp
-    if (obj instanceof Date)
-      temp = new obj.constructor(); //or new Date(obj);
-    else
-      temp = obj.constructor();
-
-    for (var key in obj) {
-      if (Object.prototype.hasOwnProperty.call(obj, key)) {
-        obj['isActiveClone'] = null;
-        temp[key] = this.clone(obj[key]);
-        delete obj['isActiveClone'];
-      }
-    }
-
-    return temp;
   },
 
   componentDidMount() {
     window.addEventListener('resize' , this.reInit);
-
-    var items = this.clone(this.props.items).concat(this.clone(this.props.items));
-
-    this.setState({
-      items: items,
-      isTouch: this.isTouchDevice()
-    });
 
     var self = this;
 
@@ -67,16 +69,10 @@ var Slider = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    var items = this.clone(nextProps.items).concat(this.clone(nextProps.items));
+    var items = cloneItem(nextProps.items).concat(cloneItem(nextProps.items));
     this.setState({
       items: items
     });
-  },
-
-  isTouchDevice() {
-    return (('ontouchstart' in window)
-    || (navigator.MaxTouchPoints > 0)
-    || (navigator.msMaxTouchPoints > 0));
   },
 
 
@@ -137,7 +133,7 @@ var Slider = React.createClass({
 
 
     this.setState({
-      isTouch: this.isTouchDevice(),
+      isTouch: isTouchDevice(),
       sliderWidth: document.body.getBoundingClientRect().width
     });
   },

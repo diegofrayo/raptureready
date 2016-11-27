@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import './style.css';
+import style from './style.css';
 class GoogleAd extends Component{
   static defaultProps = {
     style: { display: 'inline-block' }

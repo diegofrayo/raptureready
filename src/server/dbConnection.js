@@ -1,8 +1,8 @@
 /* @flow */
 // import Promise from 'bluebird';
-import { MongoClient } from 'mongodb';
+import { MongoClient, ObjectId } from 'mongodb';
 // 'mongodb://heroku_22dp56m3:igcadg5cng0t1hj9ofh8btqc7o@ds163397.mlab.com:63397/heroku_22dp56m3'
-const MONGODB_URI = process.env.MONGODB_URI ? process.env.MONGODB_URI : 'mongodb://localhost/local';
+const MONGODB_URI = 'mongodb://heroku_22dp56m3:igcadg5cng0t1hj9ofh8btqc7o@ds163397.mlab.com:63397/heroku_22dp56m3'; //process.env.MONGODB_URI ? process.env.MONGODB_URI : 'mongodb://localhost/local';
 
 function addPrentQueryInfo(rows) {
   if (rows) {
@@ -38,7 +38,7 @@ let dbConnection = {
   Category: {
     channels: (root, { sortBy, sortOrder, limit }, { connection }) => {
       console.log('channels', root);
-      return mongoConnection.collection('Channel').find({}).limit(20).toArray();
+      return mongoConnection.collection('Channel').find({categoryIds: ObjectId(root._id)}).limit(20).toArray();
     }
 
   },

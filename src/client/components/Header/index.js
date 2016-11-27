@@ -1,20 +1,22 @@
 import React, { Component } from 'react'
 import HeaderDesktop from './HeaderDesktop'
 import HeaderMobile from  './HeaderMobile'
-import './style.css'
-
+import style from './style.css'
+var isMobile = () => {
+  return __SERVER__ || window.innerWidth > 800 ? false: true;
+}
 class Header extends Component {
   state = {
-    mobileMenuVisible: __SERVER__ || window.innerWidth <= 800? true: false,
+    mobileMenuVisible: isMobile()
   }
   componentDidMount(){
-    window.addEventListener('resize', this.handleResize)
+    window.addEventListener('resize', this.handleResize.bind(this))
   }
-  handleResize = () => {
-    const visibility = __SERVER__ || window.innerWidth <= 800? true: false
-    this.setState({mobileMenuVisible: visibility})
+  handleResize() {
+    this.setState({
+      mobileMenuVisible: isMobile()
+    })
   }
-
 
   render() {
     return (

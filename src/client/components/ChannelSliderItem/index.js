@@ -1,8 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { presenter } from '../../../Adrenaline';
-if (!__SERVER__) {
-require('./style.styl');
-}
+import style from './style.styl';
 
 
 class ChannelSliderItem extends Component {
@@ -41,7 +39,7 @@ export default presenter({
     },
 })(ChannelSliderItem);
 
-var style = {
+var style2 = {
     container: {
         border: '1px solid red',
         display: 'inline-block',
