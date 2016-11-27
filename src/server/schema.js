@@ -23,6 +23,7 @@ var schema = Schema(`
 
   type Query {
     homepageCategories(sortBy: String, sortOrder: Boolean, limit: Int): [Category]
+    channel(channelId: String): Channel
   }
 `, dbConnection);
 

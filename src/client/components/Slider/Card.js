@@ -36,18 +36,18 @@ const styles={
   },
 }
 const Card = (props) =>{
-  const {title, age, year, description, rating, slug, href, id} = props
+  const {title, age, year, description, rating, slug, href, uniqueId} = props
   styles.container.backgroundImage = `url(${props.thumb})`
   return (
     <div style={styles.container}>
       <div style={styles.overlay}>
       {
-        slug ? <Link to={`/watch/${id}`}>
+        slug ? <Link to={`/watch/${slug}`}>
                   <div className="play"></div>
               </Link> :
-            <a href={href}>
+            <Link to={`/watch/${uniqueId}`}>
               <div className="play"></div>
-            </a>
+            </Link>
       }
         </div>
         <div className="infoteaser">

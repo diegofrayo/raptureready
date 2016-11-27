@@ -135,7 +135,7 @@ const Item = React.createClass({
            style={itemStyle}
            onMouseEnter={self.itemHovered}
            onMouseLeave={self.itemMouseOut}
-           onClick={this.openUrl.bind(self, this.props.item._id)}
+           onClick={this.openUrl.bind(self, this.props.item.uniqueId)}
       >
         <div className='item-wrapper' style={itemWrapperStyle}>
 
@@ -145,7 +145,7 @@ const Item = React.createClass({
           <span>
             {this.isActiveItem() &&
               <Card
-                id={this.props.item._id}
+                id={this.props.item.uniqueId}
                 href={this.props.item.href}
                 title={this.props.item.title}
                 age={this.props.item.age}

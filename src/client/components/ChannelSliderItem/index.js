@@ -30,6 +30,7 @@ export default presenter({
     fragments: {
         channel: `
       fragment on Channel {
+        uniqueId
         thumb
         title
         description

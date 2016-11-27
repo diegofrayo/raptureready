@@ -10,6 +10,7 @@ import AppContainer from '../client/AppContainer';
 import schema from './schema';
 import connection from './dbConnection';
 var STATIC_ASSETS_CDN = process.env.STATIC_ASSETS_CDN || '';
+var WEBPACK_ASSETS = process.env.WEBPACK_ASSETS || '';
 
 const app = express();
 app.use(express.static('www'));
@@ -18,7 +19,6 @@ app.use('/graphql', graphqlHTTP({
   context: { connection },
   graphiql: true
 }));
-
 app.get('*', (req, res) => {
   var showToServer = (data) => {
     const markup = ReactDOM.renderToString(<AppContainer initialData={data.data} />);
@@ -34,7 +34,7 @@ app.get('*', (req, res) => {
   <body>
     <div id="root">${markup}</div>
     <script id='app-props' type='application/json'><![CDATA[${__initial_DATA__}]]></script>
-    <script type="text/javascript" src="${STATIC_ASSETS_CDN}/app.js"></script>
+    <script type="text/javascript" src="${WEBPACK_ASSETS}/app.js"></script>
   </body>
 </html>
     `);

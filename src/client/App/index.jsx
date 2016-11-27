@@ -3,8 +3,8 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 import style from './style.css';
-import bootstrapStyle from 'bootstrap/dist/css/bootstrap.css';
-import bootstrapThemeStyle from 'bootstrap/dist/css/bootstrap-theme.css';
+import bootstrapStyle from './resources/bootstrap/bootstrap.css';
+import bootstrapThemeStyle from './resources/bootstrap/bootstrap-theme.css';
 
 export default class App extends Component {
   render() {

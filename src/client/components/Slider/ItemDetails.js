@@ -58,8 +58,8 @@ var ItemDetails = React.createClass({
             <div className="gradient"></div>
 
             {
-              this.props.activeSlide && this.props.activeSlide._id ?
-                <Link to={`/watch/${this.props.activeSlide._id}`}>
+              this.props.activeSlide && this.props.activeSlide.uniqueId ?
+                <Link to={`/watch/${this.props.activeSlide.uniqueId}`}>
                   <div className="play"></div>
                 </Link> :
                 <a href={this.props.activeSlide.href}>

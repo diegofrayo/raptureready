@@ -26,6 +26,10 @@ let dbConnection = {
     homepageCategories: (root, { sortBy, sortOrder, limit }, { connection }) => {
       console.log('homepageCategories', root);
       return mongoConnection.collection('categories').find({}).toArray();
+    },
+    channel: (root, { channelId }, { connection }) => {
+      console.log('get channe;')
+      return mongoConnection.collection('Channel').findOne({ $or: [ {uniqueId: channelId}, {slug: channelId} ] });
     }
   },
   Channel: {

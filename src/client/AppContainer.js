@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Router } from 'react-router';
+import { Router, browserHistory } from 'react-router';
 import { Adrenaline } from '../Adrenaline';
 import routes from './routes';
 import { Provider } from 'react-redux'
@@ -10,6 +10,7 @@ const history = __SERVER__ ? createMemoryHistory() : createBrowserHistory();
 
 export default class AppContainer extends Component {
     render() {
+
         let {dataCallBack, initialData} = this.props;
         let adrenalineProps = {};
         if (!__SERVER__) {
@@ -33,11 +34,15 @@ export default class AppContainer extends Component {
             }
         }
         return (
-            <Adrenaline {...adrenalineProps}>
+
                 <Provider store={createStore(f => f)}>
-                    <Router history={history} routes={routes} />
+                    <Router history={history}>
+                        {routes(adrenalineProps)}
+                    </Router>
                 </Provider>
-            </Adrenaline>
+
         );
+        // <Adrenaline {...adrenalineProps}>
+        // </Adrenaline>
     }
 }

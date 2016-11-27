@@ -41,6 +41,8 @@ export default class Adrenaline extends Component {
   }
 
   render() {
+    console.log('Adrenaline')
+    console.log(this.props)
     const { children } = this.props;
     return children;
   }

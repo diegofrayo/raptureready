@@ -1,8 +1,7 @@
 import React, { Component, PropTypes } from 'react'
-import { connect } from 'react-redux'
-import { getChannel } from '../reducers/channels'
+import { container } from '../../../Adrenaline';
 import { browserHistory } from 'react-router'
-import back from '../assets/img/back.gif'
+import back from '../../commonResources/back.gif'
 
 class Player extends Component {
   state = {
@@ -25,7 +24,7 @@ class Player extends Component {
     return (
       <div>
         <div className="row">
-          <div style={{margin: '0 50px', cursor: 'pointer'}}>
+          <div style={{margin: '80px 50px 80px 50px', cursor: 'pointer'}}>
             <div onClick={this.handleGoBack}><img src={back} alt="Back Button" /></div>
           </div>
         </div>
@@ -36,11 +35,12 @@ class Player extends Component {
     )
   }
 }
-
-const mapStateToProps = (state, ownProps) => {
-  return {
-    channel: getChannel(state, ownProps.params.id)
-  }
-}
-
-export default connect(mapStateToProps)(Player)
+export default container({
+  query: `
+    query getChannel($channelId: String){
+      channel(channelId: $channelId) {
+        embedCode
+      }
+    }
+  `, variables: (props) => ({'channelId': props.params.channelId})
+})(Player);
