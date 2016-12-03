@@ -17,7 +17,8 @@ class Player extends Component {
 
   render() {
     const { isFetching } = this.props;
-
+    debugger;
+    console.log();
     if (isFetching) {
       return <Loader />;
     }
@@ -25,7 +26,7 @@ class Player extends Component {
       <div>
         <div className="row">
           <div style={{margin: '80px 50px 80px 50px', cursor: 'pointer'}}>
-            <Link to={`/`}><img src={WEBPACK_ASSETS + require('../../commonResources/back.gif')} alt="Home Button" /></Link>
+            <Link onClick={browserHistory.goBack}><img src={WEBPACK_ASSETS + require('../../commonResources/back.gif')} alt="Home Button" /></Link>
           </div>
         </div>
         <div className="row">
