@@ -1,5 +1,9 @@
 var webpack = require('webpack');
-var __STATIC_ASSETS_CDN__ = process.env.STATIC_ASSETS_CDN || 'http://localhost:8080';
+var __STATIC_ASSETS_CDN__ = '';
+if (process.env.NODE_ENV == 'development') {
+  __STATIC_ASSETS_CDN__ = 'http://localhost:8080';
+}
+
 module.exports = {
   devtool: 'source-map',
   entry: {
@@ -35,7 +39,7 @@ module.exports = {
         loaders: ['url?limit=1']
       },
       { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=10000&minetype=application/font-woff" },
-      { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" },
+      { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader" },
       {
 
         test: /\.jsx?$/,

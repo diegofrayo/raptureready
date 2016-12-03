@@ -15,6 +15,7 @@ module.exports = {
   target: 'node',
   output: {
     path: __dirname + '/build',
+    publicPath: '/',
     filename: 'server-bundle.js'
   },
   resolve: {
@@ -61,10 +62,10 @@ module.exports = {
       },
       {
         test: /\.(gif|png|jpe?g|svg)$/,
-        loaders: ['file-loader']
+        loaders: ['url-loader']
       },
-      { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "null-loader" },
-      { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "null-loader" },
+      { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader" },
+      { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader" },
       {
 
         test: /\.(jsx?|es6|babel)$/,
