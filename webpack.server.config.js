@@ -61,7 +61,7 @@ module.exports = {
       },
       {
         test: /\.(gif|png|jpe?g|svg)$/,
-        loaders: ['file-loader']
+        loaders: ['null-loader']
       },
       { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "null-loader" },
       { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "null-loader" },

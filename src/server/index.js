@@ -39,7 +39,8 @@ app.get('*', (req, res) => {
 <html>
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Eternity Ready</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" type="text/css" href="${STATIC_ASSETS_CDN}/styles.css">
   </head>
   <body>

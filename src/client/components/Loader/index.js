@@ -5,7 +5,7 @@ export default class Loader extends Component {
   render() {
     return (
         <div className="Loader">
-          <img src="./resources/default.svg" />
+          <img src={require("./resources/default.svg")} />
         </div>
     );
   }
