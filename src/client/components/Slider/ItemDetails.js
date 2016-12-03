@@ -79,11 +79,10 @@ export default presenter({
   fragments: {
     channel: `
       fragment on Channel {
-        uniqueId
+        _id
         thumb
         title
         description
-        slug
       }
     `,
   },

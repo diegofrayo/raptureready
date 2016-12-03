@@ -10,7 +10,49 @@
   z-index: 55;
   opacity: 1;
 }
+.hideTopMenu {
+  -moz-animation-name: hideMenu;
+  -moz-animation-fill-mode: forwards;
+  /*-moz-animation-iteration-count: 1;*/
+  -moz-animation-timing-function: ease-out;
+  -moz-animation-duration: 1.6s;
 
+  -webkit-animation-name: hideMenu;
+  -webkit-animation-fill-mode: forwards;
+  /*-webkit-animation-iteration-count: 1;*/
+  -webkit-animation-timing-function: ease-out;
+  -webkit-animation-duration: 1.6s;
+
+  animation-name: hideMenu;
+  animation-fill-mode: forwards;
+  /*animation-iteration-count: 1;*/
+  animation-timing-function: ease-out;
+  animation-duration: 1.6s;
+}
+@-moz-keyframes hideMenu {
+  from {
+    -moz-transform: translateY(0);
+  }
+  to {
+    -moz-transform: translateY(-60px);
+  }
+}
+@-webkit-keyframes hideMenu {
+  from {
+    -webkit-transform: translateY(0);
+  }
+  to {
+    -webkit-transform: translateY(-60px);
+  }
+}
+@keyframes hideMenu {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-60px);
+  }
+}
 .headerDesktopOpaque {
   background-color: rgba(0,0,0,.7);
 }

@@ -65,8 +65,7 @@ export default container({
       channelSearch(query: $query) {
         title
         thumb
-        slug
-        uniqueId
+        _id
       }
     }
   `, variables: (props) => ({'query': props.params.query})

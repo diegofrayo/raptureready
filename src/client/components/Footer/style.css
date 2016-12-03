@@ -9,6 +9,9 @@ footer {
   user-select: none;
   width: 100%;
 }
+.hideFooter {
+  display: none;
+}
 
 footer > p, footer {
   margin-top: 15px;

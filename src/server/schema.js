@@ -2,6 +2,7 @@ import Schema from 'graph.ql';
 import dbConnection from './dbConnection.js';
 var schema = Schema(`
   type Channel {
+    _id: String
     uniqueId: String
     channelNumber: Int
     title: String

@@ -147,7 +147,7 @@ const Item = React.createClass({
           <span>
             {this.isActiveItem() &&
               <Card
-                id={this.props.item.uniqueId}
+                _id={this.props.item._id}
                 href={this.props.item.href}
                 title={this.props.item.title}
                 age={this.props.item.age}

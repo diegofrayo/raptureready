@@ -27,7 +27,7 @@ let dbConnection = {
       return mongoConnection.collection('categories').find({}).toArray();
     },
     channel: (root, { channelId }, { connection }) => {
-      return mongoConnection.collection('Channel').findOne({ $or: [ {uniqueId: channelId}, {slug: channelId} ] });
+      return mongoConnection.collection('Channel').findOne({ $or: [ {uniqueId: channelId}, {_id: new ObjectId(channelId)}, {slug: channelId} ] });
     },
     channelSearch: (root, { query }, { connection }) => {
       if (query) {
