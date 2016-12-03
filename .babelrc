@@ -4,6 +4,12 @@
     ["transform-runtime", {
       "polyfill": false,
       "regenerator": true
-    }]
+    }],
+    [
+      "babel-plugin-transform-require-ignore",
+      {
+        "extensions": [".less", ".sass", ".css", ".scss", ".styl", ".png"]
+      }
+    ]
   ]
 }

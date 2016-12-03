@@ -1,20 +1,26 @@
-var path = require('path');
 var webpack = require('webpack');
+var __STATIC_ASSETS_CDN__ = '';
+if (process.env.NODE_ENV == 'development') {
+  __STATIC_ASSETS_CDN__ = 'http://localhost:8080';
+}
 
 module.exports = {
   devtool: 'source-map',
   entry: {
-    bundle: path.join(__dirname, 'src', 'client')
+    bundle: './src/client'
   },
   output: {
-    path: path.join(__dirname, '.tmp'),
-    filename: 'bundle.js'
+    path: __dirname + '/build/www',
+    publicPath: '/',
+    filename: 'app.js'
   },
   resolve: {
     extensions: ['', '.js', '.jsx'],
   },
   plugins: [
     new webpack.DefinePlugin({
+      // 'process.env.NODE_ENV': JSON.stringify('production'),
+      __webpack_public_path__: JSON.stringify(__STATIC_ASSETS_CDN__ + '/'),
       __SERVER__: false,
     })
   ],
@@ -30,12 +36,10 @@ module.exports = {
       },
       {
         test: /\.(gif|png|jpe?g|svg)$/,
-        loaders: ['url?limit=100000']
+        loaders: ['url?limit=1']
       },
-      {
-        test: /\.(ttf|woff|eot)$/,
-        loaders: ['file']
-      },
+      { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=10000&minetype=application/font-woff" },
+      { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader" },
       {
 
         test: /\.jsx?$/,

@@ -1,0 +1,118 @@
+.search-container{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0 40px;
+  min-height: 600px;
+}
+
+.search-item{
+    flex: 1;
+    text-align: center;
+    width: 100%;
+    max-width: 270px;
+    padding: 5px 3px;
+    margin: 35px 0;
+}
+
+.search-background {
+  width: 100%;
+  min-width: 255px;
+  height: 140px;
+  position: relative;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: 100% 100%;
+  box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+  border-radius: 0px;
+}
+
+.search-caption {
+  border-top: 1px;
+  border-color: #fff;
+  max-width: 255px;
+  margin: 0 auto;
+  background-color: #fff;
+  text-align: center;
+  padding: 15px 10px;
+  font-weight: 700;
+  font-size: 14px;
+  color: #000;
+}
+
+#search-en, #search-en-mobile {
+    color: white;
+    font-size: 22px;
+    padding-left: 30px;
+    background: transparent url(./resources/search-icon-128.png) no-repeat left;
+    background-size: 25px;
+    font-weight: bold;
+    padding-top: 0;
+    right: 25px;
+    z-index: 3;
+    position: absolute;
+    text-decoration: none;
+}
+@media (max-width: 799px) {
+    #search-en, #search-en-mobile {
+        padding-top: 8px;
+    }
+}
+.search-input {
+    float: right;
+    padding-right: 40px;
+    position: relative;
+    padding-top: 20px;
+}
+@media (max-width: 799px) {
+    .search-input {
+        width: 160px;
+        float: right;
+        padding-right: 5px;
+        position: relative;
+        padding-top: 5px;
+    }
+}
+
+.search-input input {
+    border: 1px solid #666666;
+    line-height: 28px;
+    padding: 5px;
+    padding-left: 15px;
+    font-size: 18px;
+    padding-right: 15px;
+    color: #DDDDDD;
+    background-size: 30px;
+    background-color: rgba(0, 0, 0, 0.72);
+    outline: none;
+    animation: retract 0.3s;
+    animation-fill-mode: forwards;
+    right: 25px;
+}
+.search-input input.active {
+    animation: expand 0.3s;
+    animation-fill-mode: forwards;
+}
+
+.search-input input.inactive {
+    display: none;
+}
+
+#closesearch {
+    font-size: 27px;
+    position: absolute;
+    right: 46px;
+    background: 0 0;
+    color: #DDD;
+    text-decoration: none;
+    top: 0px;
+    padding-top: 20px;
+    cursor: pointer;
+}
+@media (max-width: 799px) {
+    #closesearch {
+        padding-right: 5px;
+        padding-top: 5px;
+        right: 10px;
+    }
+}

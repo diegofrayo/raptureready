@@ -1,0 +1,1 @@
+export default (channel) => channel._id; //channel.slug ? channel.slug : channel.uniqueId;

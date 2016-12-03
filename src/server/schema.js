@@ -2,6 +2,7 @@ import Schema from 'graph.ql';
 import dbConnection from './dbConnection.js';
 var schema = Schema(`
   type Channel {
+    _id: String
     uniqueId: String
     channelNumber: Int
     title: String
@@ -23,6 +24,8 @@ var schema = Schema(`
 
   type Query {
     homepageCategories(sortBy: String, sortOrder: Boolean, limit: Int): [Category]
+    channel(channelId: String): Channel
+    channelSearch(query: String): [Channel]
   }
 `, dbConnection);
 

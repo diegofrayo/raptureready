@@ -73,7 +73,7 @@ export default function container(specs) {
         this.setState({ isFetching: true }, () => {
           this.context.query(query, variables)
             .catch(err => {
-              console.error(err); // eslint-disable-line
+              console.error('Error in query', err); // eslint-disable-line
             })
             .then(data => {
               this.context.fetchDoneCallback(data);

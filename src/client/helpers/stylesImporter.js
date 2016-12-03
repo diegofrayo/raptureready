@@ -1,1 +1,0 @@
-// module.exports = () => __SERVER__ ? f => f : require

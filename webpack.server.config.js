@@ -1,45 +1,74 @@
-var path = require('path');
+// var path = require('path');
+var nodeExternals = require('webpack-node-externals');
 var webpack = require('webpack');
+var path = require('path');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
+let extractCSS = new ExtractTextPlugin('www/styles.css');
+var __STATIC_ASSETS_CDN__ = process.env.STATIC_ASSETS_CDN || ''; //
 
 module.exports = {
   devtool: 'source-map',
   entry: {
-    bundle: path.join(__dirname, 'src', 'client')
+    bundle: './start-server'
   },
   target: 'node',
   output: {
-    path: path.join(__dirname, '.tmp'),
+    path: __dirname + '/build',
+    publicPath: '/',
     filename: 'server-bundle.js'
   },
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    alias: {
+      graphql: path.resolve('./node_modules/graphql'),
+    },
+    extensions: ['', '.js', '.jsx', '.json', '.es6', '.babel', '.node' ],
+  },
+  node: {
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty'
   },
   plugins: [
     new webpack.DefinePlugin({
+      // 'process.env.NODE_ENV': JSON.stringify('production'),
+      // __STATIC_ASSETS_CDN__: JSON.stringify(__STATIC_ASSETS_CDN__),
       __SERVER__: true,
-    })
+      "process.browser": JSON.stringify(true)
+    }),
+    new webpack.IgnorePlugin(/vertx/),
+    new CopyWebpackPlugin(
+      [
+        { from: 'src/server/www', to: 'www' },
+        { from: 'Procfile'},
+        { from: 'package.json'}
+      ], 
+      {ignore: ['.gitkeep'], copyUnmodified: true}
+    ),
+    extractCSS
   ],
+  externals: [nodeExternals({whitelist: [/\.s?css$/]})], // in order to ignore all modules in node_modules folder
   module: {
     loaders: [
+      { test: /\.node$/, loader: 'node' },
+      { test: /\.json$/, loader: 'json' },
       {
         test: /\.s?css$/,
-        loaders: ['null-loader']
+        loader:extractCSS.extract(['css', 'sass?sourceMap'])
       },
       {
         test: /\.styl$/,
-        loaders: ['null-loader']
+        loader: extractCSS.extract(['css', 'stylus'])
       },
       {
         test: /\.(gif|png|jpe?g|svg)$/,
-        loaders: ['null-loader']
+        loaders: ['url-loader']
       },
-      {
-        test: /\.(ttf|woff|eot)$/,
-        loaders: ['null-loader']
-      },
+      { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader" },
+      { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader" },
       {
 
-        test: /\.jsx?$/,
+        test: /\.(jsx?|es6|babel)$/,
         exclude: /node_modules/,
         loader: 'babel',
         query: {
