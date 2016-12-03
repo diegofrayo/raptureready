@@ -40,7 +40,7 @@ class HeaderMobile extends Component {
               <span></span>
               <span></span>
             </div>
-            <img alt="Enternity Ready Logo" src="http://www.eternityready.com/images/logo.png" />
+            <img alt="Enternity Ready Logo" src={require("../../commonResources/logo.png")} />
             <Search />
           </div>
             <nav id="main-menu" style={mobileMenuStyle}>

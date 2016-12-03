@@ -62,10 +62,10 @@ module.exports = {
       },
       {
         test: /\.(gif|png|jpe?g|svg)$/,
-        loaders: ['url-loader']
+        loaders: ['url-loader?limit=1']
       },
-      { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader" },
-      { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader" },
+      { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=1" },
+      { test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=1" },
       {
 
         test: /\.(jsx?|es6|babel)$/,
