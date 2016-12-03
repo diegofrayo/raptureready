@@ -6,7 +6,7 @@ import style from './style.css';
 import bootstrapStyle from './resources/bootstrap/bootstrap.css';
 import bootstrapThemeStyle from './resources/bootstrap/bootstrap-theme.css';
 
-export default class App extends Component {
+export default class WebApp extends Component {
   render() {
     return (
       <div>

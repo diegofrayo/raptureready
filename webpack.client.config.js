@@ -16,6 +16,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       // 'process.env.NODE_ENV': JSON.stringify('production'),
+      __webpack_public_path__: JSON.stringify(__STATIC_ASSETS_CDN__ + '/'),
       __SERVER__: false,
     })
   ],

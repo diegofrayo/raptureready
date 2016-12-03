@@ -8,10 +8,10 @@ import { match, RouterContext } from 'react-router'
 import express from 'express';
 import useragent from 'express-useragent';
 import graphqlHTTP from 'express-graphql';
-import AppContainer from '../client/AppContainer';
+import AppContainer from '../app/AppContainer';
 import schema from './schema';
 import connection from './dbConnection';
-import routes from '../client/routes.jsx';
+import routes from '../app/routes.jsx';
 
 var STATIC_ASSETS_CDN = process.env.STATIC_ASSETS_CDN || '';
 var WEBPACK_ASSETS = process.env.WEBPACK_ASSETS || '';

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Route, IndexRoute  } from 'react-router';
-import App from './App';
+import WebApp from './WebApp';
 import Browse from './Pages/Browse';
 import Player from './Pages/Player';
 import SearchResults from './Pages/SearchResults';
@@ -15,7 +15,7 @@ const AdrenalineContainer = (RouteComponent, props, aProps) => {
 }
 
 export default (aProps) => (
-  <Route component={App}>
+  <Route component={WebApp}>
       <Route path="/" component={(props) => AdrenalineContainer(Browse, props, aProps)} />
       <Route path="/browse" component={(props) => AdrenalineContainer(Browse, props, aProps)} />
       <Route path="/watch/:channelId" component={(props) => AdrenalineContainer(Player, props, aProps)} />
