@@ -14,9 +14,9 @@ function addPrentQueryInfo(rows) {
 }
 var mongoConnection = false;
 MongoClient.connect(MONGODB_URI)
-    .catch(err => console.error(err.stack))
+    .catch(err => console.error('Error connection to mongodb, try connection and restarting node server', err.stack))
     .then(db => {
-      console.log('connected db');
+      console.log('connected mongo db');
       mongoConnection = db; // See http://expressjs.com/en/4x/api.html#app.locals
       // TODO: start server listen after mongo connection
     });
@@ -24,11 +24,9 @@ MongoClient.connect(MONGODB_URI)
 let dbConnection = {
   Query: {
     homepageCategories: (root, { sortBy, sortOrder, limit }, { connection }) => {
-      console.log('homepageCategories', root);
       return mongoConnection.collection('categories').find({}).toArray();
     },
     channel: (root, { channelId }, { connection }) => {
-      console.log('get channe;')
       return mongoConnection.collection('Channel').findOne({ $or: [ {uniqueId: channelId}, {slug: channelId} ] });
     },
     channelSearch: (root, { query }, { connection }) => {
@@ -45,14 +43,12 @@ let dbConnection = {
   },
   Channel: {
     categories: (root, { sortBy, sortOrder, limit }, { connection }) => {
-      console.log('categories', root);
       return mongoConnection.collection('categories').find({}).toArray();
     }
   },
 
   Category: {
     channels: (root, { sortBy, sortOrder, limit }, { connection }) => {
-      console.log('channels', root);
       return mongoConnection.collection('Channel').find({categoryIds: ObjectId(root._id)}).limit(20).toArray();
     }
 

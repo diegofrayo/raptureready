@@ -16,7 +16,6 @@ class Player extends Component {
   createMarkup() { return {__html: this.props.channel.embedCode} }
 
   render() {
-    console.log(this.props);
     const { isFetching } = this.props;
 
     if (isFetching) {

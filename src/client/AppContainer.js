@@ -36,30 +36,18 @@ export default class AppContainer extends Component {
                 networkLayer: noNetworkLayer
             }
         }
-        debugger;
+
         return (
-
-                <Provider store={createStore(f => f)}>
-                    {this.props.renderProps ?
-                        <RouterContext { ...this.props.renderProps }
-                            createElement={(Component, props) => {
-                           console.log('create eemennnn');
-                            console.log(props);
-                                return <Component {...props} aProps={adrenalineProps} />;
-                            }} />
-                        :
-                        <Router history={history}>
-                            {routes(adrenalineProps)}
-                        </Router>
-                    }
-                </Provider>
-
+            <Provider store={createStore(f => f)}>
+                {this.props.renderProps ?
+                    <RouterContext { ...this.props.renderProps }
+                        createElement={(Component, props) => <Component {...props} aProps={adrenalineProps} />} />
+                    :
+                    <Router history={history}>
+                        {routes(adrenalineProps)}
+                    </Router>
+                }
+            </Provider>
         );
-        // <Adrenaline {...adrenalineProps}>
-        // </Adrenaline>
-
-        // <Router history={history}>
-        //     {routes(adrenalineProps)}
-        // </Router>
     }
 }

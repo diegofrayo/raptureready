@@ -6,74 +6,19 @@ import Player from './Pages/Player';
 import SearchResults from './Pages/SearchResults';
 import { Adrenaline } from '../Adrenaline';
 
-
-class AdrenalineContainer extends Component {
-    render() {
-
-        var ChildComponent = this.props.handle;
-        return (
-
-            <Adrenaline {...this.props}>
-                <ChildComponent />
-            </Adrenaline>
-
-        );
-        // <Adrenaline {...adrenalineProps}>
-        // </Adrenaline>
+const AdrenalineContainer = (RouteComponent, props, aProps) => {
+    var aaProps = props.aProps ? props.aProps : aProps;
+    if (aaProps && aaProps.initialDataRoute && (aaProps.initialDataRoute != props.location.pathname)) {
+        aaProps = {}
     }
+    return <Adrenaline {...aaProps}><RouteComponent {...props} /></Adrenaline>
 }
 
 export default (aProps) => (
   <Route component={App}>
-      <Route path="/" component={(props) => {
-
-      var aaProps = props.aProps ? props.aProps : aProps;
-      console.log(props.aProps)
-        console.log(props.location.pathname)
-
-      if (aaProps && aaProps.initialDataRoute && (aaProps.initialDataRoute != props.location.pathname)) {
-        aaProps = {}
-      }
-      return <Adrenaline {...aaProps}><Browse {...props} /></Adrenaline>
-      }} />
-
-      <Route path="/browse" component={(props) => {
-
-      var aaProps = props.aProps ? props.aProps : aProps;
-      console.log(props.aProps)
-        console.log(props.location.pathname)
-
-      if (aaProps && aaProps.initialDataRoute && (aaProps.initialDataRoute != props.location.pathname)) {
-        aaProps = {}
-      }
-      return <Adrenaline {...aaProps}><Browse {...props} /></Adrenaline>
-      }} />
-
-      <Route path="/watch/:channelId" component={(props) => {
-
-      var aaProps = props.aProps ? props.aProps : aProps;
-      if (aaProps && aaProps.initialDataRoute && (aaProps.initialDataRoute != props.location.pathname)) {
-        aaProps = {}
-      }
-      return <Adrenaline {...aaProps}><Player {...props} /></Adrenaline>
-      }}/>
-
-      <Route path="/search/:query" component={(props) => {
-
-      var aaProps = props.aProps ? props.aProps : aProps;
-      if (aaProps && aaProps.initialDataRoute && (aaProps.initialDataRoute != props.location.pathname)) {
-        aaProps = {}
-      }
-      return <Adrenaline {...aaProps}><SearchResults {...props} /></Adrenaline>
-      }}/>
-
+      <Route path="/" component={(props) => AdrenalineContainer(Browse, props, aProps)} />
+      <Route path="/browse" component={(props) => AdrenalineContainer(Browse, props, aProps)} />
+      <Route path="/watch/:channelId" component={(props) => AdrenalineContainer(Player, props, aProps)} />
+      <Route path="/search/:query" component={(props) => AdrenalineContainer(SearchResults, props, aProps)} />
   </Route>
 );
-
-// <Route path="/" component={Browse} />
-// <Route path="/watch/:channelId" component={Player}/>
-//
-// <Route path="/" component={App}>
-//     {/*<IndexRoute components={(props) => <Adrenaline  {...aProps}><Browse {...aProps} {...props} /></Adrenaline>} />*/}
-//
-//     <Route path='watch/:channelId' component={(props) => <Adrenaline {...aProps}><Player {...props} /></Adrenaline>}/>
