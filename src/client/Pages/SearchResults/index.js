@@ -33,7 +33,7 @@ class SearchResults extends Component {
   render() {
     // debugger;
     const { isFetching } = this.props;
-    if (isFetching || true) {
+    if (isFetching ) {
       return <Loader />;
     }
 
