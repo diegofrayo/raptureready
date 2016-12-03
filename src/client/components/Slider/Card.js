@@ -1,5 +1,7 @@
 import React, {PropTypes} from 'react'
 import { Link } from 'react-router'
+import getChannelUrl from '../../helpers/getChannelUrl'
+
 const styles={
   container: {
     transform: 'scale(1)',
@@ -37,30 +39,26 @@ const styles={
 }
 const Card = (props) =>{
   const {title, age, year, description, rating, slug, href, uniqueId} = props
-  styles.container.backgroundImage = `url(${props.thumb})`
+  styles.container.backgroundImage = `url(${props.thumb})`;
+  const channelUrl = getChannelUrl(this.props);
   return (
     <div style={styles.container}>
       <div style={styles.overlay}>
-      {
-        slug ? <Link to={`/watch/${slug}`}>
-                  <div className="play"></div>
-              </Link> :
-            <Link to={`/watch/${uniqueId}`}>
-              <div className="play"></div>
-            </Link>
-      }
-        </div>
-        <div className="infoteaser">
-          <span className="title">{title}</span>
-          <span className="stars">{'★'.repeat(rating)}</span>
-          {
-            age ? <span className="age">{age}</span> : ''
-          }
-          <span className="year">{ year}</span>
-            <span className="info">
-              {description}
-          </span>
-          </div>
+        <Link to={`/watch/${channelUrl}`}>
+          <div className="play"></div>
+        </Link>
+      </div>
+      <div className="infoteaser">
+        <span className="title">{title}</span>
+        <span className="stars">{'★'.repeat(rating)}</span>
+        {
+          age ? <span className="age">{age}</span> : ''
+        }
+        <span className="year">{ year}</span>
+          <span className="info">
+            {description}
+        </span>
+      </div>
   </div>
   )
 }
