@@ -44,7 +44,7 @@
     color: white;
     font-size: 22px;
     padding-left: 30px;
-    background: url(./resources/search-icon-128.png) no-repeat left;
+    background: transparent url(./resources/search-icon-128.png) no-repeat left;
     background-size: 25px;
     font-weight: bold;
     padding-top: 0;

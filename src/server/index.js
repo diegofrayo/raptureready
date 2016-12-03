@@ -6,6 +6,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/server';
 import { match, RouterContext } from 'react-router'
 import express from 'express';
+import useragent from 'express-useragent';
 import graphqlHTTP from 'express-graphql';
 import AppContainer from '../client/AppContainer';
 import schema from './schema';
@@ -14,16 +15,17 @@ import routes from '../client/routes.jsx';
 
 var STATIC_ASSETS_CDN = process.env.STATIC_ASSETS_CDN || '';
 var WEBPACK_ASSETS = process.env.WEBPACK_ASSETS || '';
-
+global.__currentRequestUserAgent__ = '';
 const app = express();
 app.use(express.static('www'));
+app.use(useragent.express());
 app.use('/graphql', graphqlHTTP({
   schema,
   context: { connection },
   graphiql: true
 }));
 app.get('*', (req, res) => {
-
+  global.__currentRequestUserAgent__ = req.useragent;
   match({ routes: routes({}), location: req.url }, (error, redirectLocation, renderProps) => {
     if (error) {
       res.status(500).send(error.message)
