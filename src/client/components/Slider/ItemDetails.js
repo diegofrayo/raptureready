@@ -1,5 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router'
+import { presenter } from '../../../Adrenaline';
+
 var ItemDetails = React.createClass({
 
   componentDidMount() {
@@ -72,4 +74,17 @@ var ItemDetails = React.createClass({
     );
   }
 });
-export default ItemDetails
+
+export default presenter({
+  fragments: {
+    channel: `
+      fragment on Channel {
+        uniqueId
+        thumb
+        title
+        description
+        slug
+      }
+    `,
+  },
+})(ItemDetails);

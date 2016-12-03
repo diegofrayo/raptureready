@@ -40,7 +40,7 @@ const styles={
 const Card = (props) =>{
   const {title, age, year, description, rating, slug, href, uniqueId} = props
   styles.container.backgroundImage = `url(${props.thumb})`;
-  const channelUrl = getChannelUrl(this.props);
+  const channelUrl = getChannelUrl(props);
   return (
     <div style={styles.container}>
       <div style={styles.overlay}>

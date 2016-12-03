@@ -8,8 +8,9 @@ import { presenter } from '../../../Adrenaline';
 
 // not working with server render
 import Slider from '../Slider'
+import ItemDetails from '../Slider/ItemDetails'
 
-import ChannelSliderItem from '../ChannelSliderItem';
+// import ChannelSliderItem from '../ChannelSliderItem';
 import style from './style.scss';
 // import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
@@ -73,7 +74,7 @@ export default presenter({
       fragment on Category {
         name
         channels {
-          ${ChannelSliderItem.getFragment('channel')}
+          ${ItemDetails.getFragment('channel')}
         }
       }
     `,

@@ -75,3 +75,62 @@
 .search-input button{
     border: none;
 }
+.btn-transparent {
+    background: transparent;
+    border: 3px solid #fff;
+    padding: 15px 30px;
+    font-size: 14px;
+    border-radius: 0;
+    color: #fff;
+    -webkit-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+    font-weight: 700;
+    letter-spacing: .05em;
+    text-transform: uppercase
+}
+
+.btn-transparent:active,.btn-transparent:focus,.btn-transparent:hover {
+    background: #fff;
+    color: #0d0d0d;
+    text-decoration: none
+}
+
+.btn-light {
+    background: #e50914;
+    border: 3px solid #ff0a16;
+    padding: 15px 30px;
+    font-size: 16px;
+    border-radius: 0;
+    color: #fff;
+    -webkit-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+    font-weight: 700;
+    letter-spacing: .05em;
+    text-transform: uppercase
+}
+
+.btn-light:active,.btn-light:focus,.btn-light:hover {
+    background: #ff0a16;
+    color: #fff;
+    text-decoration: none
+}
+
+.btn-block {
+    background: #24242a;
+    padding: 15px 0;
+    font-size: 16px;
+    border-radius: 0;
+    color: #fff;
+    -webkit-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+    font-weight: 700;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    border: 3px solid #24242a
+}
+
+.btn-block:active,.btn-block:focus,.btn-block:hover {
+    background: #fff;
+    color: #0d0d0d;
+    text-decoration: none
+}
