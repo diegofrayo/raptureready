@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import  { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
-// import { setQuery, activateSearch, deactivateSearch } from '../../actions/'
+// import { gf, activateSearch, deactivateSearch } from '../../actions/'
 import style from './style.css';
 class Search extends Component{
   static defaultProps = {
@@ -13,7 +13,13 @@ class Search extends Component{
     query: PropTypes.string.isRequired,
     isActive: PropTypes.bool.isRequired,
   }
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      query: '',
+      isActive: false,
+    };
+  }
   /*
   deactivateSearch = (e) => {
     if(e.target !== this.refs.label && e.target !== this.refs.close && e.target !== this.refs.input && this._input.value === '') {
@@ -23,19 +29,23 @@ class Search extends Component{
   }*/
 
   activateSearch = () => {
-    this.props.activateSearch()
-    this._input.focus()
+
+    this.setState({isActive: true}, () => {
+      this._input.focus()
+    })
+    return false;
   }
 
   clearSearch = () => {
-    this.props.setQuery('')
-    this.props.deactivateSearch()
+    this.setState({isActive: false, query: ''}, () => {
+
+    })
     this._input.value = ''
     browserHistory.push(`/browse`)
   }
 
   updateSearch = (e) => {
-    if(this.props.query !== null && this.props.query !== '' && this.props.isActive) {
+    if(this.state.query !== null && this.state.query !== '' && this.state.isActive) {
       browserHistory.push(`/search/${e.target.value}`)
     }else{
       browserHistory.push(`/browse`)
@@ -43,26 +53,28 @@ class Search extends Component{
   }
 
   handleChange = (e) => {
-    this.props.setQuery(e.target.value)
+    //this.props.setQuery(e.target.value)
+    this.setState({query: e.target.value}, () => {
 
+    })
     if(e.target.value === '')
       browserHistory.push(`/browse`)
   }
 
   render() {
     const labelStyle = {
-      'display': !this.props.isActive ? 'block' : 'none'
+      'display': !this.state.isActive ? 'block' : 'none'
     };
 
     const closeSearchStyle = {
-      'display': this.props.isActive ? 'block' : 'none'
+      'display': this.state.isActive ? 'block' : 'none'
     };
 
-    var inputClass = this.props.isActive ? 'active' : 'inactive'
+    var inputClass = this.state.isActive ? 'active' : 'inactive'
 
     return (
       <div className="search-input">
-        <a href="#" id="search-en" onClick={this.activateSearch} style={labelStyle} ref="label">Search</a>
+        <button id="search-en" onClick={this.activateSearch} style={labelStyle} ref="label">Search</button>
         <input
           type="text"
           id="inpsearch"
@@ -70,10 +82,10 @@ class Search extends Component{
           placeholder="Search..."
           onKeyUp={this.updateSearch}
           onChange={this.handleChange}
-          value={this.props.query}
+          value={this.state.query}
           ref={(c) => this._input = c}
         />
-        <span href="" style={closeSearchStyle} id="closesearch" onClick={this.clearSearch} ref="close">x</span>
+        <span style={closeSearchStyle} id="closesearch" onClick={this.clearSearch} ref="close">x</span>
       </div>
     );
   }

@@ -1,14 +1,17 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { getVisibleChannels } from '../reducers/channels'
-import { setQuery } from '../actions/'
-import { Link } from 'react-router'
-import '../assets/css/search.css'
+// import { getVisibleChannels } from '../reducers/channels'
+import { container } from '../../../Adrenaline';
+import { browserHistory, Link } from 'react-router'
+import Loader from '../../components/Loader';
+import getChannelUrl from '../../helpers/getChannelUrl';
+// import './style.css'
 
 class SearchResults extends Component {
 
   static propTypes = {
-    channels: PropTypes.array.isRequired,
+    channelSearch: PropTypes.array.isRequired,
+    isFetching: PropTypes.bool.isRequired
   }
   static defaultProps = {
     channels: [],
@@ -28,9 +31,15 @@ class SearchResults extends Component {
   }
 
   render() {
-    const sliders = this.props.channels.map((channel, index) => {
+    // debugger;
+    const { isFetching } = this.props;
+    if (isFetching) {
+      return <Loader />;
+    }
+
+    const sliders = this.props.channelSearch.map((channel, index) => {
         return (
-          <Link to={`/watch/${channel._id}`} key={index}>
+          <Link to={`/watch/${getChannelUrl(channel)}`} key={index}>
             <div className="search-item">
               <div className="search-background" style={{backgroundImage: `url(${channel.thumb})`}}>
               </div>
@@ -50,12 +59,25 @@ class SearchResults extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    channels: getVisibleChannels(state, ownProps.params.query),
-    search: state.search.query,
-    query: ownProps.params.query,
-  }
-}
+export default container({
+  query: `
+    query getChannels($query: String){
+      channelSearch(query: $query) {
+        title
+        thumb
+        slug
+        uniqueId
+      }
+    }
+  `, variables: (props) => ({'query': props.params.query})
+})(SearchResults);
 
-export default connect(mapStateToProps, {setQuery})(SearchResults)
+// const mapStateToProps = (state, ownProps) => {
+//   return {
+//     channels: getVisibleChannels(state, ownProps.params.query),
+//     search: state.search.query,
+//     query: ownProps.params.query,
+//   }
+// }
+//
+// export default connect(mapStateToProps, {setQuery})(SearchResults)

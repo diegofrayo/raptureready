@@ -30,6 +30,17 @@ let dbConnection = {
     channel: (root, { channelId }, { connection }) => {
       console.log('get channe;')
       return mongoConnection.collection('Channel').findOne({ $or: [ {uniqueId: channelId}, {slug: channelId} ] });
+    },
+    channelSearch: (root, { query }, { connection }) => {
+      if (query) {
+        var orQuery = [];
+        query.split(' ').map((el) => {
+          orQuery.push({"title": new RegExp(el, 'i') });
+          orQuery.push({"description": new RegExp(el, 'i') });
+          orQuery.push({"slug": new RegExp(el, 'i') });
+        })
+      }
+      return mongoConnection.collection('Channel').find({ $or: orQuery }).toArray();
     }
   },
   Channel: {

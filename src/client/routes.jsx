@@ -3,6 +3,7 @@ import { Route, IndexRoute  } from 'react-router';
 import App from './App';
 import Browse from './Pages/Browse';
 import Player from './Pages/Player';
+import SearchResults from './Pages/SearchResults';
 import { Adrenaline } from '../Adrenaline';
 
 
@@ -35,6 +36,19 @@ export default (aProps) => (
       }
       return <Adrenaline {...aaProps}><Browse {...props} /></Adrenaline>
       }} />
+
+      <Route path="/browse" component={(props) => {
+
+      var aaProps = props.aProps ? props.aProps : aProps;
+      console.log(props.aProps)
+        console.log(props.location.pathname)
+
+      if (aaProps && aaProps.initialDataRoute && (aaProps.initialDataRoute != props.location.pathname)) {
+        aaProps = {}
+      }
+      return <Adrenaline {...aaProps}><Browse {...props} /></Adrenaline>
+      }} />
+
       <Route path="/watch/:channelId" component={(props) => {
 
       var aaProps = props.aProps ? props.aProps : aProps;
@@ -43,6 +57,16 @@ export default (aProps) => (
       }
       return <Adrenaline {...aaProps}><Player {...props} /></Adrenaline>
       }}/>
+
+      <Route path="/search/:query" component={(props) => {
+
+      var aaProps = props.aProps ? props.aProps : aProps;
+      if (aaProps && aaProps.initialDataRoute && (aaProps.initialDataRoute != props.location.pathname)) {
+        aaProps = {}
+      }
+      return <Adrenaline {...aaProps}><SearchResults {...props} /></Adrenaline>
+      }}/>
+
   </Route>
 );
 
