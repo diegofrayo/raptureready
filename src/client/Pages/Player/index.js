@@ -1,31 +1,32 @@
 import React, { Component, PropTypes } from 'react'
 import { container } from '../../../Adrenaline';
-import { browserHistory } from 'react-router'
-import back from '../../commonResources/back.gif'
-
+import { browserHistory, Link } from 'react-router'
+import Loader from '../../components/Loader';
+var STATIC_ASSETS_CDN = process.env.STATIC_ASSETS_CDN || '';
+var WEBPACK_ASSETS = process.env.WEBPACK_ASSETS || '';
 class Player extends Component {
   state = {
     channel: {}
   }
   static propTypes = {
-    channel: PropTypes.object.isRequired,
-  }
-  static defaultProps = {
-    channel: {},
+    channel: PropTypes.object,
+    isFetching: PropTypes.bool.isRequired
   }
 
   createMarkup() { return {__html: this.props.channel.embedCode} }
 
-  handleGoBack = ()=> {
-    browserHistory.goBack()
-  }
-
   render() {
+    console.log(this.props);
+    const { isFetching } = this.props;
+
+    if (isFetching) {
+      return <Loader />;
+    }
     return (
       <div>
         <div className="row">
           <div style={{margin: '80px 50px 80px 50px', cursor: 'pointer'}}>
-            <div onClick={this.handleGoBack}><img src={back} alt="Back Button" /></div>
+            <Link to={`/`}><img src={WEBPACK_ASSETS + require('../../commonResources/back.gif')} alt="Home Button" /></Link>
           </div>
         </div>
         <div className="row">

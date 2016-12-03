@@ -1,6 +1,6 @@
 import React from 'react'
 import Card from './Card'
-import { browserHistory } from 'react-router'
+import { browserHistory, Link } from 'react-router'
 const slideHoverScale = 190
 const delayItemHover = 0
 
@@ -138,7 +138,9 @@ const Item = React.createClass({
            onClick={this.openUrl.bind(self, this.props.item.uniqueId)}
       >
         <div className='item-wrapper' style={itemWrapperStyle}>
-
+          <Link to={`/watch/${this.props.item.uniqueId}`}>
+            <img src={thumbUrl} />
+          </Link>
           {this.isActiveItem() &&
             <div className="carousel-item-ring"></div>
           }

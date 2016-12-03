@@ -221,7 +221,9 @@
   z-index: 2;
   position: relative;
 }
-
+/*.carousel-item-hover img{*/
+  /*margin-bottom: -250px;*/
+/*}*/
 .carousel-track {
   height: 100%;
   width: 100%;
@@ -237,10 +239,15 @@
 .carousel-item img {
   height: 100%;
   width: 100%;
+  position: absolute;
+  /*margin-bottom: -90px;*/
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+.carousel-item.hovered img {
+  /*margin-bottom: -380px;*/
 }
 
 .next {
