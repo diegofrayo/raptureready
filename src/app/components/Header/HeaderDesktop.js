@@ -83,7 +83,7 @@ class HeaderDesktop extends Component {
     const headerStyle = this.state.isDark ? 'headerDesktop headerDesktopOpaque' : 'headerDesktop'
     return (
         <div className={headerStyle} ref={(c) => this._header = c} >
-          <img src="http://www.eternityready.com/images/logo.png" style={{width: 105}} alt="Enternity Ready Logo" />
+          <img src={require("../../commonResources/logo.png")} style={{width: 105}} alt="Enternity Ready Logo" />
           <span>
             <span className="dropdown mainMenuLink" onTouchStart={this.dropDownTouch} onMouseEnter={this.showDropDown} onMouseLeave={this.timerHide}></span>
             <div className="dropdiv" style={dropDownStyle} onMouseEnter={this.cancelHideTimer} onMouseLeave={this.timerHide}>
