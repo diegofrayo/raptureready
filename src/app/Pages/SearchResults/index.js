@@ -5,6 +5,7 @@ import { container } from '../../../Adrenaline';
 import { browserHistory, Link } from 'react-router'
 import Loader from '../../components/Loader';
 import getChannelUrl from '../../helpers/getChannelUrl';
+import getThumbUrl from '../../helpers/getThumbUrl';
 // import './style.css'
 
 class SearchResults extends Component {
