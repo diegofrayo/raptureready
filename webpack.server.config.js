@@ -31,7 +31,7 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      // 'process.env.NODE_ENV': JSON.stringify('production'),
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       // __STATIC_ASSETS_CDN__: JSON.stringify(__STATIC_ASSETS_CDN__),
       __SERVER__: true,
       "process.browser": JSON.stringify(true)
