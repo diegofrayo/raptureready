@@ -2,7 +2,7 @@
     /* todo fix to local url
   background-image: url('./resources/rapture.jpg');
   */
-  background-image: url('http://www.eternityready.com/images/rapture.jpg');
+  background-image: url('./resources/rapture.jpg');
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-position: center center;
