@@ -82,6 +82,8 @@ export default presenter({
       fragment on Channel {
         _id
         thumb
+        age
+        rating
         picture
         title
         description
