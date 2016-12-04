@@ -24,12 +24,12 @@ class Player extends Component {
     }
     return (
       <div>
-        <div className="row">
-          <div style={{margin: '80px 50px 80px 50px', cursor: 'pointer'}}>
+        <div >
+          <div style={{margin: '0px 50px', cursor: 'pointer'}}>
             <Link onClick={this.goBack}><img src={require('../../commonResources/back.gif')} alt="Home Button" /></Link>
           </div>
         </div>
-        <div className="row">
+        <div >
           <div className="playerContainer" dangerouslySetInnerHTML={this.createMarkup()} />
         </div>
       </div>
