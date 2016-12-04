@@ -38,7 +38,7 @@ let dbConnection = {
           orQuery.push({"slug": new RegExp(el, 'i') });
         })
       }
-      return mongoConnection.collection('channels').find({ $query: {$or: orQuery} , $orderby: { _id : 1 } }).toArray();
+      return mongoConnection.collection('channels').find({ $query: {$or: orQuery} , $orderby: { _id : -1 } }).toArray();
     }
   },
   Channel: {
@@ -49,7 +49,7 @@ let dbConnection = {
 
   Category: {
     channels: (root, { sortBy, sortOrder, limit }, { connection }) => {
-      return mongoConnection.collection('channels').find({$query: {categoryIds: ObjectId(root._id)}, $orderby: { _id : 1 }}).toArray();
+      return mongoConnection.collection('channels').find({$query: {categoryIds: ObjectId(root._id)}, $orderby: { _id : -1 }}).toArray();
     }
 
   },
