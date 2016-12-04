@@ -24,7 +24,7 @@ MongoClient.connect(MONGODB_URI)
 let dbConnection = {
   Query: {
     homepageCategories: (root, { sortBy, sortOrder, limit }, { connection }) => {
-      return mongoConnection.collection('categories').find({}).toArray();
+      return mongoConnection.collection('categories').find({$query: {}, $orderby: { _id : 1 }}).toArray();
     },
     channel: (root, { channelId }, { connection }) => {
       return mongoConnection.collection('channels').findOne({ $or: [ {uniqueId: channelId}, {_id: new ObjectId(channelId)}, {slug: channelId} ] });
@@ -38,7 +38,7 @@ let dbConnection = {
           orQuery.push({"slug": new RegExp(el, 'i') });
         })
       }
-      return mongoConnection.collection('channels').find({ $or: orQuery }).toArray();
+      return mongoConnection.collection('channels').find({ $query: {$or: orQuery} , $orderby: { _id : 1 } }).toArray();
     }
   },
   Channel: {
@@ -49,7 +49,7 @@ let dbConnection = {
 
   Category: {
     channels: (root, { sortBy, sortOrder, limit }, { connection }) => {
-      return mongoConnection.collection('channels').find({categoryIds: ObjectId(root._id)}).limit(20).toArray();
+      return mongoConnection.collection('channels').find({$query: {categoryIds: ObjectId(root._id)}, $orderby: { _id : 1 }}).toArray();
     }
 
   },
