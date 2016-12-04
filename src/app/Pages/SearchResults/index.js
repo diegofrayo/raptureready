@@ -38,10 +38,11 @@ class SearchResults extends Component {
     }
 
     const sliders = this.props.channelSearch.map((channel, index) => {
+      const thumbUrl = getThumbUrl(channel);
         return (
-          <Link to={`/watch/${getChannelUrl(channel)}`} key={index}>
+          <Link to={`${getChannelUrl(channel)}`} key={index}>
             <div className="search-item">
-              <div className="search-background" style={{backgroundImage: `url(${channel.thumb})`}}>
+              <div className="search-background" style={{backgroundImage: `url(${thumbUrl})`}}>
               </div>
               <div className="search-caption">{channel.title}</div>
             </div>
@@ -71,13 +72,3 @@ export default container({
     }
   `, variables: (props) => ({'query': props.params.query})
 })(SearchResults);
-
-// const mapStateToProps = (state, ownProps) => {
-//   return {
-//     channels: getVisibleChannels(state, ownProps.params.query),
-//     search: state.search.query,
-//     query: ownProps.params.query,
-//   }
-// }
-//
-// export default connect(mapStateToProps, {setQuery})(SearchResults)

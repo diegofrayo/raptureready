@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router'
 import { presenter } from '../../../Adrenaline';
+import getThumbUrl from '../../helpers/getThumbUrl'
 
 var ItemDetails = React.createClass({
 
@@ -35,7 +36,7 @@ var ItemDetails = React.createClass({
     var detailsStyle = {
       'transform': 'translateY(-' + test + 'px)'
     };
-    const thumbUrl = this.props.activeSlide.thumb || ('http://www.eternityready.com/uploads/' + this.props.activeSlide.picture);
+    const thumbUrl = getThumbUrl(this.props.activeSlide);
     return (
       <div className='slider-item-details-container' ref="details" style={detailsStyle}>
         <div className={className} ref="detailsContent">

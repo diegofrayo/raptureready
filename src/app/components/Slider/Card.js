@@ -44,7 +44,7 @@ const Card = (props) =>{
   return (
     <div style={styles.container}>
       <div style={styles.overlay}>
-        <Link to={`/watch/${channelUrl}`}>
+        <Link to={`${getChannelUrl(props)}`}>
           <div className="play"></div>
         </Link>
       </div>

@@ -1,6 +1,7 @@
 import React from 'react'
 import Card from './Card'
 import { browserHistory, Link } from 'react-router'
+import getThumbUrl from '../../helpers/getThumbUrl'
 const slideHoverScale = 190
 const delayItemHover = 0
 
@@ -125,7 +126,7 @@ const Item = React.createClass({
       itemClass += ' active'
     }
 
-    const thumbUrl = this.props.item.thumb || ('http://www.eternityready.com/uploads/' + this.props.item.picture);
+    const thumbUrl = getThumbUrl(this.props.item);
     var itemWrapperStyle = {
       'backgroundImage': `url(${thumbUrl})`,
     };
