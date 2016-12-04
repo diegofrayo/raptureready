@@ -65,6 +65,7 @@ export default container({
       channelSearch(query: $query) {
         title
         thumb
+        picture
         _id
       }
     }

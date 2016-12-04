@@ -81,6 +81,7 @@ export default presenter({
       fragment on Channel {
         _id
         thumb
+        picture
         title
         description
       }
