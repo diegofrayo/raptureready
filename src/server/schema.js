@@ -12,6 +12,7 @@ var schema = Schema(`
     title: String
     categories: [Category]
     rating: Int
+    age: String
     picture: String
     type: String
     embedCode: String
