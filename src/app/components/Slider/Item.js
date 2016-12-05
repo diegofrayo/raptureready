@@ -151,6 +151,7 @@ const Item = React.createClass({
             {this.isActiveItem() &&
               <Card
                 _id={this.props.item._id}
+                picture={this.props.item.picture}
                 href={this.props.item.href}
                 title={this.props.item.title}
                 age={this.props.item.age}
