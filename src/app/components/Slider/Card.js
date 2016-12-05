@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react'
 import { Link } from 'react-router'
 import getChannelUrl from '../../helpers/getChannelUrl'
+import getThumbUrl from '../../helpers/getThumbUrl'
 
 const styles={
   container: {
@@ -39,7 +40,8 @@ const styles={
 }
 const Card = (props) =>{
   const {title, age, year, description, rating, slug, href, uniqueId} = props
-  styles.container.backgroundImage = `url(${props.thumb})`;
+  const thumbUrl = getThumbUrl(props);
+  styles.container.backgroundImage = `url(${thumbUrl})`;
 
   return (
     <div style={styles.container}>
