@@ -13,7 +13,11 @@ class Player extends Component {
     isFetching: PropTypes.bool.isRequired
   }
 
-  createMarkup() { return {__html: this.props.channel.embedCode} }
+  createMarkup() {
+    var embedCode = this.props.channel && this.props.channel.embedCode ? this.props.channel.embedCode : '';
+    return {__html: embedCode}
+
+  }
   goBack() {
     return browserHistory.goBack();
   }
