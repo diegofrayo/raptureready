@@ -32,7 +32,6 @@ class SearchResults extends Component {
   }
 
   render() {
-    // debugger;
     const { isFetching } = this.props;
     if (isFetching ) {
       return <Loader />;
@@ -41,7 +40,7 @@ class SearchResults extends Component {
     const sliders = this.props.channelSearch.map((channel, index) => {
       const thumbUrl = getThumbUrl(channel);
         return (
-          <Link to={`${getChannelUrl(channel)}`} key={index}>
+          <Link to={getChannelUrl(channel)} key={index}>
             <div className="search-item">
               <div className="search-background" style={{backgroundImage: `url(${thumbUrl})`}}>
               </div>

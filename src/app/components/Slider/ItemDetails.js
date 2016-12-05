@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router'
 import { presenter } from '../../../Adrenaline';
 import getThumbUrl from '../../helpers/getThumbUrl'
+import getChannelUrl from '../../helpers/getChannelUrl'
 
 var ItemDetails = React.createClass({
 
@@ -37,6 +38,7 @@ var ItemDetails = React.createClass({
       'transform': 'translateY(-' + test + 'px)'
     };
     const thumbUrl = getThumbUrl(this.props.activeSlide);
+    const channelUrl = getChannelUrl(this.props.activeSlide);
     return (
       <div className='slider-item-details-container' ref="details" style={detailsStyle}>
         <div className={className} ref="detailsContent">
@@ -59,16 +61,9 @@ var ItemDetails = React.createClass({
             {this.props.activeSlide ?  <img src={thumbUrl} className='slider-details-image' role='presentation' /> : ''}
             <div className="slider-item-details-close" onClick={this.props.closeDetails}>X</div>
             <div className="gradient"></div>
-
-            {
-              this.props.activeSlide && this.props.activeSlide.uniqueId ?
-                <Link to={`/watch/${this.props.activeSlide.uniqueId}`}>
-                  <div className="play"></div>
-                </Link> :
-                <a href={this.props.activeSlide.href}>
-                  <div className="play"></div>
-                </a>
-            }
+            <Link to={channelUrl}>
+              <div className="play"></div>
+            </Link>
           </div>
         </div>
       </div>

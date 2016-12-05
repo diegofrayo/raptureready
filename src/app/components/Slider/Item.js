@@ -2,6 +2,7 @@ import React from 'react'
 import Card from './Card'
 import { browserHistory, Link } from 'react-router'
 import getThumbUrl from '../../helpers/getThumbUrl'
+import getChannelUrl from '../../helpers/getChannelUrl'
 const slideHoverScale = 190
 const delayItemHover = 0
 
@@ -54,12 +55,12 @@ const Item = React.createClass({
   },
 
 
-  openUrl(id, event) {
+  openUrl(url, event) {
     event.preventDefault()
     if(!this.props.isTouch) {
       return;
     };
-    browserHistory.push(`/watch/${id}`)
+    browserHistory.push(url)
   },
 
   componentWillReceiveProps(nextProps) {
@@ -127,6 +128,7 @@ const Item = React.createClass({
     }
 
     const thumbUrl = getThumbUrl(this.props.item);
+    const channelUrl = getChannelUrl(this.props.item);
     var itemWrapperStyle = {
       'backgroundImage': `url(${thumbUrl})`,
     };
@@ -136,10 +138,10 @@ const Item = React.createClass({
            style={itemStyle}
            onMouseEnter={self.itemHovered}
            onMouseLeave={self.itemMouseOut}
-           onClick={this.openUrl.bind(self, this.props.item.uniqueId)}
+           onClick={this.openUrl.bind(self, channelUrl)}
       >
         <div className='item-wrapper' style={itemWrapperStyle}>
-          <Link to={`/watch/${this.props.item.uniqueId}`}>
+          <Link to={channelUrl}>
             <img src={thumbUrl} />
           </Link>
           {this.isActiveItem() &&
