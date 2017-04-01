@@ -12,10 +12,16 @@ class Header extends Component {
   static contextTypes = {
     router: PropTypes.object
   }
-  componentDidMount(){
-    window.addEventListener('resize', this.handleResize.bind(this))
+
+  componentDidMount = () => {
+    window.addEventListener('resize', this.handleResize)
   }
-  handleResize() {
+
+  componentWillUnmount = () => {
+    window.removeEventListener('resize', this.handleResize)
+  };
+
+  handleResize = () => {
     this.setState({
       mobileMenuVisible: isUserAgentMobile()
     })

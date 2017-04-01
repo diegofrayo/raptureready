@@ -2,61 +2,128 @@
 global.__SERVER__ = true;
 require('es6-promise').polyfill();
 require('fetch-everywhere');
+
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import { match, RouterContext } from 'react-router'
 import express from 'express';
 import useragent from 'express-useragent';
-import graphqlHTTP from 'express-graphql';
-import AppContainer from '../app/AppContainer';
-import schema from './schema';
-import connection from './dbConnection';
+import serialize from 'serialize-javascript';
+import expressValidator from 'express-validator';
+import bodyParser from 'body-parser';
+import passport from 'passport';
+import mongoose from 'mongoose';
+import cookieParser from 'cookie-parser';
+import _ from 'lodash';
+
+import config from './config';
+
+import { loadOnServer } from 'redux-connect'
+import { Provider } from 'react-redux';
+
+import ApiClient from '../app/helpers/ApiClient';
+import createStore from  '../app/redux/create';
 import routes from '../app/routes.jsx';
+
+import { passportInit } from './passport/passport';
+
+import categoryController from './category/category.controller';
+import userController from './user/user.controller';
+import channelController from './channel/channel.controller';
 
 var STATIC_ASSETS_CDN = process.env.STATIC_ASSETS_CDN || '';
 var WEBPACK_ASSETS = process.env.WEBPACK_ASSETS || '';
+
 global.__currentRequestUserAgent__ = '';
+
+// TODO: handle mongoose error
+mongoose.connect(config.MONGO_URL);
 const app = express();
+
 app.use(express.static('www'));
 app.use(useragent.express());
-app.use('/graphql', graphqlHTTP({
-  schema,
-  context: { connection },
-  graphiql: true
+
+app.set('view engine', 'pug');
+app.set('views',  $dirname + '/views/');
+
+app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(expressValidator([{}]));
+
+passportInit(app);
+
+app.use(function (req, res, next) {
+
+  req.WEPAPP_URI = config.WEPAPP_URI;
+
+  var jwtToken = req.cookies['auth/token'];
+  if (jwtToken) {
+    req.headers['authorization'] = jwtToken;
+  }
+
+  next();
+});
+
+
+app.use('/api/user', userController);
+app.use('/api/category', passport.authenticate("jwt", { session: false }), categoryController);
+app.use('/api/channel', passport.authenticate("jwt", { session: false }), channelController);
+
+app.use('/browse|/search*|/watch*|/change-password', passport.authenticate("jwt", {
+  session: false,
+  failureRedirect: '/login'
 }));
+
+
 app.get('*', (req, res) => {
+
   global.__currentRequestUserAgent__ = req.useragent;
+
   match({ routes: routes({}), location: req.url }, (error, redirectLocation, renderProps) => {
+
     if (error) {
       res.status(500).send(error.message)
     } else if (redirectLocation) {
       res.redirect(302, redirectLocation.pathname + redirectLocation.search)
     } else if (renderProps) {
 
-      var showToServer = (data) => {
-        const markup = ReactDOM.renderToString(<AppContainer initialData={data.data} initialDataRoute={renderProps.location.pathname} renderProps={renderProps} />);
-        const __initial_DATA__ = JSON.stringify({route: renderProps.location.pathname, data: data.data});
-        res.send(`
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Eternity Ready</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="${STATIC_ASSETS_CDN}/styles.css">
-    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-  </head>
-  <body>
-    <div id="root">${markup}</div>
-    <script id='app-props' type='application/json'><![CDATA[${__initial_DATA__}]]></script>
-    <script type="text/javascript" src="${WEBPACK_ASSETS}/app.js"></script>
-  </body>
-</html>
-    `);
-      };
-      // TODO: remove the double render (somehow traverse react components without render or cache route queries on build?)
-      // renderToString seems faster than renderToStaticMarkup
-      ReactDOM.renderToString(<AppContainer dataCallBack={showToServer} renderProps={renderProps} />);
+      // some logic for show dialog
+
+      const client = new ApiClient(req);
+      const store = createStore(client);
+
+      loadOnServer({ ...renderProps, store }).then(() => {
+
+        const createPage = (html, store) => {
+          res.send(`
+            <!DOCTYPE html>
+            <html>
+              <head>
+                <meta charset="utf-8">
+                <title>Eternity Ready</title>
+                <meta name="viewport" content="width=device-width,initial-scale=1">
+                <link rel="stylesheet" type="text/css" href="${STATIC_ASSETS_CDN}/styles.css">
+                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+              </head>
+              <body>
+                <div id="root">${html}</div>
+                <script dangerouslySetInnerHTML={{__html: window.__data=${serialize(store.getState())};}} charSet="UTF-8"> </script>
+                <script type="text/javascript" src="${WEBPACK_ASSETS}/app.js"></script>
+              </body>
+            </html>
+          `);
+        };
+
+        var appHTML = ReactDOM.renderToString(
+          <Provider store={store} key="provider">
+            <RouterContext {...renderProps} />
+          </Provider>
+        );
+
+        const html = createPage(appHTML, store);
+        res.send(html)
+      });
 
     } else {
       res.status(404).send('Not found')

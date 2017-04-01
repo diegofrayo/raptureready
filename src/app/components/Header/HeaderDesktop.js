@@ -1,5 +1,12 @@
 import React, { Component } from 'react'
 import Search from '../Search'
+
+import { browserHistory, Link } from 'react-router'
+
+import { connect } from 'react-redux'
+import { logout } from '../../redux/modules/auth';
+import UserDropDown from './UserDropDown';
+
 // import logo from '../../commonResources/logo.png'
 
 class HeaderDesktop extends Component {
@@ -16,6 +23,20 @@ class HeaderDesktop extends Component {
   componentWillUnmount() {
    window.removeEventListener('scroll', this.handleScroll);
   }
+
+  handleLogout = () => {
+    this.props.requestLogout();
+
+    browserHistory.push('/login');
+  };
+
+  handleLogin = () => {
+    browserHistory.push('/login');
+  };
+
+  handleSignup = () => {
+    browserHistory.push('/signup');
+  };
 
   handleScroll = (event) => {
     if (window.scrollY > 50) {
@@ -83,38 +104,85 @@ class HeaderDesktop extends Component {
     const headerStyle = this.state.isDark ? 'headerDesktop headerDesktopOpaque' : 'headerDesktop'
     return (
         <div className={headerStyle} ref={(c) => this._header = c} >
-          <img src={require("../../commonResources/logo.png")} style={{width: 105}} alt="Enternity Ready Logo" />
-          <span>
-            <span className="dropdown mainMenuLink" onTouchStart={this.dropDownTouch} onMouseEnter={this.showDropDown} onMouseLeave={this.timerHide}></span>
-            <div className="dropdiv" style={dropDownStyle} onMouseEnter={this.cancelHideTimer} onMouseLeave={this.timerHide}>
-              <ul className="sectiondrop">
-                <li><a href=""></a></li>
-                <li><a href="#">All Channels</a></li>
-                <li><a href=""></a></li>
-                <li><a href="#">TV Line Up</a></li>
-              </ul>
-              <ul className="sectiondrop">
-                <li><a href="#">Faith &amp; Ministry</a></li>
-                <li><a href="#">Kids &amp; Family</a></li>
-                <li><a href="#">Bible Prophecy</a></li>
-                <li><a href="#">News &amp; Politics</a></li>
-                <li><a href="#">Movies &amp; Music</a></li>
-              </ul>
-              <ul className="sectiondrop">
-                <li><a href="#">Gaming &amp; Technology</a></li>
-                <li><a href="#">Health &amp; Sports</a></li>
-                <li><a href="#">International Networks</a></li>
-                <li><a href="#">Premium Channels</a></li>
-                <li><a href="#">All Channnels</a></li>
-              </ul>
-            </div>
-            <Search device="desktop"/>
-            <span className="mainMenuLink" onClick={this.openRadio}>Radio</span>
-            <span className="mainMenuLink" onClick={this.openTv}>Music Videos</span>
-          </span>
+
+          <img src={require("../../commonResources/logo.png")}
+               style={{width: 105, cursor: 'pointer'}}
+               alt="Enternity Ready Logo"
+               onClick={() => {browserHistory.push('/browse')}}/>
+
+          {
+            this.props.isAuthenticated &&
+
+            <span>
+
+              <span className="dropdown mainMenuLink" onTouchStart={this.dropDownTouch}
+                    onMouseEnter={this.showDropDown} onMouseLeave={this.timerHide}></span>
+
+              <div className="dropdiv" style={dropDownStyle}
+                   onMouseEnter={this.cancelHideTimer} onMouseLeave={this.timerHide}>
+                <ul className="sectiondrop">
+                  <li><a href=""></a></li>
+                  <li><a href="#">All Channels</a></li>
+                  <li><a href=""></a></li>
+                  <li><a href="#">TV Line Up</a></li>
+                </ul>
+                <ul className="sectiondrop">
+                  <li><a href="#">Faith &amp; Ministry</a></li>
+                  <li><a href="#">Kids &amp; Family</a></li>
+                  <li><a href="#">Bible Prophecy</a></li>
+                  <li><a href="#">News &amp; Politics</a></li>
+                  <li><a href="#">Movies &amp; Music</a></li>
+                </ul>
+                <ul className="sectiondrop">
+                  <li><a href="#">Gaming &amp; Technology</a></li>
+                  <li><a href="#">Health &amp; Sports</a></li>
+                  <li><a href="#">International Networks</a></li>
+                  <li><a href="#">Premium Channels</a></li>
+                  <li><a href="#">All Channnels</a></li>
+                </ul>
+              </div>
+              <Search device="desktop"/>
+              <span className="mainMenuLink" onClick={this.openRadio}>Radio</span>
+              <span className="mainMenuLink" onClick={this.openTv}>Music Videos</span>
+
+              {
+                //this.props.isAuthenticated &&
+                //<span
+                //  className="mainMenuLink">Hi, {this.props.user.name || this.props.user.email}!</span>
+              }
+
+              {
+                this.props.isAuthenticated &&
+                <UserDropDown user={this.props.user}
+                  handleLogout={this.handleLogout} />
+              }
+
+            </span>
+          }
+
+          {
+            !this.props.isAuthenticated &&
+            <span style={{float: 'right'}}>
+              <span
+                className="mainMenuLink" onClick={this.handleLogin}>Login</span>
+
+              <span
+                className="mainMenuLink" onClick={this.handleSignup}>Signup</span>
+            </span>
+          }
+
         </div>
     );
   }
 }
 
-export default HeaderDesktop
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated || false,
+  user: state.auth.user
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  requestLogout: () => {return dispatch(logout())}
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderDesktop)

@@ -1,35 +1,31 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-// import { getVisibleChannels } from '../reducers/channels'
-import { container } from '../../../Adrenaline';
+
 import { browserHistory, Link } from 'react-router'
 import Loader from '../../components/Loader';
+
+import { search } from '../../redux/modules/channels';
+
 import getChannelUrl from '../../helpers/getChannelUrl';
 import getThumbUrl from '../../helpers/getThumbUrl';
-// import './style.css'
+
 
 class SearchResults extends Component {
 
-  static propTypes = {
-    channelSearch: PropTypes.array.isRequired,
-    isFetching: PropTypes.bool.isRequired
-  }
-  static defaultProps = {
-    channels: [],
-  }
-  constructor(props) {
-    super(props);
-    const { search, query, setQuery } = this.props
-    if(search !== query){
-      setQuery(query)
-    }
+  componentWillMount() {
+    this.props.search(this.props.params.query);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.params.query != nextProps.params.query) {
+      this.props.search(nextProps.params.query);
+    }
+  }
   setVisibleItems = (visibleItems)=> {
     this.setState({
       visibleItems: visibleItems
     })
-  }
+  };
 
   render() {
     const { isFetching } = this.props;
@@ -37,7 +33,7 @@ class SearchResults extends Component {
       return <Loader />;
     }
 
-    const sliders = this.props.channelSearch.map((channel, index) => {
+    const sliders = this.props.searchResults.map((channel, index) => {
       const thumbUrl = getThumbUrl(channel);
         return (
           <Link to={getChannelUrl(channel)} key={index}>
@@ -60,15 +56,15 @@ class SearchResults extends Component {
   }
 }
 
-export default container({
-  query: `
-    query getChannels($query: String){
-      channelSearch(query: $query) {
-        title
-        thumb
-        picture
-        _id
-      }
-    }
-  `, variables: (props) => ({'query': props.params.query})
-})(SearchResults);
+
+
+const mapDispatchToProps = (dispatch) => ({
+  search: (query) => {dispatch(search(query))}
+});
+
+const mapStateToProps = (state) => ({
+  isFetching: state.channels.isFetchingSearchResults,
+  searchResults: state.channels.searchResults
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchResults)

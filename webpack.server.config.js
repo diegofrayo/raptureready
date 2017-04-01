@@ -27,19 +27,22 @@ module.exports = {
   node: {
     fs: 'empty',
     net: 'empty',
-    tls: 'empty'
+    tls: 'empty',
+    __dirname: true
   },
   plugins: [
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       // __STATIC_ASSETS_CDN__: JSON.stringify(__STATIC_ASSETS_CDN__),
       __SERVER__: true,
-      "process.browser": JSON.stringify(true)
+      "process.browser": JSON.stringify(true),
+      $dirname: '__dirname'
     }),
     new webpack.IgnorePlugin(/vertx/),
     new CopyWebpackPlugin(
       [
         { from: 'src/server/www', to: 'www' },
+        { from: 'src/server/views', to: 'views' },
         { from: 'Procfile'},
         { from: 'package.json'}
       ], 

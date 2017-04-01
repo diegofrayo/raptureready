@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router'
-import { presenter } from '../../../Adrenaline';
+
 import getThumbUrl from '../../helpers/getThumbUrl'
 import getChannelUrl from '../../helpers/getChannelUrl'
 
@@ -71,18 +71,4 @@ var ItemDetails = React.createClass({
   }
 });
 
-export default presenter({
-  fragments: {
-    channel: `
-      fragment on Channel {
-        _id
-        thumb
-        age
-        rating
-        picture
-        title
-        description
-      }
-    `,
-  },
-})(ItemDetails);
+export default ItemDetails;
