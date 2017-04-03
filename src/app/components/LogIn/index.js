@@ -144,7 +144,7 @@ class Login extends Component {
         </form>
 
 
-        <p className="signup-link">New to Rapture ReadyTV?&nbsp;<Link to={`/signup`} style={{color: '#daedf9'}}>Sign up now.</Link></p>
+        <p className="signup-link">New to Rapture Ready TV?&nbsp;<Link to={`/signup`} style={{color: '#daedf9'}}>Sign up now.</Link></p>
         <p className="forget-link"><Link style={{color: '#daedf9'}} to={`/forgot-password`}>Forgot your password?</Link></p>
 
 
