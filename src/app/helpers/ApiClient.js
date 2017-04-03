@@ -28,12 +28,12 @@ export default class ApiClient {
           request.set('cookie', req.get('cookie'));
         }
 
-        if (!__SERVER__) {
-          let token = cookie.load('auth/token') || null;
-          if (token) {
-            request.set('Authorization', `${token}`);
-          }
-        }
+        //if (!__SERVER__) {
+        //  let token = cookie.load('auth/token') || null;
+        //  if (token) {
+        //    request.set('Authorization', `${token}`);
+        //  }
+        //}
 
         if (data) {
           request.send(data);

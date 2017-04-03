@@ -7,7 +7,7 @@ if (process.env.NODE_ENV == 'development') {
 module.exports = {
   devtool: 'source-map',
   entry: {
-    bundle: './src/client'
+    bundle: './src/client/index'
   },
   output: {
     path: __dirname + '/build/www',
@@ -48,7 +48,7 @@ module.exports = {
         query: {
           babelrc: false,
           presets: ['es2015', 'react', 'stage-0'],
-          plugins: ["transform-async-to-generator"]
+          plugins: ["transform-async-to-generator", "transform-decorators-legacy"]
         }
       }
     ]

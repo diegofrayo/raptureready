@@ -10,6 +10,8 @@ const SEARCH_REQUEST = 'channels/SEARCH_REQUESTS';
 const SEARCH_SUCCESS = 'channels/SEARCH_SUCCESS';
 const SEARCH_FAIL = 'channels/SEARCH_FAIL';
 
+const IGNORE_ACTION = 'channels/IGNORE_ACTION';
+
 const initialState = {
   isFetching: false,
   channels: [],
@@ -48,7 +50,7 @@ export default function channels(state = initialState, action) {
       return {
         ...state,
         isFetching: false,
-        errorMessage: action.result.message
+        errorMessage: (action.result || {}).message
       };
 
     // FETCH CHANNEL
@@ -71,7 +73,7 @@ export default function channels(state = initialState, action) {
       return {
         ...state,
         isFetchingChannel: false,
-        errorMessage: action.result.message
+        errorMessage: (action.result || {}).message
       };
 
     // SEARCH
@@ -94,7 +96,7 @@ export default function channels(state = initialState, action) {
       return {
         ...state,
         isFetchingSearchResults: false,
-        errorMessage: action.result.message
+        errorMessage: (action.result || {}).message
       };
 
     default:
@@ -115,6 +117,17 @@ export function fetchChannel(id) {
   return {
     types: [FETCH_CHANNEL_REQUEST, FETCH_CHANNEL_SUCCESS, FETCH_CHANNEL_FAIL],
     promise: (client) => client.get('/api/channel/get', {
+      params: {
+        id
+      }
+    })
+  };
+}
+
+export function addView(id) {
+  return {
+    types: [IGNORE_ACTION, IGNORE_ACTION, IGNORE_ACTION],
+    promise: (client) => client.get('/api/channel/add-view', {
       params: {
         id
       }

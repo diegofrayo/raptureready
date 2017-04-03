@@ -67,7 +67,7 @@ export function passportInit (app) {
         return done(err, false);
       }
 
-      if (user) {
+      if (user && user.validated && !user.suspended) {
         done(null, JSON.parse(JSON.stringify(user)));
       } else {
         done(null, false);

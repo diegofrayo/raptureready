@@ -13,12 +13,13 @@ if (typeof window === "undefined" || window === null) {
 const AUTHENTICATE_REQUEST = 'auth/AUTHENTICATE_REQUEST';
 const AUTHENTICATE_SUCCESS = 'auth/AUTHENTICATE_SUCCESS';
 
-const LOGOUT = 'auth/LOGOUT';
+const LOGOUT = 'LOGOUT';
 
 const SIGNUP_REQUEST = 'auth/SIGNUP_REQUEST';
 
 const SHOW_SUCCESS = 'auth/SHOW_SUCCESS';
 const SHOW_ERROR = 'auth/SHOW_ERROR';
+const IGNORE_ACTION = 'auth/IGNORE_ACTION';
 
 const CLEAR_MESSAGES = 'auth/CLEAR_MESSAGES';
 
@@ -49,8 +50,8 @@ export default function auth(state = initialState, action) {
       //localStorage.removeItem('auth/token');
       //localStorage.removeItem('auth/user');
 
-      cookie.remove('auth/token');
-      cookie.remove('auth/user');
+      cookie.remove('auth/token', {path: '/'});
+      cookie.remove('auth/user', {path: '/'});
 
       return {
         ...state,
@@ -82,8 +83,8 @@ export default function auth(state = initialState, action) {
       //localStorage.removeItem('auth/token');
       //localStorage.removeItem('auth/user');
 
-      cookie.remove('auth/token');
-      cookie.remove('auth/user');
+      cookie.remove('auth/token', {path: '/'});
+      cookie.remove('auth/user', {path: '/'});
 
       return {
         ...state,
@@ -102,13 +103,13 @@ export default function auth(state = initialState, action) {
     case SHOW_ERROR:
       return {
         ...state,
-        errorMessage: action.result.message || 'Ups!'
+        errorMessage: action.message || (action.result || {}).message || 'Ups!'
       };
 
     case SHOW_SUCCESS:
       return {
         ...state,
-        successMessage: action.result.message
+        successMessage: action.message || (action.result || {}).message
       };
 
     case RESET_DONATE_MODAL_COUNTER:
@@ -120,11 +121,7 @@ export default function auth(state = initialState, action) {
       };
 
     case DECREMENT_DONATE_MODAL_COUNTER:
-      console.log('in crement!!');
       localStorage.setItem('auth/donateCounter', state.donateModalCounter - 1);
-
-      console.log('new val');
-      console.log(state.donateModalCounter - 1);
 
       return {
         ...state,
@@ -223,8 +220,45 @@ export  function resetDonateCounter() {
 }
 
 export  function decrementDonateCounter() {
-  console.log('decerment!!!!!!');
   return {
     type: DECREMENT_DONATE_MODAL_COUNTER
   }
+}
+
+
+export function createUser(data) {
+  return {
+    types: [IGNORE_ACTION, IGNORE_ACTION, SHOW_ERROR],
+    promise: (client) => client.post('/api/user/create-user', {
+      data
+    })
+  };
+}
+
+export function updateUser(data) {
+  return {
+    types: [IGNORE_ACTION, IGNORE_ACTION, SHOW_ERROR],
+    promise: (client) => client.post('/api/user/update-user', {
+      data
+    })
+  };
+}
+
+export function getUsers(params) {
+  return {
+    types: [IGNORE_ACTION, IGNORE_ACTION, SHOW_ERROR],
+    promise: (client) => client.get('/api/user/list', {
+      params: params
+    })
+  };
+}
+
+export function deleteUser(params) {
+  return {
+    types: [IGNORE_ACTION, IGNORE_ACTION, SHOW_ERROR],
+    restaurantId: params.id,
+    promise: (client) => client.get('/api/user/delete', {
+      params: params
+    })
+  };
 }

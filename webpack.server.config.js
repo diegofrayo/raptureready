@@ -4,6 +4,7 @@ var webpack = require('webpack');
 var path = require('path');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
+let extractCSSAdmin = new ExtractTextPlugin('www/admin-styles.css');
 let extractCSS = new ExtractTextPlugin('www/styles.css');
 var __STATIC_ASSETS_CDN__ = process.env.STATIC_ASSETS_CDN || ''; //
 
@@ -48,7 +49,8 @@ module.exports = {
       ], 
       {ignore: ['.gitkeep'], copyUnmodified: true}
     ),
-    extractCSS
+    extractCSS,
+    extractCSSAdmin
   ],
   externals: [nodeExternals({whitelist: [/\.s?css$/]})], // in order to ignore all modules in node_modules folder
   module: {
@@ -57,11 +59,23 @@ module.exports = {
       { test: /\.json$/, loader: 'json' },
       {
         test: /\.s?css$/,
-        loader:extractCSS.extract(['css', 'sass?sourceMap'])
+        loader:extractCSS.extract(['css', 'sass?sourceMap']),
+        exclude: __dirname + '/src/admin'
       },
       {
         test: /\.styl$/,
-        loader: extractCSS.extract(['css', 'stylus'])
+        loader: extractCSS.extract(['css', 'stylus']),
+        exclude: __dirname + '/src/admin'
+      },
+      {
+        test: /\.s?css$/,
+        loader:extractCSSAdmin.extract(['css', 'sass?sourceMap']),
+        include: __dirname + '/src/admin'
+      },
+      {
+        test: /\.styl$/,
+        loader: extractCSSAdmin.extract(['css', 'stylus']),
+        include: __dirname + '/src/admin'
       },
       {
         test: /\.(gif|png|jpe?g|svg)$/,

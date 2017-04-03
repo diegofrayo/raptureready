@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import { connect } from 'react-redux'
-import { browserHistory } from 'react-router'
+import { browserHistory, Link } from 'react-router'
 import validator from 'validator'
 
 import { signup, clearMessages } from '../../redux/modules/auth';
@@ -127,7 +127,7 @@ class Signup extends Component {
         <form onSubmit={this.handleClick}>
           <h1 className="login-heading">Sign Up</h1>
 
-          <SocialAuth />
+          <SocialAuth signup={true}/>
 
           <label className="login-inputgroup">
             <span>Email</span>
@@ -162,6 +162,9 @@ class Signup extends Component {
             <p className="signup-info">{successMessage}</p>
           }
         </form>
+
+        <p className="signup-link">Do you already have an account? <Link to={`/login`}>Log in now.</Link></p>
+
       </div>
     )
   }

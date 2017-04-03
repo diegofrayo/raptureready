@@ -27,6 +27,11 @@ class SocialAuth extends Component {
 
   render () {
 
+    let text = 'Sign in';
+    if (this.props.signup === true) {
+      text = 'Sign up';
+    }
+
     return (
       <div>
         <div className="socia-signups">
@@ -34,14 +39,14 @@ class SocialAuth extends Component {
              onClick={() => {
                       window.open('/auth/facebook')
                      }}>
-            <FontAwesome name="facebook" /> Sign in with Facebook
+            <FontAwesome name="facebook" /> {text} with Facebook
           </a>
 
           <a className={`btn btn-default btn-twitter btn-social btn-block`}
              onClick={() => {
                       window.open('/auth/twitter')
                      }}>
-            <FontAwesome name="twitter" /> Sign in with Twitter
+            <FontAwesome name="twitter" /> {text} with Twitter
           </a>
         </div>
 

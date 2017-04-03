@@ -30,8 +30,9 @@ export default function clientMiddleware(client) {
           if (error.status === 401) {
             // TODO: move this to a better place
             // Unauthorized
-            next({...rest, error, type: LOGOUT});
-            return browserHistory.push('/login');
+
+            return next({...rest, error, type: 'LOGOUT'});
+            //return browserHistory.push('/admin/login');
           }
 
           next({...rest, error, type: FAILURE})

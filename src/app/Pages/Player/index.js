@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux';
 import { browserHistory, Link } from 'react-router'
 
-import { fetchChannel } from '../../redux/modules/channels';
+import { fetchChannel, addView } from '../../redux/modules/channels';
 import Loader from '../../components/Loader';
 
 class Player extends Component {
@@ -19,6 +19,16 @@ class Player extends Component {
 
   componentWillMount() {
     this.props.fetchChannel((this.props.params || {}).channelId);
+  }
+
+  componentDidMount() {
+    this.timeout = setTimeout(() => {
+      this.props.addView((this.props.params || {}).channelId);
+    }, 2000);
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timeout);
   }
 
   render() {
@@ -43,7 +53,8 @@ class Player extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchChannel: (id) => {dispatch(fetchChannel(id))}
+  fetchChannel: (id) => {dispatch(fetchChannel(id))},
+  addView: (id) => {dispatch(addView(id))}
 });
 
 const mapStateToProps = (state) => ({

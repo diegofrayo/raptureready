@@ -20,6 +20,8 @@ function createUser(user) {
   user.validated = false;
   user.validationToken = uuidV4();
 
+  user.suspended = false;
+
   user.auth = {
     provider: 'email'
   };
@@ -29,12 +31,8 @@ function createUser(user) {
   return newUser.save();
 }
 
-function listUsers(query) {
-  var promises = [User.find(query).populate('restaurant')];
-
-  return Promise.all(promises).then(([users, restaurant]) => {
-    return {users, restaurant}
-  });
+function listUsers() {
+  return User.find({})
 }
 
 function authenticate (data) {
@@ -48,6 +46,10 @@ function authenticate (data) {
 
       if (!response.validated) {
         throw new Error('This email address is not validated. Please check your inbox.')
+      }
+
+      if (response.suspended) {
+        throw new Error('This email address is suspended')
       }
 
       user = response;
@@ -160,10 +162,9 @@ router.post('/update-user', function (req, res) {
 
 
 router.get('/list', function (req, res) {
-  var query = _.pick(req.query, 'restaurant');
 
-  listUsers(query)
-    .then(response => res.json(Object.assign({success: true}, response)))
+  listUsers()
+    .then(response => res.json({success: true, users: response}))
     .catch((error) => {
       res.json({success: false, error: {message: error.message}})
     });
@@ -209,7 +210,7 @@ router.post('/send-forgot-password-email', (req, res) => {
   User.findOneAndUpdate(
     {username: req.body.email},
     {$set: {forgotPasswordToken}}
-  )
+    )
     .then((user) => {
       if (!user) {
         throw new Error('The email address was not found in our database.')
@@ -225,31 +226,31 @@ router.post('/change-password', passport.authenticate("jwt", { session: false })
   req.checkBody('password',  'Please provide a valid `password.`').notEmpty();
 
   req.getValidationResult().then(function(result) {
-    if (!result.isEmpty()) {
-      throw new Error(result.array()[0].msg);
-    }
+      if (!result.isEmpty()) {
+        throw new Error(result.array()[0].msg);
+      }
 
-    return getHashPassword(req.body.password)
-      .then((hashedPassword) => {
-        return User.findOneAndUpdate(
-          { _id: req.user._id },
-          { $set: { password: hashedPassword } }
-        );
-      })
-      .then((user) => {
-        if (!user) {
-          throw new Error('The email address was not found in our database.')
-        }
+      return getHashPassword(req.body.password)
+        .then((hashedPassword) => {
+          return User.findOneAndUpdate(
+            { _id: req.user._id },
+            { $set: { password: hashedPassword } }
+          );
+        })
+        .then((user) => {
+          if (!user) {
+            throw new Error('The email address was not found in our database.')
+          }
 
-        return user;
-      })
-  })
-  .then(() => {
-    res.json({success: true, message: 'The password was successfully updated.'});
-  })
-  .catch((error) => {
-    res.json({success: false, message: error.message});
-  });
+          return user;
+        })
+    })
+    .then(() => {
+      res.json({success: true, message: 'The password was successfully updated.'});
+    })
+    .catch((error) => {
+      res.json({success: false, message: error.message});
+    });
 
 });
 
@@ -259,24 +260,24 @@ router.post('/reset-password', (req, res) => {
   req.checkBody('token',  'Please provide a valid `token`').notEmpty();
 
   req.getValidationResult().then(function(result) {
-    if (!result.isEmpty()) {
-      throw new Error(result.array()[0].msg);
-    }
+      if (!result.isEmpty()) {
+        throw new Error(result.array()[0].msg);
+      }
 
-    return getHashPassword(req.body.password)
-      .then((hashedPassword) => {
-        return User.findOneAndUpdate(
-          { forgotPasswordToken: req.body.token },
-          { $set: { password: hashedPassword } }
-        );
-      })
-      .then((user) => {
-        if (!user) {
-          throw new Error('The email address was not found in our database.')
-        }
+      return getHashPassword(req.body.password)
+        .then((hashedPassword) => {
+          return User.findOneAndUpdate(
+            { forgotPasswordToken: req.body.token },
+            { $set: { password: hashedPassword } }
+          );
+        })
+        .then((user) => {
+          if (!user) {
+            throw new Error('The email address was not found in our database.')
+          }
 
-        return user;
-      })
+          return user;
+        })
     })
     .then(() => {
       res.json({success: true, message: 'The password was successfully updated.'});

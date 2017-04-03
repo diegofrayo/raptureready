@@ -16,7 +16,7 @@ var ChannelSchema = new Schema({
   }],
   rating: { type: Number },
   age: { type: String },
-  picture: { type: String },
+  picture: {},
   type: { type: String },
   embedCode: { type: String },
 
@@ -24,8 +24,9 @@ var ChannelSchema = new Schema({
   thumbnail: {},
   comment: { type: String },
   media: {},
-  disabled: { type: Boolean }
+  disabled: { type: Boolean },
 
+  views: { type: Number }
 });
 
 

@@ -88,11 +88,11 @@ class HeaderDesktop extends Component {
 
 
   openRadio() {
-    window.open("http://www.eternityready.com/player");
+    window.open("http://eternityreadyradio.com/player/");
   }
 
   openTv() {
-    window.open("http://www.vertizontalmedia.com/topvideos.php");
+    window.open("http://www.eternityready.com/beta/");
   }
 
   render() {
@@ -122,9 +122,8 @@ class HeaderDesktop extends Component {
                    onMouseEnter={this.cancelHideTimer} onMouseLeave={this.timerHide}>
                 <ul className="sectiondrop">
                   <li><a href=""></a></li>
-                  <li><a href="#">All Channels</a></li>
-                  <li><a href=""></a></li>
-                  <li><a href="#">TV Line Up</a></li>
+                  <li><a href="http://www.eternityready.org/production" target="_blank">Originals</a></li>                  <li><a href=""></a></li>
+                  <li><a href="http://www.eternityready.org/lineup.pdf" target="_blank">TV Line Up</a></li>
                 </ul>
                 <ul className="sectiondrop">
                   <li><a href="#">Faith &amp; Ministry</a></li>
@@ -143,7 +142,6 @@ class HeaderDesktop extends Component {
               </div>
               <Search device="desktop"/>
               <span className="mainMenuLink" onClick={this.openRadio}>Radio</span>
-              <span className="mainMenuLink" onClick={this.openTv}>Music Videos</span>
 
               {
                 //this.props.isAuthenticated &&
@@ -161,14 +159,14 @@ class HeaderDesktop extends Component {
           }
 
           {
-            !this.props.isAuthenticated &&
-            <span style={{float: 'right'}}>
-              <span
-                className="mainMenuLink" onClick={this.handleLogin}>Login</span>
-
-              <span
-                className="mainMenuLink" onClick={this.handleSignup}>Signup</span>
-            </span>
+            //!this.props.isAuthenticated &&
+            //<span style={{float: 'right'}}>
+            //  <span
+            //    className="mainMenuLink" onClick={this.handleLogin}>Login</span>
+            //
+            //  <span
+            //    className="mainMenuLink" onClick={this.handleSignup}>Signup</span>
+            //</span>
           }
 
         </div>

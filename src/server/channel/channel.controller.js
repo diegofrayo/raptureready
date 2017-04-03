@@ -12,13 +12,15 @@ function listChannels() {
 }
 
 function searchChannels(query) {
+  var orQuery = [];
   if (query) {
-    var orQuery = [];
     query.split(' ').map((el) => {
       orQuery.push({"title": new RegExp(el, 'i') });
       orQuery.push({"description": new RegExp(el, 'i') });
       orQuery.push({"slug": new RegExp(el, 'i') });
     })
+  } else {
+    return Channel.find({}).sort({_id: -1}).populate('categories');
   }
 
   return Channel.find({$query: {$or: orQuery}});
@@ -27,6 +29,7 @@ function searchChannels(query) {
 function byCategories(channels) {
   var categories = {};
 
+
   channels.forEach(function(channel) {
     var channelCopy = JSON.parse(JSON.stringify(channel));
     if (channelCopy.categories) {
@@ -34,6 +37,7 @@ function byCategories(channels) {
     }
 
     channel.categories.forEach(function (category) {
+
       if (!categories[category._id]) {
         categories[category._id] = {
           _id: category._id,
@@ -96,5 +100,23 @@ router.get('/search', function (req, res) {
       res.json({success: false, message: error.message})
     });
 });
+
+router.get('/add-view', function (req, res) {
+
+  Channel.findOneAndUpdate({
+    _id: req.query.id,
+  }, {
+    $inc: {
+      views: 1
+    }
+  })
+    .then(response => res.json({
+      success: true
+    }))
+    .catch((error) => {
+      res.json({success: false, message: error.message})
+    });
+});
+
 
 export default router;
