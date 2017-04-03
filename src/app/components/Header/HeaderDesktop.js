@@ -91,8 +91,8 @@ class HeaderDesktop extends Component {
     window.open("http://eternityreadyradio.com/player/");
   }
 
-  openTv() {
-    window.open("http://www.eternityready.com/beta/");
+  openDonate() {
+    window.open("https://www.paypal.me/eternityready");
   }
 
   render() {
@@ -142,6 +142,7 @@ class HeaderDesktop extends Component {
               </div>
               <Search device="desktop"/>
               <span className="mainMenuLink" onClick={this.openRadio}>Radio</span>
+              <span className="mainMenuLink" onClick={this.openDonate}>Donate</span>
 
               {
                 //this.props.isAuthenticated &&

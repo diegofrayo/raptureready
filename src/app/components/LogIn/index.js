@@ -31,9 +31,7 @@ class Login extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('next props!!!!');
     if (!this.props.isAuthenticated && nextProps.isAuthenticated) {
-      console.log('browse!!!');
       browserHistory.push('/browse');
     }
   }

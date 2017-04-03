@@ -12,7 +12,7 @@ const customStyles = {
     zIndex: 500
   },
   content : {
-    top: '30%',
+    top: '50%',
     left: '50%',
     right: 'auto',
     bottom: 'auto',
@@ -20,7 +20,8 @@ const customStyles = {
     transform: 'translate(-50%, -50%)',
     background: 'rgba(17, 17, 17, 0.99)',
     padding: 60,
-    maxWidth: '70%'
+    maxWidth: '70%',
+    maxWidth: 450
   }
 };
 
@@ -50,11 +51,10 @@ class DonateModal extends Component {
         contentLabel="Modal"
       >
         <h1>Donate Now!</h1>
-        <p> nfkdsalnfskjlan flkasjdn fkdslan fksajln fdkasj fnklasdjnf asdnf </p>
-        <p> nfkdsalnfskjlan flkasjdn fkdslan fksajln fdkasj fnklasdjnf asdnf </p>
+        <p>Rapture Ready TV needs your help. We operate on a Limited Budget. Our costs are expensive. Our Service is Free. We have 270,000 Customers from 150+ Countries. Our Mission is to offer a Message of Hope and Love. Become a TV Missionary Today. Give a Monthly or One Time Pledge. Your Donation goes to Missions. To Provide better Quality. Create Roku-Mobile APPS. Offer More Features. Hire more People. Thanks for your Support!</p>
 
         <Link className="btn"
-              to="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=C2RM2YGUT3AEL"
+              to="https://www.paypal.me/eternityready"
               target="_blank"
               style={{marginTop: 40, borderRadius: 4,
                       backgroundColor: 'aliceblue'}}

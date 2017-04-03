@@ -26,10 +26,14 @@ const CLEAR_MESSAGES = 'auth/CLEAR_MESSAGES';
 const RESET_DONATE_MODAL_COUNTER = 'auth/RESET_DONATE_MODAL_COUNTER';
 const DECREMENT_DONATE_MODAL_COUNTER = 'auth/DECREMENT_DONATE_MODAL_COUNTER';
 
+const DONATE_INTERVAL = 2;
+
 let donateCounter = -1;
 if(localStorage.getItem('auth/donateCounter')) {
   donateCounter = parseInt(localStorage.getItem('auth/donateCounter'));
 }
+
+donateCounter = Math.min(donateCounter, DONATE_INTERVAL);
 
 const initialState = {
   token: cookie.load('auth/token'),
@@ -113,11 +117,11 @@ export default function auth(state = initialState, action) {
       };
 
     case RESET_DONATE_MODAL_COUNTER:
-      localStorage.setItem('auth/donateCounter', 10);
+      localStorage.setItem('auth/donateCounter', DONATE_INTERVAL);
 
       return {
         ...state,
-        donateModalCounter: 10
+        donateModalCounter: DONATE_INTERVAL
       };
 
     case DECREMENT_DONATE_MODAL_COUNTER:

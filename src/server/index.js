@@ -133,7 +133,7 @@ app.get('/admin*', (req, res) => {
                 <meta name="viewport" content="width=device-width,initial-scale=1">
                 <link rel="stylesheet" type="text/css" href="${STATIC_ASSETS_CDN}/admin-styles.css">
                 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                <link rel="shortcut icon" href="favicon.ico" />
+                <link rel="shortcut icon" href="/favicon.ico" />
               </head>
               <body>
                 <div id="root">${html}</div>
