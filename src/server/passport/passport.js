@@ -85,15 +85,15 @@ export function passportInit (app) {
   });
 
   passport.use(new FacebookStrategy({
-    clientID:      '393723124359906',
-    clientSecret:  'd8f4a404a6d5e7032c916171dc6f4ae8',
+    clientID:      '654985928045301',
+    clientSecret:  '34638a9e8a4706a1ed0429291384730e',
     callbackURL:   "/auth/facebook/callback",
     profileFields: ['id', 'displayName', 'photos', 'email']
   }, oauthStrategyHandler));
 
   passport.use(new TwitterStrategy({
-    consumerKey: 'P1lHD2Vz9kpy0O72p1Akb8WNf',
-    consumerSecret: '1pJgEONpQmL22wWZtFEhPA0pZEe5q3jthi2AFyFnuSX66tLzI1',
+    consumerKey: 'Sw9CdzldIiQlLvJptJXAZeFGK',
+    consumerSecret: 'igKst5zHYjWVRiwSaxyyEqxfmHRpRGexUZPy3t0zAflR6HQlnD',
     callbackURL: "/auth/twitter/callback",
     includeEmail: true
   }, oauthStrategyHandler));

@@ -7,7 +7,7 @@ var all = {
 
   WEPAPP_URI: 'http://raptureready.tv:3032',
 
-  MONGO_URL: /*process.env.MONGODB_URI ||*/ 'mongodb://localhost/eternity-ready-alex',
+  MONGO_URL: process.env.MONGODB_URI || 'mongodb://localhost/eternity-ready-alex',
   JWT_SECRET_KEY: 'l)oc8e#^vg7d7la$rr3nwlt=^f82y6c9h%yemm=maxy)roiwcc',
 };
 
