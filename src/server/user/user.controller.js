@@ -119,7 +119,7 @@ router.post('/signup', function (req, res) {
 
       res.json({
         success: true,
-        message: 'An activation email was send to your email address.'
+        message: 'An activation email was send.'
       });
     })
     .catch((error) => {
