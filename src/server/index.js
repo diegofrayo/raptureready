@@ -79,7 +79,10 @@ app.use(function (req, res, next) {
 });
 
 
-app.use('/api/admin', adminController);
+if (!process.env.DISABLE_ADMIN) {
+  app.use('/api/admin', adminController);
+}
+
 app.use('/api/user', userController);
 app.use('/api/category', passport.authenticate("jwt", { session: false }), categoryController);
 app.use('/api/channel', passport.authenticate("jwt", { session: false }), channelController);
@@ -89,42 +92,47 @@ app.use('/browse|/search*|/watch*|/change-password', passport.authenticate("jwt"
   failureRedirect: '/login'
 }));
 
-app.use('/admin/|/admin/users|/admin/channels', passport.authenticate("jwt", {
-  session: false,
-  failureRedirect: '/admin/login'
-}));
+if (!process.env.DISABLE_ADMIN) {
+
+  app.use('/admin/|/admin/users|/admin/channels', passport.authenticate("jwt", {
+    session: false,
+    failureRedirect: '/admin/login'
+  }));
 
 
-app.use('/admin/|/admin/users|/admin/channels', (req, res, next) => {
-  if (!req.user.isAdmin) {
-    return res.redirect('/admin/login');
-  }
+  app.use('/admin/|/admin/users|/admin/channels', (req, res, next) => {
+    if (!req.user.isAdmin) {
+      return res.redirect('/admin/login');
+    }
 
-  return next();
-});
+    return next();
+  });
 
-app.get('/admin*', (req, res) => {
+  app.get('/admin*', (req, res) => {
 
-  global.__currentRequestUserAgent__ = req.useragent;
+    global.__currentRequestUserAgent__ = req.useragent;
 
-  match({ routes: adminRoutes({}), location: req.url }, (error, redirectLocation, renderProps) => {
+    match({
+      routes: adminRoutes({}),
+      location: req.url
+    }, (error, redirectLocation, renderProps) => {
 
-    if (error) {
-      res.status(500).send(error.message)
-    } else if (redirectLocation) {
-      res.redirect(302, redirectLocation.pathname + redirectLocation.search)
-    } else if (renderProps) {
+      if (error) {
+        res.status(500).send(error.message)
+      } else if (redirectLocation) {
+        res.redirect(302, redirectLocation.pathname + redirectLocation.search)
+      } else if (renderProps) {
 
-      // some logic for show dialog
+        // some logic for show dialog
 
-      const client = new ApiClient(req);
+        const client = new ApiClient(req);
 
-      const store = adminCreateStore(client);
+        const store = adminCreateStore(client);
 
-      loadOnServer({ ...renderProps, store }).then(() => {
+        loadOnServer({...renderProps, store}).then(() => {
 
-        const createPage = (html, store) => {
-          res.send(`
+          const createPage = (html, store) => {
+            res.send(`
             <!DOCTYPE html>
             <html>
               <head>
@@ -142,23 +150,24 @@ app.get('/admin*', (req, res) => {
               </body>
             </html>
           `);
-        };
+          };
 
-        var appHTML = ReactDOM.renderToString(
-          <Provider store={store} key="provider">
-            <RouterContext {...renderProps} />
-          </Provider>
-        );
+          var appHTML = ReactDOM.renderToString(
+            <Provider store={store} key="provider">
+              <RouterContext {...renderProps} />
+            </Provider>
+          );
 
-        const html = createPage(appHTML, store);
-        res.send(html)
-      });
+          const html = createPage(appHTML, store);
+          res.send(html)
+        });
 
-    } else {
-      res.status(404).send('Not found')
-    }
-  })
-});
+      } else {
+        res.status(404).send('Not found')
+      }
+    })
+  });
+}
 
 app.get('*', (req, res) => {
 

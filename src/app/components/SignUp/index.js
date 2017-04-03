@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { browserHistory, Link } from 'react-router'
 import validator from 'validator'
 
-import { signup, clearMessages } from '../../redux/modules/auth';
+import { signup, clearMessages, setPage } from '../../redux/modules/auth';
 
 import SocialAuth from '../SocialAuth/SocialAuth';
 
@@ -31,6 +31,7 @@ class Signup extends Component {
 
   componentWillMount() {
     this.props.clearMessages();
+    this.props.setPage('signup');
   }
 
   componentWillReceiveProps(nextProps) {
@@ -163,7 +164,7 @@ class Signup extends Component {
           }
         </form>
 
-        <p className="signup-link">Do you already have an account? <Link to={`/login`}>Log in now.</Link></p>
+        <p className="signup-link">Already on Rapture ReadyTV?&nbsp;<Link style={{color: '#daedf9'}} to={`/login`}>Log in now.</Link></p>
 
       </div>
     )
@@ -177,7 +178,8 @@ Signup.propTypes = {
 
 const mapDispatchToProps = (dispatch) => ({
   onSignupClick: (creds) => {dispatch(signup(creds))},
-  clearMessages: () => {dispatch(clearMessages())}
+  clearMessages: () => {dispatch(clearMessages())},
+  setPage: (page) => {dispatch(setPage(page))}
 });
 
 const mapStateToProps = (state) => ({

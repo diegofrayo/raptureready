@@ -26,6 +26,8 @@ const CLEAR_MESSAGES = 'auth/CLEAR_MESSAGES';
 const RESET_DONATE_MODAL_COUNTER = 'auth/RESET_DONATE_MODAL_COUNTER';
 const DECREMENT_DONATE_MODAL_COUNTER = 'auth/DECREMENT_DONATE_MODAL_COUNTER';
 
+const SET_PAGE = 'auth/SET_PAGE';
+
 const DONATE_INTERVAL = 2;
 
 let donateCounter = -1;
@@ -43,7 +45,8 @@ const initialState = {
   errorMessage: '',
   successMessage: '',
 
-  donateModalCounter: donateCounter
+  donateModalCounter: donateCounter,
+  page: ''
 };
 
 export default function auth(state = initialState, action) {
@@ -130,6 +133,12 @@ export default function auth(state = initialState, action) {
       return {
         ...state,
         donateModalCounter: state.donateModalCounter - 1
+      };
+
+    case SET_PAGE:
+      return {
+        ...state,
+        page: action.page
       };
 
     default:
@@ -265,4 +274,11 @@ export function deleteUser(params) {
       params: params
     })
   };
+}
+
+export function setPage(page) {
+  return {
+    type: SET_PAGE,
+    page
+  }
 }

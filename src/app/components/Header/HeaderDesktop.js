@@ -160,14 +160,18 @@ class HeaderDesktop extends Component {
           }
 
           {
-            //!this.props.isAuthenticated &&
-            //<span style={{float: 'right'}}>
-            //  <span
-            //    className="mainMenuLink" onClick={this.handleLogin}>Login</span>
-            //
-            //  <span
-            //    className="mainMenuLink" onClick={this.handleSignup}>Signup</span>
-            //</span>
+            !this.props.isAuthenticated &&
+            <span style={{float: 'right'}}>
+              {
+                this.props.page === 'signup' && <span
+                  className="mainMenuLink" onClick={this.handleLogin}>Login</span>
+              }
+
+              {
+                this.props.page === 'login' && <span
+                  className="mainMenuLink" onClick={this.handleSignup}>Signup</span>
+              }
+            </span>
           }
 
         </div>
@@ -177,7 +181,8 @@ class HeaderDesktop extends Component {
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated || false,
-  user: state.auth.user
+  user: state.auth.user,
+  page: state.auth.page
 });
 
 const mapDispatchToProps = (dispatch) => ({
