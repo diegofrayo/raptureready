@@ -121,7 +121,7 @@ class HeaderDesktop extends Component {
               <div className="dropdiv" style={dropDownStyle}
                    onMouseEnter={this.cancelHideTimer} onMouseLeave={this.timerHide}>
                 <ul className="sectiondrop">
-                  <li><a href="http://www.eternityready.org/devices">How to Watch</a></li>
+                  <li><a href="http://www.eternityready.org/devices" target="_blank">How to Watch</a></li>                  <li><a href=""></a></li>
                   <li><a href="http://www.eternityready.org/production" target="_blank">Originals</a></li>                  <li><a href=""></a></li>
                   <li><a href="http://www.eternityready.org/lineup.pdf" target="_blank">TV Line Up</a></li>
                 </ul>
