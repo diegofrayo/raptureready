@@ -79,20 +79,83 @@ app.use(function (req, res, next) {
 });
 
 
-if (!process.env.DISABLE_ADMIN) {
-  app.use('/api/admin', adminController);
+// WEB APP
+if (!process.env.ADMIN) {
+
+  app.use('/api/user', userController);
+  app.use('/api/category', passport.authenticate("jwt", { session: false }), categoryController);
+  app.use('/api/channel', passport.authenticate("jwt", { session: false }), channelController);
+
+  app.use('/browse|/search*|/watch*|/change-password', passport.authenticate("jwt", {
+    session: false,
+    failureRedirect: '/login'
+  }));
+
+
+  app.get('*', (req, res) => {
+
+    global.__currentRequestUserAgent__ = req.useragent;
+
+    match({
+      routes: routes({}),
+      location: req.url
+    }, (error, redirectLocation, renderProps) => {
+
+      if (error) {
+        res.status(500).send(error.message)
+      } else if (redirectLocation) {
+        res.redirect(302, redirectLocation.pathname + redirectLocation.search)
+      } else if (renderProps) {
+
+        // some logic for show dialog
+
+        const client = new ApiClient(req);
+        const store = createStore(client);
+
+        loadOnServer({...renderProps, store}).then(() => {
+
+          const createPage = (html, store) => {
+            res.send(`
+            <!DOCTYPE html>
+            <html>
+              <head>
+                <meta charset="utf-8">
+                <title>Eternity Ready</title>
+                <meta name="viewport" content="width=device-width,initial-scale=1">
+                <link rel="stylesheet" type="text/css" href="${STATIC_ASSETS_CDN}/styles.css">
+                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                <link rel="shortcut icon" href="favicon.ico" />
+              </head>
+              <body>
+                <div id="root">${html}</div>
+                <script dangerouslySetInnerHTML={{__html: window.__data=${serialize(store.getState())};}} charSet="UTF-8"> </script>
+                <script type="text/javascript" src="${WEBPACK_ASSETS}/app.js"></script>
+              </body>
+            </html>
+          `);
+          };
+
+          var appHTML = ReactDOM.renderToString(
+            <Provider store={store} key="provider">
+              <RouterContext {...renderProps} />
+            </Provider>
+          );
+
+          const html = createPage(appHTML, store);
+          res.send(html)
+        });
+
+      } else {
+        res.status(404).send('Not found')
+      }
+    })
+  });
 }
 
-app.use('/api/user', userController);
-app.use('/api/category', passport.authenticate("jwt", { session: false }), categoryController);
-app.use('/api/channel', passport.authenticate("jwt", { session: false }), channelController);
+// ADMIN APP
+if (process.env.ADMIN) {
 
-app.use('/browse|/search*|/watch*|/change-password', passport.authenticate("jwt", {
-  session: false,
-  failureRedirect: '/login'
-}));
-
-if (!process.env.DISABLE_ADMIN) {
+  app.use('/api/admin', adminController);
 
   app.use('/admin/|/admin/users|/admin/channels', passport.authenticate("jwt", {
     session: false,
@@ -168,61 +231,5 @@ if (!process.env.DISABLE_ADMIN) {
     })
   });
 }
-
-app.get('*', (req, res) => {
-
-  global.__currentRequestUserAgent__ = req.useragent;
-
-  match({ routes: routes({}), location: req.url }, (error, redirectLocation, renderProps) => {
-
-    if (error) {
-      res.status(500).send(error.message)
-    } else if (redirectLocation) {
-      res.redirect(302, redirectLocation.pathname + redirectLocation.search)
-    } else if (renderProps) {
-
-      // some logic for show dialog
-
-      const client = new ApiClient(req);
-      const store = createStore(client);
-
-      loadOnServer({ ...renderProps, store }).then(() => {
-
-        const createPage = (html, store) => {
-          res.send(`
-            <!DOCTYPE html>
-            <html>
-              <head>
-                <meta charset="utf-8">
-                <title>Eternity Ready</title>
-                <meta name="viewport" content="width=device-width,initial-scale=1">
-                <link rel="stylesheet" type="text/css" href="${STATIC_ASSETS_CDN}/styles.css">
-                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                <link rel="shortcut icon" href="favicon.ico" />
-              </head>
-              <body>
-                <div id="root">${html}</div>
-                <script dangerouslySetInnerHTML={{__html: window.__data=${serialize(store.getState())};}} charSet="UTF-8"> </script>
-                <script type="text/javascript" src="${WEBPACK_ASSETS}/app.js"></script>
-              </body>
-            </html>
-          `);
-        };
-
-        var appHTML = ReactDOM.renderToString(
-          <Provider store={store} key="provider">
-            <RouterContext {...renderProps} />
-          </Provider>
-        );
-
-        const html = createPage(appHTML, store);
-        res.send(html)
-      });
-
-    } else {
-      res.status(404).send('Not found')
-    }
-  })
-});
 
 export default app;
