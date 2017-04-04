@@ -41,6 +41,7 @@ var WEBPACK_ASSETS = process.env.WEBPACK_ASSETS || '';
 global.__currentRequestUserAgent__ = '';
 
 // TODO: handle mongoose error
+console.log('port ' + process.env.PORT);
 console.log('connect to ' + config.MONGO_URL);
 mongoose.connect(config.MONGO_URL);
 const app = express();
