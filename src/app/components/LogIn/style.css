@@ -45,12 +45,12 @@
 }
 
 .signup-link {
-  margin-top: 35px;
+  margin-bottom: 5px;
+  margin-top: -6px
 }
 
 .forget-link {
-  margin-top: -8px;
-  margin-bottom: 8px;
+  margin-top: 32px;
 }
 
 .main-login-error {

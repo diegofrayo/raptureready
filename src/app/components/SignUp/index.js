@@ -168,7 +168,7 @@ class Signup extends Component {
           }
         </form>
 
-        <p className="signup-link">Already on Rapture Ready TV?&nbsp;<Link style={linkStyle} to={`/login`}>Log in now.</Link></p>
+        <p className="signup-page-link">Already on Rapture Ready TV?&nbsp;<Link style={linkStyle} to={`/login`}>Log in now.</Link></p>
 
       </div>
     )
