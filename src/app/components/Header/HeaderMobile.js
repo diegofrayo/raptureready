@@ -71,7 +71,7 @@ class HeaderMobile extends Component {
               <span></span>
             </div>
             <img alt="Enternity Ready Logo" src={require("../../commonResources/logo.png")} />
-            <Search />
+            { this.props.isAuthenticated && <Search /> }
           </div>
 
           {

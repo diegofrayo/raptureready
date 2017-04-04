@@ -122,6 +122,10 @@ class Signup extends Component {
 
   render () {
     const { errorMessage, successMessage } = this.props;
+    const linkStyle = {
+      color: '#daedf9',
+      textDecoration: 'underline'
+    };
 
     return (
       <div className="signup">
@@ -164,7 +168,7 @@ class Signup extends Component {
           }
         </form>
 
-        <p className="signup-link">Already on Rapture Ready TV?&nbsp;<Link style={{color: '#daedf9'}} to={`/login`}>Log in now.</Link></p>
+        <p className="signup-link">Already on Rapture Ready TV?&nbsp;<Link style={linkStyle} to={`/login`}>Log in now.</Link></p>
 
       </div>
     )
