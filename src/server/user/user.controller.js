@@ -4,7 +4,7 @@ import express from "express";
 import passport from 'passport';
 import jwt from 'jwt-simple';
 
-import { sendValidationEmail, sendForgotPasswordEmail } from '../nodeMailer';
+import { sendValidationEmail, sendForgotPasswordEmail } from '../email';
 import User from  "./user.model";
 import config from '../config';
 import { getHashPassword } from './user.helpers';

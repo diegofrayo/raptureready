@@ -7,7 +7,7 @@ import { Strategy as TwitterStrategy }  from 'passport-twitter';
 import uuidV4 from 'uuid/v4';
 
 import config from '../config';
-import { sendForgotPasswordEmail } from '../nodeMailer';
+import { sendForgotPasswordEmail } from '../email';
 
 import bcrypt from 'bcrypt-nodejs'
 import User from '../user/user.model';
