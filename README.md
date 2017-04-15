@@ -1,5 +1,15 @@
-npm install or yarn install
-npm start
+# Installation
 
+`npm install` or `yarn install`
 
-npm run server:build && npm run client:build
+----------------------------
+
+## Start development environment
+
+`npm start` or `yarn start`
+
+----------------------------
+
+## Production build task
+
+`npm run build` or `yarn build`
