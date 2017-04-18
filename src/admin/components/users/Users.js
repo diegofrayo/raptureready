@@ -113,10 +113,10 @@ class UserRow extends Component {
         <td>{user.email}</td>
 
         <td>
-          {user.auth.provider}
+          {user.auth && user.auth.provider}
 
           {
-            user.auth.provider === 'email' &&
+            user.auth && user.auth.provider === 'email' &&
             <span>
               &nbsp;(<a onClick={this.openChangePassword}>change pass</a>)
             </span>
