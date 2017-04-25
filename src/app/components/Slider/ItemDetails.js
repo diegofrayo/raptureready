@@ -59,7 +59,7 @@ var ItemDetails = React.createClass({
           </div>
           <div className='slider-details-right'>
             {this.props.activeSlide ?  <img src={thumbUrl} className='slider-details-image' role='presentation' /> : ''}
-            <div className="slider-item-details-close" onClick={this.props.closeDetails}>X</div>
+            <div className="slider-item-details-close" onClick={this.props.closeDetails}>x</div>
             <div className="gradient"></div>
             <Link to={channelUrl}>
               <div className="play"></div>

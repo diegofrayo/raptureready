@@ -1,19 +1,31 @@
-# WEB APP
+# REQUERIMENTS
 
-npm install or yarn install
+- node 6.x
+- mongodb server
+- yarn (recommended)
 
+--------------
 
-npm run server:build && npm run client:build
+# WEB APP SETUP
 
+1. Execute: `npm install or yarn install`
 
-MONGODB_URI=mongodb://localhost/eternity-ready node ./server-bundle.js
+2. Execute: `npm run server:build && npm run client:build`
 
-# ADMIN APP
+3. Go to build folder: `cd build`
 
-npm install or yarn install
+4. Run the application: `MONGODB_URI=mongodb://localhost/eternity-ready node ./server-bundle.js`
 
+5. Open the application in the browser: http://localhost:3030/login
 
-npm run server:build && npm run client:build
+--------------
 
+# ADMIN APP SETUP
 
-ADMIN=true MONGODB_URI=mongodb://localhost/eternity-ready node ./server-bundle.js
+1. Execute: `npm install or yarn install`
+
+2. Execute: `npm run server:build && npm run client:build`
+
+3. Go to build folder: `cd build`
+
+4. Run the application: `ADMIN=true MONGODB_URI=mongodb://localhost/eternity-ready node ./server-bundle.js`
