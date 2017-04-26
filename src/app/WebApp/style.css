@@ -1,6 +1,5 @@
 @charset "UTF-8";
 
-
 /* —- Tools -— */
 /* components */
 
@@ -199,12 +198,13 @@
 }
 
 .item-wrapper {
-  width: 100%;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  cursor: default;
   height: 100%;
   position: relative;
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  background-size: 100% 100%;
+  width: 100%;
 }
 
 .carousel-item.active {
@@ -403,7 +403,7 @@
 
 .play:before {
   content: "▶";
-  margin-left: 5px;
+  margin-left: 3px;
   transition: color 1s;
   font-size: 50px;
 }
@@ -501,7 +501,7 @@
 .slider-details-left .stars {
   font-size: 14px;
   margin-left: 25px;
-  line-height: 20px;
+  line-height: 25px;
 }
 
 .slider-item-details {
@@ -514,9 +514,10 @@
 }
 
 .slider-details-left {
-  width: 33%;
+  cursor: default;
   position: absolute;
   top: 0;
+  width: 33%;
   z-index: 1;
 }
 
@@ -533,18 +534,19 @@
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
   display: block;
-  width: 68px;
-  height: 68px;
-  line-height: 72px;
   font-size: 45px;
-  top: 50%;
+  height: 68px;
   left: 50%;
+  line-height: 70px;
+  top: 50%;
+  width: 68px;
 }
 
 .slider-item-details-active {
-  height: 400px;
   background-color: #000000;
   color: #ffffff;
+  height: 400px;
+  overflow: hidden;
   -webkit-animation: fadeIn 1s;
   animation: fadeIn 1s;
   -webkit-animation-fill-mode: forwards;
@@ -614,11 +616,10 @@
   cursor: pointer;
   font-size: 40px;
   position: absolute;
-  right: 0;
+  right: 10px;
   text-shadow: 0px 1px 5px rgb(0, 0, 0);
   top: 0;
   transition: all 1s;
-  width: 30px;
 }
 
 .slider-item-details-close:hover {

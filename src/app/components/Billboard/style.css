@@ -30,25 +30,27 @@
 }
 .billboard .intro-text-wrapper {
     background: transparent;
+    cursor: default;
     height: 90vh;
     position: absolute;
     top: 0;
     width: 300px;
 }
 .billboard .intro-text-wrapper .intro-text {
-    width: 300px;
-    padding-right: 10px;
+    bottom: 20px;
     padding-left: 18px;
+    padding-right: 10px;
     padding: 0 10px 0 15px;
     position: absolute;
-    bottom: 20px;
+    top: 20px;
+    width: 380px;
 }
 .billboard .intro-text-wrapper .intro-text .intro-lead-in {
   font-family: "Droid Serif", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-style: italic;
-  font-size: 22px;
-  line-height: 22px;
-  margin-bottom: 25px;
+  font-size: 20px;
+  line-height: 25px;
+  margin-bottom: 35px;
   max-width: 500px;
 }
 .billboard .intro-text-wrapper .intro-text .intro-heading {
@@ -57,8 +59,8 @@
   font-weight: 700;
   font-size: 50px;
   line-height: 50px;
-  margin-bottom: 25px;
-  margin-top: 76px;
+  margin-bottom: 15px;
+  margin-top: 65px;
 }
 .billboard .intro-text-wrapper .intro-text .intro-heading span {
   font-size: 15px;

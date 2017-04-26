@@ -92,7 +92,6 @@ if (!process.env.ADMIN) {
     failureRedirect: '/login'
   }));
 
-
   app.get('*', (req, res) => {
 
     global.__currentRequestUserAgent__ = req.useragent;

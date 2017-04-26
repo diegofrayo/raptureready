@@ -1,5 +1,7 @@
+// npm libs
 import express from 'express';
-import Channel from './channel.model';
+
+// js utils
 import {
 	addViewListener,
 	getChannelByIdListener,
