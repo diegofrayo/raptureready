@@ -83,7 +83,7 @@ class SearchResults extends Component {
 
 		return (
 			<div className="main">
-				{relatedTitles && <div className="related-titles-container"><span style={{color: 'grey', cursor: 'default'}}>Related titles:</span> {relatedTitles}</div>}
+				{relatedTitles && <div className="related-titles-container"><span style={{color: 'grey', cursor: 'default'}}>Related channels:</span> {relatedTitles}</div>}
 				<div className="search-container">
 					{sliders}
 				</div>
