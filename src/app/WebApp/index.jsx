@@ -33,7 +33,7 @@ class WebApp extends Component {
           {/*<h1>MAIN APP HEADER</h1>*/}
 
           {
-            (!__SERVER__ && this.props.isAuthenticated && this.props.donateModalCounter < 0) &&
+            (!__SERVER__ && this.props.isAuthenticated && this.props.donateModalCounter < 0 && window.location.href.indexOf('/watch') === -1) &&
             <DonateModal />
           }
 

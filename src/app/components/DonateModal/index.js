@@ -1,65 +1,72 @@
-import React, { Component } from 'react';
+import React, {
+	Component
+} from 'react';
 import Modal from 'react-modal';
 
-import { Link } from 'react-router';
-import { connect } from 'react-redux'
+import {
+	Link
+} from 'react-router';
+import {
+	connect
+} from 'react-redux'
 
-import { resetDonateCounter } from '../../redux/modules/auth';
+import {
+	resetDonateCounter
+} from '../../redux/modules/auth';
 
 const customStyles = {
-  overlay: {
-    background: 'rgba(17, 17, 17, 0.80)',
-    zIndex: 500
-  },
-  content : {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
-    background: 'rgba(17, 17, 17, 0.99)',
-    padding: 60,
-    maxWidth: '70%',
-    maxWidth: 450,
-    textAlign: 'center'
-  }
+	overlay: {
+		background: 'rgba(17, 17, 17, 0.80)',
+		zIndex: 500
+	},
+	content: {
+		top: '50%',
+		left: '50%',
+		right: 'auto',
+		bottom: 'auto',
+		marginRight: '-50%',
+		transform: 'translate(-50%, -50%)',
+		background: 'rgba(17, 17, 17, 0.99)',
+		padding: 60,
+		maxWidth: '70%',
+		maxWidth: 450,
+		textAlign: 'center'
+	}
 };
 
 const closeButton = {
-  fontSize: 25,
-  color: '#fff',
-  position: 'absolute',
-  top: 10,
-  right: 15,
-  cursor: 'pointer'
+	fontSize: 25,
+	color: '#fff',
+	position: 'absolute',
+	top: 10,
+	right: 15,
+	cursor: 'pointer'
 };
-
 
 class DonateModal extends Component {
 
-  state = {
-    isOpen: true
-  };
+	state = {
+		isOpen: true
+	};
 
-  closeModal = () => {
-    this.setState({
-      isOpen: false
-    });
+	closeModal = () => {
+		this.setState({
+			isOpen: false
+		});
 
-    this.props.resetDonateCounter();
-  };
+		this.props.resetDonateCounter();
+	};
 
-  render() {
+	render() {
 
-    return (
-      <Modal
-        isOpen={this.state.isOpen && this.props.isAuthenticated}
-        onAfterOpen={() => {}}
-        onRequestClose={this.closeModal}
-        style={customStyles}
-        contentLabel="Modal"
-      >
+		return (
+			<Modal
+	        isOpen={this.state.isOpen && this.props.isAuthenticated}
+	        onAfterOpen={() => {}}
+	        onRequestClose={this.closeModal}
+	        style={customStyles}
+	        contentLabel="Modal"
+      	>
         <div style={closeButton} onClick={this.closeModal}>X</div>
 
         <img src={require("../../commonResources/logo.png")}
@@ -81,17 +88,18 @@ class DonateModal extends Component {
         </Link>
 
       </Modal>
-    )
-  }
+		)
+	}
 }
 
-
 const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated || false,
+	isAuthenticated: state.auth.isAuthenticated || false,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  resetDonateCounter: () => {return dispatch(resetDonateCounter())}
+	resetDonateCounter: () => {
+		return dispatch(resetDonateCounter())
+	}
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(DonateModal)
+export default connect(mapStateToProps, mapDispatchToProps)(DonateModal);

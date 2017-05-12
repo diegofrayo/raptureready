@@ -1,109 +1,122 @@
-import React, { Component } from 'react'
+import React, {
+	Component
+} from 'react'
 import Search from '../Search'
 
-import { browserHistory, Link } from 'react-router'
+import {
+	browserHistory,
+	Link
+} from 'react-router'
 
-import { connect } from 'react-redux'
-import { logout } from '../../redux/modules/auth';
+import {
+	connect
+} from 'react-redux'
+import {
+	logout
+} from '../../redux/modules/auth';
 import UserDropDown from './UserDropDown';
 
 // import logo from '../../commonResources/logo.png'
 
 class HeaderDesktop extends Component {
-  state = {
-    dropDownVisible: false,
-    hideDropDownTimer: null,
-    isDark: false,
-  }
 
-  componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll);
-  }
+	state = {
+		dropDownVisible: false,
+		hideDropDownTimer: null,
+		isDark: false,
+	};
 
-  componentWillUnmount() {
-   window.removeEventListener('scroll', this.handleScroll);
-  }
+	componentDidMount() {
+		window.addEventListener('scroll', this.handleScroll);
+	}
 
-  handleLogout = () => {
-    this.props.requestLogout();
+	componentWillUnmount() {
+		window.removeEventListener('scroll', this.handleScroll);
+	}
 
-    browserHistory.push('/login');
-  };
+	handleLogout = () => {
+		this.props.requestLogout();
+		browserHistory.push('/login');
+	};
 
-  handleLogin = () => {
-    browserHistory.push('/login');
-  };
+	handleLogin = () => {
+		browserHistory.push('/login');
+	};
 
-  handleSignup = () => {
-    browserHistory.push('/signup');
-  };
+	handleSignup = () => {
+		browserHistory.push('/signup');
+	};
 
-  handleScroll = (event) => {
-    if (window.scrollY > 50) {
-      this.setState({isDark: true})
-    } else {
-      this.setState({isDark: false})
-    }
-  }
+	handleScroll = (event) => {
+		if (window.scrollY > 50) {
+			this.setState({
+				isDark: true
+			})
+		} else {
+			this.setState({
+				isDark: false
+			})
+		}
+	}
 
-  showDropDown = () => {
-    this.cancelHideTimer();
-    this.setState({
-      dropDownVisible: true
-    });
-  }
+	showDropDown = () => {
+		this.cancelHideTimer();
+		this.setState({
+			dropDownVisible: true
+		});
+	}
 
-  timerHide = () => {
-    var self = this;
-    this.setState({
-      hideDropDownTimer: setTimeout(function() {
-        if(self.state.hideDropDownTimer !== null) {
-          self.hideDropDown();
-        }
-      }, 1000)
-    })
-  }
+	timerHide = () => {
+		var self = this;
+		this.setState({
+			hideDropDownTimer: setTimeout(function() {
+				if (self.state.hideDropDownTimer !== null) {
+					self.hideDropDown();
+				}
+			}, 1000)
+		})
+	}
 
-  dropDownTouch(e) {
-    this.toggleDropDownMenu();
-  }
+	dropDownTouch(e) {
+		this.toggleDropDownMenu();
+	}
 
-  toggleDropDownMenu = () => {
-    this.setState({
-      dropDownVisible: !this.state.dropDownVisible
-    })
-  }
+	toggleDropDownMenu = () => {
+		this.setState({
+			dropDownVisible: !this.state.dropDownVisible
+		})
+	}
 
-  cancelHideTimer = () => {
-    this.setState({
-      hideDropDownTimer: null
-    })
-  }
+	cancelHideTimer = () => {
+		this.setState({
+			hideDropDownTimer: null
+		})
+	}
 
-  hideDropDown = () => {
-    this.setState({
-      dropDownVisible: false
-    });
-  }
+	hideDropDown = () => {
+		this.setState({
+			dropDownVisible: false
+		});
+	}
 
+	openRadio() {
+		window.open("http://eternityreadyradio.com/player/");
+	}
 
-  openRadio() {
-    window.open("http://eternityreadyradio.com/player/");
-  }
+	openDonate() {
+		window.open("https://www.paypal.me/eternityready");
+	}
 
-  openDonate() {
-    window.open("https://www.paypal.me/eternityready");
-  }
+	render() {
 
-  render() {
+		const dropDownStyle = {
+			'display': this.state.dropDownVisible ? 'block' : 'none'
+		};
 
-    const dropDownStyle = {
-      'display': this.state.dropDownVisible ? 'block' : 'none'
-    };
+		const headerStyle = this.state.isDark ? 'headerDesktop headerDesktopOpaque' : 'headerDesktop';
 
-    const headerStyle = this.state.isDark ? 'headerDesktop headerDesktopOpaque' : 'headerDesktop'
-    return (
-        <div className={headerStyle} ref={(c) => this._header = c} >
+		return (
+			<div className={headerStyle} ref={(c) => this._header = c} >
 
           <img src={require("../../commonResources/logo.png")}
                style={{width: 105, cursor: 'pointer'}}
@@ -114,7 +127,6 @@ class HeaderDesktop extends Component {
             this.props.isAuthenticated &&
 
             <span>
-
               <span className="dropdown mainMenuLink" onTouchStart={this.dropDownTouch}
                     onMouseEnter={this.showDropDown} onMouseLeave={this.timerHide}></span>
 
@@ -140,7 +152,6 @@ class HeaderDesktop extends Component {
                   <li><a href="#">All Channnels</a></li>
                 </ul>
               </div>
-              <Search device="desktop"/>
               <span className="mainMenuLink" onClick={this.openRadio}>Radio</span>
               <span className="mainMenuLink" onClick={this.openDonate}>Donate</span>
 
@@ -155,6 +166,7 @@ class HeaderDesktop extends Component {
                 <UserDropDown user={this.props.user}
                   handleLogout={this.handleLogout} />
               }
+              <Search device="desktop"/>
 
             </span>
           }
@@ -175,18 +187,20 @@ class HeaderDesktop extends Component {
           }
 
         </div>
-    );
-  }
+		);
+	}
 }
 
 const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated || false,
-  user: state.auth.user,
-  page: state.auth.page
+	isAuthenticated: state.auth.isAuthenticated || false,
+	user: state.auth.user,
+	page: state.auth.page
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  requestLogout: () => {return dispatch(logout())}
+	requestLogout: () => {
+		return dispatch(logout())
+	}
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HeaderDesktop)

@@ -179,30 +179,24 @@ class Channels extends Component {
 
     return (
       <div className="container admin" style={{marginTop: 100}}>
-
         <div className="row">
-
           <div className="col-md-12">
-
             <div style={{float: 'right', marginBottom: 20}}>
               <Search query={this.state.query}
                       onQueryChange={this.onQueryChange}/>
             </div>
-
           </div>
         </div>
 
         <div className="row">
-
           <div className="col-md-12">
             <ChannelsTable channels={this.state.channels}
                            loading={this.props.loading}
                            onOrderChange={this.onOrderChange}/>
           </div>
-
         </div>
       </div>
-    )
+    );
   }
 }
 

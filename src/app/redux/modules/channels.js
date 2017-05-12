@@ -13,135 +13,153 @@ const SEARCH_FAIL = 'channels/SEARCH_FAIL';
 const IGNORE_ACTION = 'channels/IGNORE_ACTION';
 
 const initialState = {
-  isFetching: false,
-  channels: [],
-  categories: [],
-  errorMessage: '',
+	isFetching: false,
+	channels: [],
+	categories: [],
+	errorMessage: '',
 
-  isFetchingChannel: false,
-  channel: null,
+	isFetchingChannel: false,
+	channel: null,
 
-  isFetchingSearchResults: false,
-  searchResults: []
+	isFetchingSearchResults: false,
+	searchResults: [],
+	relatedTitles: []
 };
 
 export default function channels(state = initialState, action) {
-  switch (action.type) {
+	switch (action.type) {
 
-    // LIST CHANNELS
-    case LIST_CHANNELS_REQUEST:
-      return {
-        ...state,
-        isFetching: true,
-        errorMessage: '',
-        channels: [],
-        categories: []
-      };
+		// LIST CHANNELS
+		case LIST_CHANNELS_REQUEST:
+			return {
+				...state,
+				isFetching: true,
+				errorMessage: '',
+				channels: [],
+				categories: []
+			};
 
-    case LIST_CHANNELS_SUCCESS:
-      return {
-        ...state,
-        isFetching: false,
-        channels: action.result.channels,
-        categories: action.result.categories
-      };
+		case LIST_CHANNELS_SUCCESS:
+			return {
+				...state,
+				isFetching: false,
+				channels: action.result.channels,
+				categories: action.result.categories
+			};
 
-    case LIST_CHANNELS_FAIL:
-      return {
-        ...state,
-        isFetching: false,
-        errorMessage: (action.result || {}).message
-      };
+		case LIST_CHANNELS_FAIL:
+			return {
+				...state,
+				isFetching: false,
+				errorMessage: (action.result || {}).message
+			};
 
-    // FETCH CHANNEL
-    case FETCH_CHANNEL_REQUEST:
-      return {
-        ...state,
-        isFetchingChannel: true,
-        errorMessage: '',
-        channel: null
-      };
+			// FETCH CHANNEL
+		case FETCH_CHANNEL_REQUEST:
+			return {
+				...state,
+				isFetchingChannel: true,
+				errorMessage: '',
+				channel: null
+			};
 
-    case FETCH_CHANNEL_SUCCESS:
-      return {
-        ...state,
-        isFetchingChannel: false,
-        channel: action.result.channel
-      };
+		case FETCH_CHANNEL_SUCCESS:
+			return {
+				...state,
+				isFetchingChannel: false,
+				channel: action.result.channel
+			};
 
-    case FETCH_CHANNEL_FAIL:
-      return {
-        ...state,
-        isFetchingChannel: false,
-        errorMessage: (action.result || {}).message
-      };
+		case FETCH_CHANNEL_FAIL:
+			return {
+				...state,
+				isFetchingChannel: false,
+				errorMessage: (action.result || {}).message
+			};
 
-    // SEARCH
-    case SEARCH_REQUEST:
-      return {
-        ...state,
-        isFetchingSearchResults: true,
-        searchResults: [],
-        errorMessage: ''
-      };
+			// SEARCH
+		case SEARCH_REQUEST:
+			return {
+				...state,
+				isFetchingSearchResults: true,
+				searchResults: [],
+				errorMessage: '',
+				relatedTitles: []
+			};
 
-    case SEARCH_SUCCESS:
-      return {
-        ...state,
-        isFetchingSearchResults: false,
-        searchResults: action.result.channels
-      };
+		case SEARCH_SUCCESS:
 
-    case SEARCH_FAIL:
-      return {
-        ...state,
-        isFetchingSearchResults: false,
-        errorMessage: (action.result || {}).message
-      };
+			const channels = action.result.channels;
+			let flag = channels.length - 5;
 
-    default:
-      return state
-  }
+			if (flag >= 5) {
+				flag = 5;
+			} else if (flag < 3) {
+				flag = 0;
+			}
+
+			flag = channels.length - flag;
+
+			return {
+				...state,
+				isFetchingSearchResults: false,
+				searchResults: channels.filter((channel, index, array) => {
+					return index < flag;
+				}),
+				relatedTitles: channels.filter((channel, index, array) => {
+					return index >= flag;
+				})
+			};
+
+		case SEARCH_FAIL:
+			return {
+				...state,
+				isFetchingSearchResults: false,
+				errorMessage: (action.result || {}).message
+			};
+
+		default:
+			return state
+	}
 };
 
 
 export function listCategories() {
-  return {
-    types: [LIST_CHANNELS_REQUEST, LIST_CHANNELS_SUCCESS, LIST_CHANNELS_FAIL],
-    promise: (client) => client.get('/api/channel/categories', {
-    })
-  };
+	return {
+		types: [LIST_CHANNELS_REQUEST, LIST_CHANNELS_SUCCESS, LIST_CHANNELS_FAIL],
+		promise: (client) => client.get('/api/channels/categories', {})
+	};
 }
 
 export function fetchChannel(id) {
-  return {
-    types: [FETCH_CHANNEL_REQUEST, FETCH_CHANNEL_SUCCESS, FETCH_CHANNEL_FAIL],
-    promise: (client) => client.get('/api/channel/get', {
-      params: {
-        id
-      }
-    })
-  };
+	return {
+		types: [FETCH_CHANNEL_REQUEST, FETCH_CHANNEL_SUCCESS, FETCH_CHANNEL_FAIL],
+		promise: (client) => client.get('/api/channels/get', {
+			params: {
+				id
+			}
+		})
+	};
 }
 
 export function addView(id) {
-  return {
-    types: [IGNORE_ACTION, IGNORE_ACTION, IGNORE_ACTION],
-    promise: (client) => client.get('/api/channel/add-view', {
-      params: {
-        id
-      }
-    })
-  };
+	return {
+		types: [IGNORE_ACTION, IGNORE_ACTION, IGNORE_ACTION],
+		promise: (client) => client.get('/api/channels/add-view', {
+			params: {
+				id
+			}
+		})
+	};
 }
 
 export function search(query) {
-  return {
-    types: [SEARCH_REQUEST, SEARCH_SUCCESS, SEARCH_FAIL],
-    promise: (client) => client.get('/api/channel/search', {
-      params: {
-        query
-      }
-    })
-  };
+	return {
+		types: [SEARCH_REQUEST, SEARCH_SUCCESS, SEARCH_FAIL],
+		promise: (client) => client.get(`/api/channels/`, {
+			params: {
+				q: query
+			}
+		})
+	};
 }

@@ -98,7 +98,6 @@ module.exports = {
 			test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
 			loader: "url-loader?limit=1"
 		}, {
-
 			test: /\.(jsx?|es6|babel)$/,
 			exclude: /node_modules/,
 			loader: 'babel',

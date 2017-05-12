@@ -47,7 +47,6 @@ export default (aProps, store) => {
 
       </Route>
 
-
     </Route>
 
   );

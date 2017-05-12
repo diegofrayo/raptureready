@@ -14,9 +14,9 @@ function listChannels() {
 
 function searchChannels(query) {
 
-	var orQuery = [];
-
 	if (query) {
+
+		var orQuery = [];
 
 		query.split(' ').map((el) => {
 			orQuery.push({
@@ -30,18 +30,77 @@ function searchChannels(query) {
 			});
 		});
 
-	} else {
-
-		return Channel.find({}).sort({
-			_id: -1
-		}).populate('categories');
+		return Channel
+			.find({
+				$query: {
+					$or: orQuery
+				}
+			})
+			.sort({
+				views: -1
+			});
 
 	}
 
-	return Channel.find({
-		$query: {
-			$or: orQuery
-		}
+	return listChannels();
+}
+
+function getChannelByLetter(letter) {
+
+	if (typeof letter === 'string' && letter.charAt(0)) {
+
+		return Channel.find({
+			title: {
+				$regex: new RegExp('^' + letter.charAt(0)),
+				$options: 'i'
+			}
+		});
+
+	}
+
+	return Promise.reject({
+		message: 'Wrong parameters'
+	});
+}
+
+function getRelatedChannels(id, title) {
+
+	if (id && title) {
+
+		var orQuery = [];
+
+		title.split(' ').map((el) => {
+			orQuery.push({
+				title: new RegExp(el, 'i')
+			});
+			orQuery.push({
+				description: new RegExp(el, 'i')
+			});
+			orQuery.push({
+				slug: new RegExp(el, 'i')
+			});
+		});
+
+		return Channel.find({
+			$and: [{
+				$or: orQuery
+			}, {
+				_id: {
+					$ne: id
+				}
+			}]
+		}, [], {
+			skip: 0,
+			limit: 5,
+			sort: {
+				views: -1
+			}
+		});
+
+	}
+
+	return Promise.reject({
+		message: 'Wrong parameters'
 	});
 }
 
@@ -87,39 +146,9 @@ function getChannelsByCategory(channels) {
 	return response;
 }
 
-export function listChannelsListener(req, res) {
+export function getRelatedChannelsListener(req, res) {
 
-	listChannels()
-		.then(response => res.json({
-			success: true,
-			categories: getChannelsByCategory(response)
-		}))
-		.catch((error) => {
-			res.json({
-				success: false,
-				message: error.message
-			})
-		});
-}
-
-export function getChannelByIdListener(req, res) {
-
-	getChannelById(req.query.id)
-		.then(response => res.json({
-			success: true,
-			channel: response
-		}))
-		.catch((error) => {
-			res.json({
-				success: false,
-				message: error.message
-			})
-		});
-}
-
-export function searchChannelsListener(req, res) {
-
-	searchChannels(req.query.query)
+	getRelatedChannels(req.params.id, req.query.title)
 		.then(response => res.json({
 			success: true,
 			channels: response
@@ -128,8 +157,49 @@ export function searchChannelsListener(req, res) {
 			res.json({
 				success: false,
 				message: error.message
-			})
+			});
 		});
+}
+
+export function getChannelByLetterListener(req, res) {
+
+	getChannelByLetter(req.query.filter)
+		.then(response => res.json({
+			success: true,
+			channel: response
+		}))
+		.catch((error) => {
+			res.json({
+				success: false,
+				message: error.message
+			});
+		});
+}
+
+export function searchChannelsListener(req, res) {
+
+	let queryFunction;
+	let query = req.query.q;
+
+	if (query) {
+		queryFunction = searchChannels;
+	} else {
+		query = req.query.filter;
+		queryFunction = getChannelByLetter;
+	}
+
+	queryFunction(query)
+		.then(response => res.json({
+			success: true,
+			channels: response
+		}))
+		.catch((error) => {
+			res.json({
+				success: false,
+				message: error.message
+			});
+		});
+
 }
 
 export function addViewListener(req, res) {
@@ -149,5 +219,35 @@ export function addViewListener(req, res) {
 				success: false,
 				message: error.message
 			})
+		});
+}
+
+export function listChannelsListener(req, res) {
+
+	listChannels()
+		.then(response => res.json({
+			success: true,
+			categories: getChannelsByCategory(response)
+		}))
+		.catch((error) => {
+			res.json({
+				success: false,
+				message: error.message
+			});
+		});
+}
+
+export function getChannelByIdListener(req, res) {
+
+	getChannelById(req.query.id)
+		.then(response => res.json({
+			success: true,
+			channel: response
+		}))
+		.catch((error) => {
+			res.json({
+				success: false,
+				message: error.message
+			});
 		});
 }

@@ -55,18 +55,35 @@ class SearchResults extends Component {
 		const sliders = this.props.searchResults.map((channel, index) => {
 			const thumbUrl = getThumbUrl(channel);
 			return (
-				<Link to={getChannelUrl(channel)} key={index}>
+				<Link to={getChannelUrl(channel)} key={`search-item-${index}`}>
             <div className="search-item">
               <div className="search-background" style={{backgroundImage: `url(${thumbUrl})`}}>
+              	<div className="search-caption">{channel.title}</div>
               </div>
-              <div className="search-caption">{channel.title}</div>
             </div>
           </Link>
 			)
 		});
 
+		let relatedTitles = this.props.relatedTitles;
+
+		if (relatedTitles.length > 0) {
+			relatedTitles = this.props.relatedTitles.map((channel, index, array) => {
+				return (
+					<span className="related-title">
+						<Link to={getChannelUrl(channel)} key={`related-title-${index}`} className="related-title-link">
+							{channel.title.trim()}
+						</Link>
+					</span>
+				);
+			});
+		} else {
+			relatedTitles = undefined;
+		}
+
 		return (
 			<div className="main">
+				{relatedTitles && <div className="related-titles-container"><span style={{color: 'grey', cursor: 'default'}}>Related titles:</span> {relatedTitles}</div>}
 				<div className="search-container">
 					{sliders}
 				</div>
@@ -83,6 +100,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = (state) => ({
 	isFetching: state.channels.isFetchingSearchResults,
+	relatedTitles: state.channels.relatedTitles,
 	searchResults: state.channels.searchResults
 });
 
