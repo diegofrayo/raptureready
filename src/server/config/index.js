@@ -10,7 +10,7 @@ var all = {
 	env,
 	JWT_SECRET_KEY: 'l)oc8e#^vg7d7la$rr3nwlt=^f82y6c9h%yemm=maxy)roiwcc',
 	MAIL_PROVIDER: 'mailgun',
-	MONGO_URL: mongodb_uri || 'mongodb://localhost/eternity-ready-alex',
+	MONGO_URL: mongodb_uri || 'mongodb://localhost/eternity-ready',
 	WEPAPP_URI: 'http://raptureready.tv'
 };
 

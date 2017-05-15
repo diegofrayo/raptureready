@@ -52,18 +52,26 @@ class SearchResults extends Component {
 			return <Loader />;
 		}
 
-		const sliders = this.props.searchResults.map((channel, index) => {
-			const thumbUrl = getThumbUrl(channel);
-			return (
-				<Link to={getChannelUrl(channel)} key={`search-item-${index}`}>
+		let sliders;
+
+		if (this.props.searchResults.length > 0) {
+
+			sliders = this.props.searchResults.map((channel, index) => {
+				const thumbUrl = getThumbUrl(channel);
+				return (
+					<Link to={getChannelUrl(channel)} key={`search-item-${index}`}>
             <div className="search-item">
               <div className="search-background" style={{backgroundImage: `url(${thumbUrl})`}}>
               	<div className="search-caption">{channel.title}</div>
               </div>
             </div>
           </Link>
-			)
-		});
+				)
+			});
+
+		} else {
+			sliders = (<div>There is no results</div>);
+		}
 
 		let relatedTitles = this.props.relatedTitles;
 

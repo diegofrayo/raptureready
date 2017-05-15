@@ -20,7 +20,7 @@ console.log(categories);
 const newCategories =[{"_id":"58dd86c5245a6948572b0177","name":"Bible Prophecy","__v":0,"channels":[]},{"_id":"58dd86c5245a6948572b0178","name":"World News and Politics ","__v":0,"channels":[]},{"_id":"58dd86c5245a6948572b0179","name":"Awesome Stuff to Watch","__v":0,"channels":[]},{"_id":"58dd86c5245a6948572b017a","name":"Top Faith & Ministry Networks","__v":0,"channels":[]}];
 //
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/eternity-ready-alex');
+mongoose.connect('mongodb://localhost/eternity-ready');
 //const Category = require('./src/server/category/category.model');
 const Channel = require('./src/server/channel/channel.model');
 const async = require('async');
