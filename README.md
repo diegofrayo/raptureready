@@ -32,4 +32,4 @@ npm run build
 4. Go to build folder: `cd build`
 5. Run the application: `ADMIN=true MONGODB_URI=mongodb://localhost/eternity-ready node ./server-bundle.js`. (For Windows users: `SET ADMIN=true && SET MONGODB_URI=mongodb://localhost/eternity-ready && node ./server-bundle.js`)
 6. Open the application in the browser: http://localhost:3030/admin/login
-7. Credentials: **email:** alexandru.cazacu92@gmail.com | **password:**
+7. Credentials: **email:**  | **password:**
