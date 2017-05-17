@@ -10,13 +10,13 @@
 ```
 npm i
 ```
-### Serve Development
+### Server Development
 ```
 npm run start
 ```
 Runs at [http://localhost:3030]()
 
-### Serve Production
+### Server Production
 ```
 npm run build
 ```
