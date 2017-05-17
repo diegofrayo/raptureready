@@ -8,19 +8,19 @@ import ReactDOM from 'react-dom/server';
 import {
 	match,
 	RouterContext
-} from 'react-router'
+} from 'react-router';
 import _ from 'lodash';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import expressValidator from 'express-validator';
 import mongoose from 'mongoose';
+import Promise from 'bluebird';
+mongoose.Promise=Promise;
 import passport from 'passport';
 import serialize from 'serialize-javascript';
 import useragent from 'express-useragent';
-
 import config from './config';
-
 import {
 	loadOnServer
 } from 'redux-connect'
@@ -31,14 +31,11 @@ import {
 import adminCreateStore from '../admin/redux/create';
 import ApiClient from '../app/helpers/ApiClient';
 import createStore from '../app/redux/create';
-
 import adminRoutes from '../admin/routes';
 import routes from '../app/routes.jsx';
-
 import {
 	passportInit
 } from './passport/passport';
-
 import adminController from './admin/admin.controller';
 import categoryController from './category/category.controller';
 import channelController from './channel/channel.controller';

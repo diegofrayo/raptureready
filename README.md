@@ -14,7 +14,7 @@ npm i
 ```
 npm run start
 ```
-Runs at [http://localhost:3030]()
+Runs at [http://localhost:3000]()
 
 ### Server Production
 ```
