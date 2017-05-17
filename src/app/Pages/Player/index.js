@@ -1,27 +1,38 @@
 import React, { Component, PropTypes } from 'react'
-import { container } from '../../../Adrenaline';
+import { connect } from 'react-redux';
 import { browserHistory, Link } from 'react-router'
+
+import { fetchChannel, addView } from '../../redux/modules/channels';
 import Loader from '../../components/Loader';
-var STATIC_ASSETS_CDN = process.env.STATIC_ASSETS_CDN || '';
-var WEBPACK_ASSETS = process.env.WEBPACK_ASSETS || '';
+
 class Player extends Component {
-  state = {
-    channel: {}
-  }
-  static propTypes = {
-    channel: PropTypes.object,
-    isFetching: PropTypes.bool.isRequired
-  }
 
   createMarkup() {
     var embedCode = this.props.channel && this.props.channel.embedCode ? this.props.channel.embedCode : '';
     return {__html: embedCode}
 
   }
+
   goBack() {
     return browserHistory.goBack();
   }
+
+  componentWillMount() {
+    this.props.fetchChannel((this.props.params || {}).channelId);
+  }
+
+  componentDidMount() {
+    this.timeout = setTimeout(() => {
+      this.props.addView((this.props.params || {}).channelId);
+    }, 2000);
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timeout);
+  }
+
   render() {
+
     const { isFetching } = this.props;
     if (isFetching) {
       return <Loader />;
@@ -40,12 +51,15 @@ class Player extends Component {
     )
   }
 }
-export default container({
-  query: `
-    query getChannel($channelId: String){
-      channel(channelId: $channelId) {
-        embedCode
-      }
-    }
-  `, variables: (props) => ({'channelId': props.params.channelId})
-})(Player);
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchChannel: (id) => {dispatch(fetchChannel(id))},
+  addView: (id) => {dispatch(addView(id))}
+});
+
+const mapStateToProps = (state) => ({
+  isFetching: state.channels.isFetchingChannel,
+  channel: state.channels.channel
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Player)

@@ -1,74 +1,115 @@
-import React, { Component, PropTypes } from 'react'
-import { connect } from 'react-redux'
-// import { getVisibleChannels } from '../reducers/channels'
-import { container } from '../../../Adrenaline';
-import { browserHistory, Link } from 'react-router'
+// npm libs
+import React, {
+	Component,
+	PropTypes
+} from 'react'
+import {
+	connect
+} from 'react-redux'
+import {
+	browserHistory,
+	Link
+} from 'react-router'
+
+// react components
 import Loader from '../../components/Loader';
+
+// redux
+import {
+	search
+} from '../../redux/modules/channels';
+
+// js utils
 import getChannelUrl from '../../helpers/getChannelUrl';
 import getThumbUrl from '../../helpers/getThumbUrl';
-// import './style.css'
 
 class SearchResults extends Component {
 
-  static propTypes = {
-    channelSearch: PropTypes.array.isRequired,
-    isFetching: PropTypes.bool.isRequired
-  }
-  static defaultProps = {
-    channels: [],
-  }
-  constructor(props) {
-    super(props);
-    const { search, query, setQuery } = this.props
-    if(search !== query){
-      setQuery(query)
-    }
-  }
+	componentWillMount() {
+		this.props.search(this.props.params.query);
+	}
 
-  setVisibleItems = (visibleItems)=> {
-    this.setState({
-      visibleItems: visibleItems
-    })
-  }
+	componentWillReceiveProps(nextProps) {
+		document.body.scrollTop = 0;
+		if (this.props.params.query != nextProps.params.query) {
+			this.props.search(nextProps.params.query);
+		}
+	}
 
-  render() {
-    const { isFetching } = this.props;
-    if (isFetching ) {
-      return <Loader />;
-    }
+	setVisibleItems = (visibleItems) => {
+		this.setState({
+			visibleItems
+		});
+	};
 
-    const sliders = this.props.channelSearch.map((channel, index) => {
-      const thumbUrl = getThumbUrl(channel);
-        return (
-          <Link to={getChannelUrl(channel)} key={index}>
+	render() {
+
+		const {
+			isFetching
+		} = this.props;
+
+		if (isFetching) {
+			return <Loader />;
+		}
+
+		let sliders;
+
+		if (this.props.searchResults.length > 0) {
+
+			sliders = this.props.searchResults.map((channel, index) => {
+				const thumbUrl = getThumbUrl(channel);
+				return (
+					<Link to={getChannelUrl(channel)} key={`search-item-${index}`}>
             <div className="search-item">
               <div className="search-background" style={{backgroundImage: `url(${thumbUrl})`}}>
+              	<div className="search-caption">{channel.title}</div>
               </div>
-              <div className="search-caption">{channel.title}</div>
             </div>
           </Link>
-        )
-    })
+				)
+			});
 
-    return (
-      <div className="main">
-        <div className="search-container">
-         {sliders}
-       </div>
-      </div>
-    )
-  }
+		} else {
+			sliders = (<div>There is no results</div>);
+		}
+
+		let relatedTitles = this.props.relatedTitles;
+
+		if (relatedTitles.length > 0) {
+			relatedTitles = this.props.relatedTitles.map((channel, index, array) => {
+				return (
+					<span className="related-title">
+						<Link to={getChannelUrl(channel)} key={`related-title-${index}`} className="related-title-link">
+							{channel.title.trim()}
+						</Link>
+					</span>
+				);
+			});
+		} else {
+			relatedTitles = undefined;
+		}
+
+		return (
+			<div className="main">
+				{relatedTitles && <div className="related-titles-container"><span style={{color: 'grey', cursor: 'default'}}>Related channels:</span> {relatedTitles}</div>}
+				<div className="search-container">
+					{sliders}
+				</div>
+			</div>
+		);
+	}
 }
 
-export default container({
-  query: `
-    query getChannels($query: String){
-      channelSearch(query: $query) {
-        title
-        thumb
-        picture
-        _id
-      }
-    }
-  `, variables: (props) => ({'query': props.params.query})
-})(SearchResults);
+const mapDispatchToProps = (dispatch) => ({
+	search: (query) => {
+		dispatch(search(query))
+	}
+});
+
+const mapStateToProps = (state) => ({
+	isFetching: state.channels.isFetchingSearchResults,
+	relatedTitles: state.channels.relatedTitles,
+	searchResults: state.channels.searchResults
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchResults);

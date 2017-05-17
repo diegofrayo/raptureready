@@ -1,18 +1,12 @@
 /* @flow */
 
 import React, { Component, PropTypes } from 'react';
-import { presenter } from '../../../Adrenaline';
-// import { Frame, Track } from 'react-view-pager'
-// working
-// import Slider from 'react-motion-slider'
 
 // not working with server render
 import Slider from '../Slider'
 import ItemDetails from '../Slider/ItemDetails'
 
-// import ChannelSliderItem from '../ChannelSliderItem';
 import style from './style.scss';
-// import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 class CarouselSlide extends React.Component {
     render() {
@@ -68,15 +62,4 @@ class Category extends Component {
     }
 }
 
-export default presenter({
-    fragments: {
-        category: `
-      fragment on Category {
-        name
-        channels {
-          ${ItemDetails.getFragment('channel')}
-        }
-      }
-    `,
-    },
-})(Category);
+export default Category;

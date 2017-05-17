@@ -1,106 +1,120 @@
-import React, {Component, PropTypes} from 'react'
-import  { connect } from 'react-redux'
-import { browserHistory } from 'react-router'
+import React, {
+	Component,
+	PropTypes
+} from 'react'
+import {
+	connect
+} from 'react-redux'
+import {
+	browserHistory
+} from 'react-router'
+import debounce from 'javascript-debounce';
 // import { gf, activateSearch, deactivateSearch } from '../../actions/'
 import style from './style.css';
-class Search extends Component{
-  static defaultProps = {
-    query: '',
-    isActive: false,
-  }
 
-  static PropTypes = {
-    query: PropTypes.string.isRequired,
-    isActive: PropTypes.bool.isRequired,
-  }
-  constructor(props) {
-    super(props);
-    this.state = {
-      query: '',
-      isActive: false,
-    };
-  }
-  /*
-  deactivateSearch = (e) => {
-    if(e.target !== this.refs.label && e.target !== this.refs.close && e.target !== this.refs.input && this._input.value === '') {
-      this.props.deactivateSearch()
-      browserHistory.push(`/browse`)
-    }
-  }*/
+class Search extends Component {
 
-  activateSearch = () => {
+	static defaultProps = {
+		query: '',
+		isActive: false,
+	}
 
-    this.setState({isActive: true}, () => {
-      this._input.focus()
-    })
-    return false;
-  }
+	static PropTypes = {
+		query: PropTypes.string.isRequired,
+		isActive: PropTypes.bool.isRequired,
+	}
+	constructor(props) {
+			super(props);
+			this.state = {
+				query: '',
+				isActive: false,
+			};
+		}
+		/*
+		deactivateSearch = (e) => {
+		  if(e.target !== this.refs.label && e.target !== this.refs.close && e.target !== this.refs.input && this._input.value === '') {
+		    this.props.deactivateSearch()
+		    browserHistory.push(`/browse`)
+		  }
+		}*/
 
-  clearSearch = () => {
-    this.setState({isActive: false, query: ''}, () => {
+	activateSearch = () => {
 
-    })
-    this._input.value = ''
-    browserHistory.push(`/browse`)
-  }
+		this.setState({
+			isActive: true
+		}, () => {
+			this._input.focus()
+		})
+		return false;
+	}
 
-  updateSearch = (e) => {
-    if(this.state.query !== null && this.state.query !== '' && this.state.isActive) {
-      browserHistory.push(`/search/${e.target.value}`)
-    }else{
-      browserHistory.push(`/browse`)
-    }
-  }
+	clearSearch = () => {
+		this.setState({
+			isActive: false,
+			query: ''
+		}, () => {});
+		this._input.value = '';
+		browserHistory.push(`/browse`);
+	}
 
-  handleChange = (e) => {
-    //this.props.setQuery(e.target.value)
-    this.setState({query: e.target.value}, () => {
+	updateSearch = (e) => {
+		console.log(new Date().getTime(), this.state.query);
+		if (this.state.query !== null && this.state.query !== '' && this.state.isActive) {
+			// browserHistory.push(`/search/${e.target.value}`);
+			browserHistory.push(`/search/${this.state.query}`);
+		} else {
+			browserHistory.push(`/browse`);
+		}
+	}
 
-    })
-    if(e.target.value === '')
-      browserHistory.push(`/browse`)
-  }
+	handleChange = (e) => {
+		//this.props.setQuery(e.target.value)
+		this.setState({
+			query: e.target.value
+		}, () => {});
+		if (e.target.value === '') {
+			browserHistory.push(`/browse`);
+		}
+	}
 
-  render() {
-    const labelStyle = {
-      'display': !this.state.isActive ? 'block' : 'none'
-    };
+	render() {
 
-    const closeSearchStyle = {
-      'display': this.state.isActive ? 'block' : 'none'
-    };
+		const labelStyle = {
+			'display': !this.state.isActive ? 'block' : 'none'
+		};
 
-    var inputClass = this.state.isActive ? 'active' : 'inactive'
+		const closeSearchStyle = {
+			'display': this.state.isActive ? 'block' : 'none'
+		};
 
-    return (
-      <div className="search-input">
+		var inputClass = this.state.isActive ? 'active' : 'inactive'
+
+		return (
+			<div className="search-input">
         <button id="search-en" onClick={this.activateSearch} style={labelStyle} ref="label">Search</button>
         <input
           type="text"
           id="inpsearch"
           className={inputClass}
           placeholder="Search..."
-          onKeyUp={this.updateSearch}
+          onKeyUp={debounce(this.updateSearch, 500)}
           onChange={this.handleChange}
           value={this.state.query}
           ref={(c) => this._input = c}
         />
         <span style={closeSearchStyle} id="closesearch" onClick={this.clearSearch} ref="close">x</span>
       </div>
-    );
-  }
+		);
+	}
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  query: "",
-  isActive: false,
+	query: "",
+	isActive: false,
 })
 
 export default connect(mapStateToProps, {
-  // setQuery,
-  // activateSearch,
-  // deactivateSearch
-}
-)(Search)
-
-
+	// setQuery,
+	// activateSearch,
+	// deactivateSearch
+})(Search)

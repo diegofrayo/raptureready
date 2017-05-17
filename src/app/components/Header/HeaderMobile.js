@@ -1,6 +1,13 @@
 import React, { Component } from 'react'
 import Search from '../Search'
 
+
+import { browserHistory, Link } from 'react-router'
+
+import { connect } from 'react-redux'
+import { logout } from '../../redux/modules/auth';
+
+
 class HeaderMobile extends Component {
 
  state = {
@@ -23,6 +30,29 @@ class HeaderMobile extends Component {
     }
   }
 
+  handleLogout = (e) => {
+    e.preventDefault();
+
+    this.props.requestLogout();
+
+    this.toggleMobileMenu();
+    browserHistory.push('/login');
+  };
+
+  handleLogin = (e) => {
+    e.preventDefault();
+
+    this.toggleMobileMenu();
+    browserHistory.push('/login');
+  };
+
+  handleSignup = (e) => {
+    e.preventDefault();
+
+    this.toggleMobileMenu();
+    browserHistory.push('/signup');
+  };
+
   render() {
 
     var mobileMenuIconClass = '';
@@ -41,8 +71,12 @@ class HeaderMobile extends Component {
               <span></span>
             </div>
             <img alt="Enternity Ready Logo" src={require("../../commonResources/logo.png")} />
-            <Search />
+            { this.props.isAuthenticated && <Search /> }
           </div>
+
+          {
+            this.props.isAuthenticated &&
+
             <nav id="main-menu" style={mobileMenuStyle}>
               <ul className="menu" rel="Main Menu">
                 <li>
@@ -226,11 +260,57 @@ class HeaderMobile extends Component {
                     </li>
                   </ul>
                 </li>
+                <ul className="menu" rel="Main Menu">
+                  <li>
+                    <a href="#">
+                      <span>User</span>
+                    </a>
+
+                    <ul className="column">
+                      <li>
+                        <Link to="/logout" onClick={this.handleLogout}>Logout</Link>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
               </ul>
             </nav>
+          }
+
+          {
+            !this.props.isAuthenticated &&
+            <nav id="main-menu" style={mobileMenuStyle}>
+              <ul className="menu" rel="Main Menu">
+                <li>
+                  <a href="#">
+                    <span>User</span>
+                  </a>
+
+                  <ul className="column">
+                    <li>
+                      <Link to="/login" onClick={this.handleLogin}>Login</Link>
+                    </li>
+                    <li>
+                      <Link to="/signup" onClick={this.handleSignup}>Signup</Link>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </nav>
+          }
+
         </div>
     );
   }
 }
 
-export default HeaderMobile
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated || false,
+  user: state.auth.user
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  requestLogout: () => {return dispatch(logout())}
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderMobile)

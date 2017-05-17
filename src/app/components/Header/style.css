@@ -301,3 +301,35 @@ div.header > .mobileHeaderTop > img {
     margin-left: 0;
   }
 }
+
+
+/* */
+.userdropdown-content-ul {
+  background: rgba(17, 17, 17, 0.94);
+  color: white;
+  float: right;
+  font-size: 15px;
+  list-style: none;
+  margin: 0;
+  min-width: 200px;
+  padding: 10px;
+  position: absolute;
+  right: 15px;
+  text-align: left;
+  top: 110%;
+  z-index: 1000;
+}
+
+.userdropdown-content-ul > li {
+  display: block;
+  padding: 5px 15px;
+}
+
+.userdropdown-content-ul > li > a {
+  color: #000000 !important;
+  width: 100%;
+}
+
+.userdropdown-content-ul > li:hover {
+  color: #C70000;
+}

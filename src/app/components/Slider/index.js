@@ -75,8 +75,6 @@ var Slider = React.createClass({
     });
   },
 
-
-
   componentWillUnmount() {
     window.removeEventListener('resize', this.reInit);
   },
@@ -85,6 +83,9 @@ var Slider = React.createClass({
     var self = this;
 
     var track = this.refs.track;
+    if (!track) {
+      return;
+    }
 
     var mouseDown = Rx.Observable.fromEvent(track, 'touchstart');
     var mouseMove = Rx.Observable.fromEvent(track, 'touchmove');
