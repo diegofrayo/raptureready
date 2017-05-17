@@ -13,7 +13,7 @@
     "postinstall": "rm -rf node_modules/graph.ql/node_modules/graphql",
     "server:build": "NODE_ENV=production webpack -p --config webpack.server.config",
     "server:watch": "NODE_ENV=development webpack --watch --config webpack.server.config",
-    "start": "concurrently 'npm run client:watch' 'npm run server:watch'",
+    "start": "concurrently 'npm run client:watch' 'npm run server:watch' 'npm run express:watch'",
     "start-admin": "concurrently 'npm run admin:watch'  'npm run server:watch'",
     "test": "mocha --compilers js:babel-register $(find ./src -name '*.spec.js')"
   },

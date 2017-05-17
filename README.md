@@ -2,7 +2,7 @@
 
 - node 6.x
 - mongodb server
-- yarn
+- yarn (optional)
 
 --------------
 
