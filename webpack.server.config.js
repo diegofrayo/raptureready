@@ -7,8 +7,8 @@ var webpack = require('webpack');
 var path = require('path');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
-let extractCSSAdmin = new ExtractTextPlugin('www/admin-styles.css');
-let extractCSS = new ExtractTextPlugin('www/styles.css');
+var extractCSSAdmin = new ExtractTextPlugin('www/admin-styles.css');
+var extractCSS = new ExtractTextPlugin('www/styles.css');
 var __STATIC_ASSETS_CDN__ = process.env.STATIC_ASSETS_CDN || ''; //
 
 module.exports = {
