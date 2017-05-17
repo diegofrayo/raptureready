@@ -4,12 +4,13 @@
 - mongodb server
 - yarn (optional)
 
-##WEB APP SETUP
-###Install Packages
+## WEB APP SETUP
+
+### Install Packages
 ```
 npm i
 ```
-###Serve Development
+### Serve Development
 ```
 npm run start
 ```
@@ -22,7 +23,7 @@ npm run build
 
 --------------
 
-##ADMIN APP SETUP
+## ADMIN APP SETUP
 (May not be current)
 1. Execute: `yarn install`
 2. Execute: `yarn server:build && yarn client:build`
