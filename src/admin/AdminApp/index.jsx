@@ -14,13 +14,9 @@ class AdminApp extends Component {
   render() {
     return (
       <div>
-
         <TopbarMenu />
-
         {this.props.children}
-
         <InfoBar />
-
       </div>
     );
   }
